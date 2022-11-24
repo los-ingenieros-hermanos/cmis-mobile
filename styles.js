@@ -22,12 +22,6 @@ const styles = StyleSheet.create(
         paddingStart: 20,
         paddingTop: 10,
     },
-    StudentAndCommIcon:{
-        flexDirection:'row',
-        marginHorizontal: 10,
-        justifyContent: 'space-around',
-        paddingStart: 20,
-    },
     textinput:{
         height: 50,
         borderTopWidth: 0,
