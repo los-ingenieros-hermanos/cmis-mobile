@@ -44,7 +44,7 @@ export default function LoginScreen() {
                   height={35}
                 />
               </Svg>
-              <Text style={styles.CommText}>Topluluk/Takim</Text>
+              <Text style={styles.CommText}>Topluluk/Takım</Text>
             </View>    
        </View>
             
