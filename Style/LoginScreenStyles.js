@@ -9,17 +9,24 @@ import { useFonts } from 'expo-font';
 const LoginScreenStyles = StyleSheet.create(
 {   
     StudentText:{
-       marginHorizontal: -5,
+       top: 5,
+       left: -10,
     },
     CommText:{
-        marginHorizontal: -30,
+        right: 15,
+        top:-15,
+    },
+
+    verticleLine:{
+        height: '75%',
+        width: 1.5,
+        backgroundColor: '#909090',
     },
 
     StudentAndComm:{
         flexDirection:'row',
-        marginHorizontal: 10,
-        justifyContent: 'space-around',
-        paddingStart: 20,
+        justifyContent: 'space-evenly',
+        left: 20,
         paddingTop: 10,
     },
     textinput:{
@@ -64,12 +71,12 @@ const LoginScreenStyles = StyleSheet.create(
     AppName:{
         
         color: 'white',
-        marginStart: 140,
-        marginTop: 65,
         /* fontFamily: 'Aldrich', */
         fontWeight: '600',
         fontSize: 33,
-        letterSpacing: 7.5
+        letterSpacing: 7.5,
+        left: 150,
+        top: 65,
     },
     upperRectangle:{
         backgroundColor:'rgba(84,70,115,1)',

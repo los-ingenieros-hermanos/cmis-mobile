@@ -21,29 +21,32 @@ export default class LoginScreen extends Component{
       
           <View style={LoginScreenStyles.StudentAndComm}>
                 <View>
-                    <Svg height={40} width={45} >
+                    <Svg height={30} width={25} >
                       <Image 
-                        href={require('../assets/Sample_User_Icon.png')} 
-                        width={35} 
-                        height={35}
-                        preserveAspectRatio="xMidYMid slice"
+                        href={require('../assets/icons/student_selected.png')} 
+                        height={30}
+                        width={25} 
                         />
                     </Svg>
                     <Text style={LoginScreenStyles.StudentText}>Öğrenci</Text>
                 </View>
-      
+
+                <View style={LoginScreenStyles.verticleLine}></View>
+
                 <View >
-                    <Svg height={40} width={45} >
+                    <Svg height={50} width={60} top={-15}>
                       <Image 
-                        href={require('../assets/com_icon.png')} 
-                        width={40} 
-                        height={35}
+                        href={require('../assets/icons/community_selected.png')} 
+                        height={60}
+                        width={60} 
                       />
                     </Svg>
                     <Text style={LoginScreenStyles.CommText}>Topluluk/Takım</Text>
                 </View>    
           </View>
-                
+          
+         
+
           <View>
               <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' style={LoginScreenStyles.textinput} />
               <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' style={LoginScreenStyles.textinput} />
