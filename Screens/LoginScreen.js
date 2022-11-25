@@ -48,8 +48,8 @@ export default class LoginScreen extends Component{
          
 
           <View>
-              <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' style={LoginScreenStyles.textinput} />
-              <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' style={LoginScreenStyles.textinput} />
+              <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
+              <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={LoginScreenStyles.textinput} />
           </View>
   
           <TouchableNativeFeedback onPress={this._onPressButton} underlayColor="white">
@@ -85,11 +85,6 @@ export default class LoginScreen extends Component{
 
        
        
-             
-       
-      
-        
-
       </View>
     );
   }

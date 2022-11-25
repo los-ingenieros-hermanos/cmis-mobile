@@ -31,19 +31,20 @@ const LoginScreenStyles = StyleSheet.create(
     },
     textinput:{
         height: 50,
+        width: 370,
         borderTopWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderWidth: 2,
         borderColor: 'rgba(165,165,165,1)',
-        marginHorizontal: 20,
+        
         marginVertical:10,
         borderRadius: 5,
         paddingLeft: 10,
         paddingTop: 10,
-        position: 'relative',
         top: 10,
-        color: 'rgba(165,165,165,1)',
+        left: 20,
+        color: 'black',
     },
 
     UserIcon:{
@@ -69,13 +70,12 @@ const LoginScreenStyles = StyleSheet.create(
         position: 'absolute',
     },
     AppName:{
-        
         color: 'white',
         /* fontFamily: 'Aldrich', */
         fontWeight: '600',
         fontSize: 33,
         letterSpacing: 7.5,
-        left: 150,
+        left: 145,
         top: 65,
     },
     upperRectangle:{
@@ -101,10 +101,6 @@ const LoginScreenStyles = StyleSheet.create(
         bottom: 100,
         
     },
-    bottomContainer:{
-        justifyContent:'center',
-        height:height/3,
-    },
     LoginButton:{
         alignItems: 'center',
         justifyContent: 'center',
@@ -125,11 +121,9 @@ const LoginScreenStyles = StyleSheet.create(
     },
     LoginButtonText: {
         textAlign: 'center',
-        
         color: 'white'
     },
     forgotPassword:{
-        
         width: 150,
         left: 250,
         top: 10,
