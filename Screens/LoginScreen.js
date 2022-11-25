@@ -15,8 +15,6 @@ export default class LoginScreen extends Component{
     return (
       <View style={LoginScreenStyles.container}>
        
-       <View style={StyleSheet.absoluteFill}>
-       
           <View style={LoginScreenStyles.upperRectangle}>
                 <Text style={LoginScreenStyles.AppName}> cmis </Text>
           </View>
@@ -51,16 +49,44 @@ export default class LoginScreen extends Component{
               <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' style={LoginScreenStyles.textinput} />
           </View>
   
-  
-       </View>
-
-             
-       <TouchableNativeFeedback onPress={this._onPressButton} underlayColor="white">
-          <View style={LoginScreenStyles.button}>
-            <Text style={LoginScreenStyles.buttonText}>Giriş Yap</Text>
+          <TouchableNativeFeedback onPress={this._onPressButton} underlayColor="white">
+          <View style={LoginScreenStyles.forgotPassword}>
+            <Text style={LoginScreenStyles.forgotPasswordText}>Şifreni mi Unuttun?</Text>
           </View>
-        </TouchableNativeFeedback>
-    
+          </TouchableNativeFeedback>
+
+          <TouchableNativeFeedback onPress={this._onPressButton} underlayColor="white">
+            <View style={LoginScreenStyles.LoginButton}>
+              <Text style={LoginScreenStyles.LoginButtonText}>Giriş Yap</Text>
+            </View>
+          </TouchableNativeFeedback>
+
+          <View style={{flexDirection: 'row', alignItems: 'center', top: 50, width:370, left:20, }}>
+            <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
+            <View>
+              <Text style={{width: 50, textAlign: 'center', color: 'rgba(152,152,152,1)'}}>veya</Text>
+            </View>
+            <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
+          </View>
+
+
+          <TouchableNativeFeedback onPress={this._onPressButton}>
+            <View style={LoginScreenStyles.RegisterButton}>
+            <Text style={LoginScreenStyles.OuterText}>
+              Yeni
+              <Text style={LoginScreenStyles.InnerText}> cmis </Text>
+              Hesabı Oluştur
+            </Text>
+            </View>
+          </TouchableNativeFeedback>
+
+       
+       
+             
+       
+      
+        
+
       </View>
     );
   }

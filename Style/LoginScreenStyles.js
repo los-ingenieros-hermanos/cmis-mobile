@@ -98,15 +98,15 @@ const LoginScreenStyles = StyleSheet.create(
         justifyContent:'center',
         height:height/3,
     },
-    button:{
+    LoginButton:{
         alignItems: 'center',
         justifyContent: 'center',
         
         borderRadius: 5,
         backgroundColor: 'rgba(84,70,115,1)',
-        left: 60,
-        width: 300,
-        top: 450,
+        width: 370,
+        left:20,
+        top: 30,
         height: 50,
     },
     text:{
@@ -116,10 +116,46 @@ const LoginScreenStyles = StyleSheet.create(
         letterSpacing: 1,
         color: 'white',
     },
-    buttonText: {
+    LoginButtonText: {
         textAlign: 'center',
         
         color: 'white'
+    },
+    forgotPassword:{
+        
+        width: 150,
+        left: 250,
+        top: 10,
+    },
+    forgotPasswordText:{
+        letterSpacing: 1.5,
+        color : 'rgba(84,70,115,1)',
+        fontWeight: 'bold',
+    },
+
+    InnerText:{
+        color: 'rgba(84,70,115,1)',
+        fontSize: 17,
+    },
+    OuterText:{
+        color: 'white',
+        alignSelf: 'center',
+        fontSize: 15,
+    },
+
+    RegisterButton: {
+        backgroundColor:'rgba(126,204,113,1)',
+        height: 40,
+        width: 200,
+        borderRadius: 5,
+        marginHorizontal: 30,
+        marginVertical: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        top: 50,
+        left: 75,
+        justifyContent:'center',
+        
     },
 }
 );
