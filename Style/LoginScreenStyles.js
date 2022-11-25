@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
     Aldrich: require('./assets/fonts/Aldrich-Regular.ttf'),
   }); */
   
-const styles = StyleSheet.create(
+const LoginScreenStyles = StyleSheet.create(
 {   
     StudentText:{
        marginHorizontal: -5,
@@ -113,4 +113,4 @@ const styles = StyleSheet.create(
 }
 );
 
-export default styles
+export default LoginScreenStyles
