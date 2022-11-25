@@ -10,9 +10,7 @@ const [clickedCommunity, setClickedCommunity] = useState(false);
 */
 
 
-_onLoginButton= () => {
-  alert('You pressed Login Button')
-}  
+
 
 _onForgotPasswordButton =() => {
   alert('You pressed forgot my password button')
@@ -22,9 +20,22 @@ _onForgotPasswordButton =() => {
 
 
 export default function LoginScreen(){
-    const [studentSelection, setstudentSelection] = useState('rgba(84,70,115,1)');
-    const [communitySelection, setcommunitySelection] = useState('rgba(84,70,115,1)');
+    const [studentSelection, setstudentSelection] = useState('transparent');
+    const [communitySelection, setcommunitySelection] = useState('transparent');
+    
+    _onCommunityButton= () => {
+      setstudentSelection("transparent")
+      setcommunitySelection('rgba(84,70,115,1)')
+    }  
+    
+    _onStudentButton= () => {
+      setcommunitySelection("transparent")
+      setstudentSelection('rgba(84,70,115,1)')
+    }  
 
+    _onLoginButton= () => {
+      alert('LOGIN BUTTON')
+    }  
 
       return (
       <View style={LoginScreenStyles.container}>
@@ -36,7 +47,7 @@ export default function LoginScreen(){
 
         
           <View style={LoginScreenStyles.StudentAndComm}>
-                <TouchableHighlight style={LoginScreenStyles.StudentButton} activeOpacity={1} underlayColor={'white'} onPress={()=>Alert.alert('Cannot press this one')}>
+                <TouchableHighlight style={LoginScreenStyles.StudentButton} activeOpacity={1} underlayColor={'white'} onPress={()=>_onStudentButton()}>
                   <View>
                         <Image 
                           style = {LoginScreenStyles.StudentImageStyle}
@@ -51,7 +62,7 @@ export default function LoginScreen(){
                  
                 <View style={LoginScreenStyles.verticleLine}></View>
 
-                <TouchableHighlight style={LoginScreenStyles.CommunityButton} activeOpacity={1} underlayColor={'white'} onPress={()=>Alert.alert('Cannot press this one')}>
+                <TouchableHighlight style={LoginScreenStyles.CommunityButton} activeOpacity={1} underlayColor={'white'} onPress={()=>_onCommunityButton()}>
                 <View >
                     
                       <Image 
