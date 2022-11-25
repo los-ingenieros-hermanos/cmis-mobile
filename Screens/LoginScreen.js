@@ -1,11 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import LoginScreenStyles from '../Style/LoginScreenStyles';
 import Svg, {Image} from 'react-native-svg';
-import { StyleSheet, Text, View, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert} from 'react-native';
+import React, { Component } from 'react';
 
-export default function LoginScreen() {
-    const {height, width} = Dimensions.get('window');
+
+const {height, width} = Dimensions.get('window');
+export default class LoginScreen extends Component{
+  _onLongPressButton() {
+    alert('You long-pressed the button!')
+  }
     
+    render(){   
     return (
       <View style={LoginScreenStyles.container}>
        
@@ -48,13 +54,14 @@ export default function LoginScreen() {
   
        </View>
 
-       
-        <View style={LoginScreenStyles.bottomContainer}>
-          <View style={LoginScreenStyles.LoginButton}>
-              <Text style={LoginScreenStyles.LoginButtonText}> LOG IN</Text>
+             
+       <TouchableNativeFeedback onPress={this._onPressButton} underlayColor="white">
+          <View style={LoginScreenStyles.button}>
+            <Text style={LoginScreenStyles.buttonText}>Giriş Yap</Text>
           </View>
-        </View>
-  
+        </TouchableNativeFeedback>
+    
       </View>
     );
+  }
   }

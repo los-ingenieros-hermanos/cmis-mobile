@@ -22,12 +22,6 @@ const LoginScreenStyles = StyleSheet.create(
         paddingStart: 20,
         paddingTop: 10,
     },
-    StudentAndCommIcon:{
-        flexDirection:'row',
-        marginHorizontal: 10,
-        justifyContent: 'space-around',
-        paddingStart: 20,
-    },
     textinput:{
         height: 50,
         borderTopWidth: 0,
@@ -83,7 +77,6 @@ const LoginScreenStyles = StyleSheet.create(
         width: width,
     },
     container: {
-        flex: 1,
         justifyContent: 'flex-end',
     },
     LoginButton: {
@@ -96,20 +89,38 @@ const LoginScreenStyles = StyleSheet.create(
         marginHorizontal: 30,
         marginVertical: 10,
         borderWidth: 1,
-        borderColor: 'white'
-    },
-
-    LoginButtonText:{
-        fontSize: 15,
-        fontWeight: '600',
-        color: 'white',
-        letterSpacing: 0.5
-
+        borderColor: 'white',
+        justifyContent: 'center',
+        bottom: 100,
+        
     },
     bottomContainer:{
         justifyContent:'center',
         height:height/3,
-    }
+    },
+    button:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+        borderRadius: 5,
+        backgroundColor: 'rgba(84,70,115,1)',
+        left: 60,
+        width: 300,
+        top: 450,
+        height: 50,
+    },
+    text:{
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 1,
+        color: 'white',
+    },
+    buttonText: {
+        textAlign: 'center',
+        
+        color: 'white'
+    },
 }
 );
 
