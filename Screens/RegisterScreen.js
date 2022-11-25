@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function SecondPage() {
+export default function RegisterScreen() {
   return (
     <View>
-      <Text>SecondPage</Text>
+      <Text>RegisterScreen</Text>
     </View>
   )
 }

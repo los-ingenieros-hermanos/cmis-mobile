@@ -7,7 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 import LoginScreen from './Screens/LoginScreen';
-import SecondPage from './Screens/SecondPage';
+import SecondPage from './Screens/RegisterScreen';
+import RegisterScreen from './Screens/RegisterScreen';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login' screenOptions={{headerShown: false}} >
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Second" options={{title: 'Second Page'}} component={SecondPage} />
+        <Stack.Screen name="Register" /*options={{title: 'Register'}}*/ component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
