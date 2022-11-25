@@ -8,13 +8,26 @@ import { useFonts } from 'expo-font';
   
 const LoginScreenStyles = StyleSheet.create(
 {   
+
+    StudentImageStyle:{
+        width: 25, 
+        height: 30,
+        left: 3,
+        top:2, 
+    },
+
+    CommunityImageStyle:{
+        width: 60, 
+        height: 30, 
+    },
+
     StudentText:{
        top: 5,
        left: -10,
     },
     CommText:{
         right: 15,
-        top:-15,
+        top:5,
     },
 
     verticleLine:{
@@ -22,7 +35,20 @@ const LoginScreenStyles = StyleSheet.create(
         width: 1.5,
         backgroundColor: '#909090',
     },
-
+    studentSelectionLine:{
+        height:3,
+        width:120,
+        left:50,
+        top:10,
+        borderRadius:20,
+    },
+    communitySelectionLine:{
+        height:3,
+        width:120,
+        left:245,
+        top:7,
+        borderRadius:20,
+    },
     StudentAndComm:{
         flexDirection:'row',
         justifyContent: 'space-evenly',
@@ -37,7 +63,6 @@ const LoginScreenStyles = StyleSheet.create(
         borderRightWidth: 0,
         borderWidth: 2,
         borderColor: 'rgba(165,165,165,1)',
-        
         marginVertical:10,
         borderRadius: 5,
         paddingLeft: 10,
@@ -104,7 +129,6 @@ const LoginScreenStyles = StyleSheet.create(
     LoginButton:{
         alignItems: 'center',
         justifyContent: 'center',
-        
         borderRadius: 5,
         backgroundColor: 'rgba(84,70,115,1)',
         width: 370,
