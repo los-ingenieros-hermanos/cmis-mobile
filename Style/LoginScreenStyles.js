@@ -10,43 +10,61 @@ const LoginScreenStyles = StyleSheet.create(
 {   
 
     StudentImageStyle:{
-        width: 25, 
+        width: 27, 
         height: 30,
-        left: 3,
+        left:15,
         top:2, 
     },
 
     CommunityImageStyle:{
         width: 60, 
         height: 30, 
+        left: 15,
     },
 
     StudentText:{
        top: 5,
-       left: -10,
+       left: 3,
     },
     CommText:{
-        right: 15,
+        left:-1,
         top:5,
     },
 
+    CommunityButton:{
+        width:120,
+        borderRadius:20,
+        alignItems:'center',
+        left:-40,
+        height:70,
+        paddingTop:10,
+        paddingBottom:10,
+    },
+
+    StudentButton:{
+        width:120,
+        borderRadius:20,
+        alignItems:'center',
+        paddingTop:10,
+        paddingBottom:10,
+    },
     verticleLine:{
         height: '75%',
         width: 1.5,
         backgroundColor: '#909090',
+        left:-20,
     },
     studentSelectionLine:{
         height:3,
-        width:120,
-        left:50,
-        top:10,
+        width:100,
+        left:77,
         borderRadius:20,
     },
     communitySelectionLine:{
         height:3,
-        width:120,
-        left:245,
-        top:7,
+        width:100,
+        left:238,
+        top:-3,
         borderRadius:20,
     },
     StudentAndComm:{
@@ -100,7 +118,7 @@ const LoginScreenStyles = StyleSheet.create(
         fontWeight: '600',
         fontSize: 33,
         letterSpacing: 7.5,
-        left: 145,
+        left: 150,
         top: 65,
     },
     upperRectangle:{

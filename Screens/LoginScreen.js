@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import LoginScreenStyles from '../Style/LoginScreenStyles';
-import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground} from 'react-native';
+import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight} from 'react-native';
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
 /*
@@ -36,18 +36,22 @@ export default function LoginScreen(){
 
         
           <View style={LoginScreenStyles.StudentAndComm}>
-                <View>
-                      <Image 
-                        style = {LoginScreenStyles.StudentImageStyle}
-                        source ={require("../assets/icons/student_selected.png")} 
-                        height={30}
-                        width={20} 
-                        />
-                        <Text style={LoginScreenStyles.StudentText}> Öğrenci </Text>      
-                </View>
+                <TouchableHighlight style={LoginScreenStyles.StudentButton} activeOpacity={1} underlayColor={'white'} onPress={()=>Alert.alert('Cannot press this one')}>
+                  <View>
+                        <Image 
+                          style = {LoginScreenStyles.StudentImageStyle}
+                          source ={require("../assets/icons/student_selected.png")} 
+                          height={30}
+                          width={30} 
+                          />
+                          <Text style={LoginScreenStyles.StudentText}> Öğrenci </Text>      
+                  </View>
+                </TouchableHighlight>
+                
                  
                 <View style={LoginScreenStyles.verticleLine}></View>
 
+                <TouchableHighlight style={LoginScreenStyles.CommunityButton} activeOpacity={1} underlayColor={'white'} onPress={()=>Alert.alert('Cannot press this one')}>
                 <View >
                     
                       <Image 
@@ -58,12 +62,12 @@ export default function LoginScreen(){
                       />
                     <Text style={LoginScreenStyles.CommText}>Topluluk/Takım</Text>
                 </View>  
-
+                </TouchableHighlight>
                  
           </View>
 
           <View style={LoginScreenStyles.studentSelectionLine} backgroundColor={studentSelection} ></View>
-          <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={'transparent'} ></View>
+          <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={communitySelection} ></View>
         
           <View>
               <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
