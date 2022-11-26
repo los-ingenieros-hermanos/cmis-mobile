@@ -2,13 +2,9 @@ import { StyleSheet, Dimensions } from "react-native";
 const {width, height} = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 
-/* const [loaded] = useFonts({
-    Aldrich: require('./assets/fonts/Aldrich-Regular.ttf'),
-  }); */
-  
+
 const LoginScreenStyles = StyleSheet.create(
 {   
-
     StudentImageStyle:{
         width: 27, 
         height: 30,
@@ -21,16 +17,15 @@ const LoginScreenStyles = StyleSheet.create(
         height: 30, 
         left: 15,
     },
-
+    CommText:{
+        left:0,
+        top:5,
+        color:'rgba(84,70,115,1)',
+    },
     StudentText:{
        top: 5,
-       left: 3,
+       left: 2,
     },
-    CommText:{
-        left:-1,
-        top:5,
-    },
-
     CommunityButton:{
         width:120,
         borderRadius:20,
@@ -63,7 +58,7 @@ const LoginScreenStyles = StyleSheet.create(
     communitySelectionLine:{
         height:3,
         width:100,
-        left:238,
+        left:239,
         top:-3,
         borderRadius:20,
     },

@@ -3,6 +3,13 @@ import LoginScreenStyles from '../Style/LoginScreenStyles';
 import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight} from 'react-native';
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
+/*
+const {height, width} = Dimensions.get('window');
+const [clickedStudent, setClickedStudent] = useState(false);
+const [clickedCommunity, setClickedCommunity] = useState(false);
+*/
+
+
 
 
 _onForgotPasswordButton =() => {
@@ -10,34 +17,26 @@ _onForgotPasswordButton =() => {
 } 
 
 
+
+
 export default function LoginScreen(){
-    const [studentSelection, setstudentSelection] = useState('transparent');
-    const [communitySelection, setcommunitySelection] = useState('transparent');
     const [studentIcon, setStudentIcon] = useState(require("../assets/icons/student_selected.png"));
     const [communityIcon, setCommunityIcon] = useState(require("../assets/icons/community_notselected.png"));
-    
-    const [commTextColoring, setcommTextColoring] = useState("LoginScreenStyles.CommText");
+    const [studentTextColor, setstudentTextColor] = useState('')
 
     _onStudentButton= () => {
       setStudentIcon(require("../assets/icons/student_selected.png"));
       setCommunityIcon(require("../assets/icons/community_notselected.png"));
-      setcommunitySelection("transparent");
-      setstudentSelection("rgba(84,70,115,1)");
     }
 
     _onCommunityButton= () => {
       setCommunityIcon(require("../assets/icons/community_selected.png"));
       setStudentIcon(require("../assets/icons/student_notselected.png"));
-      setstudentSelection("transparent");
-      setcommunitySelection("rgba(84,70,115,1)");
     }
-
 
     _onLoginButton= () => {
       alert('LOGIN BUTTON')
     }  
-
-    
 
       return (
       <View style={LoginScreenStyles.container}>
@@ -45,6 +44,7 @@ export default function LoginScreen(){
           <View style={LoginScreenStyles.upperRectangle}>
                 <Text style={LoginScreenStyles.AppName}> cmis </Text>
           </View>
+
 
         
           <View style={LoginScreenStyles.StudentAndComm}>
@@ -56,7 +56,7 @@ export default function LoginScreen(){
                           height={30}
                           width={30} 
                           />
-                          <Text style={LoginScreenStyles.StudentText} > Öğrenci </Text>      
+                          <Text style={LoginScreenStyles.StudentText}> Öğrenci </Text>      
                   </View>
                 </TouchableHighlight>
                 
@@ -72,14 +72,11 @@ export default function LoginScreen(){
                         height={60}
                         width={100} 
                       />
-                    <Text style={commTextColoring} >Topluluk/Takım</Text>
+                    <Text style={LoginScreenStyles.CommText}>Topluluk/Takım</Text>
                 </View>  
                 </TouchableHighlight>
                  
           </View>
-
-          <View style={LoginScreenStyles.studentSelectionLine} backgroundColor={studentSelection} ></View>
-          <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={communitySelection} ></View>
         
           <View>
               <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
