@@ -3,26 +3,31 @@ import LoginScreenStyles from '../Style/LoginScreenStyles';
 import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight} from 'react-native';
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 _onForgotPasswordButton =() => {
   alert('You pressed forgot my password button')
 } 
 
 
-export default function LoginScreen(){
-    const [studentSelection, setstudentSelection] = useState('transparent');
+export default function LoginScreen({ navigation }){
+    const [studentSelection, setstudentSelection] = useState("rgba(84,70,115,1)");
     const [communitySelection, setcommunitySelection] = useState('transparent');
     const [studentIcon, setStudentIcon] = useState(require("../assets/icons/student_selected.png"));
     const [communityIcon, setCommunityIcon] = useState(require("../assets/icons/community_notselected.png"));
     
-    const [commTextColoring, setcommTextColoring] = useState("LoginScreenStyles.CommText");
+    const [StudentTextColor, setStudentTextColor] = useState(LoginScreenStyles.setColorGray);
+    const [CommunityTextColor, setCommunityTextColor] = useState(LoginScreenStyles.setColorGray);
 
+    
     _onStudentButton= () => {
       setStudentIcon(require("../assets/icons/student_selected.png"));
       setCommunityIcon(require("../assets/icons/community_notselected.png"));
       setcommunitySelection("transparent");
       setstudentSelection("rgba(84,70,115,1)");
+      setStudentTextColor(LoginScreenStyles.setColorPurple);
+      setCommunityTextColor(LoginScreenStyles.setColorGray);
     }
 
     _onCommunityButton= () => {
@@ -30,6 +35,8 @@ export default function LoginScreen(){
       setStudentIcon(require("../assets/icons/student_notselected.png"));
       setstudentSelection("transparent");
       setcommunitySelection("rgba(84,70,115,1)");
+      setCommunityTextColor(LoginScreenStyles.setColorPurple);
+      setStudentTextColor(LoginScreenStyles.setColorGray);
     }
 
 
@@ -56,7 +63,7 @@ export default function LoginScreen(){
                           height={30}
                           width={30} 
                           />
-                          <Text style={LoginScreenStyles.StudentText} > Öğrenci </Text>      
+                          <Text style={[LoginScreenStyles.StudentText, StudentTextColor]} > Öğrenci </Text>      
                   </View>
                 </TouchableHighlight>
                 
@@ -72,7 +79,7 @@ export default function LoginScreen(){
                         height={60}
                         width={100} 
                       />
-                    <Text style={commTextColoring} >Topluluk/Takım</Text>
+                    <Text style={[LoginScreenStyles.CommText, CommunityTextColor]} >Topluluk/Takım</Text>
                 </View>  
                 </TouchableHighlight>
                  
@@ -81,9 +88,23 @@ export default function LoginScreen(){
           <View style={LoginScreenStyles.studentSelectionLine} backgroundColor={studentSelection} ></View>
           <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={communitySelection} ></View>
         
-          <View>
+          <View style={{flexDirection:'row'}}>
+              <Image source={require("../assets/icons/at-sign.png")} 
+              height={15}
+              width={20} 
+              style={LoginScreenStyles.atsignLogin}  
+              />
               <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
-              <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={LoginScreenStyles.textinput} />
+              
+          </View>
+
+          <View style={{flexDirection:'row'}}>
+              <Image source={require("../assets/icons/lock.png")} 
+              height={30}
+              width={27} 
+              style={LoginScreenStyles.atsignLogin}  
+              />
+              <TextInput secureTextEntry={true} placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={LoginScreenStyles.textinput} />
           </View>
   
           <TouchableNativeFeedback onPress={()=>_onForgotPasswordButton()} underlayColor="white">
@@ -106,11 +127,11 @@ export default function LoginScreen(){
             <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
           </View>
 
-          <TouchableNativeFeedback onPress={()=>Alert.alert('Cannot press this one')}>
+          <TouchableNativeFeedback onPress={()=>navigation.push('Register')}>
             <View style={LoginScreenStyles.RegisterButton}>
-            <Text style={LoginScreenStyles.OuterText}>
+            <Text style={LoginScreenStyles.LoginOuterText}>
               Yeni
-              <Text style={LoginScreenStyles.InnerText}> cmis </Text>
+              <Text style={LoginScreenStyles.LoginInnerText}> cmis </Text>
               Hesabı Oluştur
             </Text>
             </View>
