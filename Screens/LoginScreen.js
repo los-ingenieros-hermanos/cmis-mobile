@@ -1,14 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import LoginScreenStyles from '../Style/LoginScreenStyles';
-import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight, TouchableOpacity} from 'react-native';
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import axios from 'axios';
+
+import MainPage from './MainPage';
+
 _onForgotPasswordButton =() => {
   alert('You pressed forgot my password button')
 } 
+
+const baseUrl = 'localhost:8070';
+
+
+
 
 
 export default function LoginScreen({ navigation }){
@@ -19,8 +28,10 @@ export default function LoginScreen({ navigation }){
     
     const [StudentTextColor, setStudentTextColor] = useState(LoginScreenStyles.setColorGray);
     const [CommunityTextColor, setCommunityTextColor] = useState(LoginScreenStyles.setColorGray);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    
+
     _onStudentButton= () => {
       setStudentIcon(require("../assets/icons/student_selected.png"));
       setCommunityIcon(require("../assets/icons/community_notselected.png"));
@@ -40,11 +51,25 @@ export default function LoginScreen({ navigation }){
     }
 
 
-    _onLoginButton= () => {
-      alert('LOGIN BUTTON')
+    _onLoginButton= async () => {
+      
+      const res = await fetch('http://192.168.1.35:8070/api/auth/signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({"email": email,"password": password,}),
+        });
+        if (res.ok) {
+          alert('Giriş Başarılı');
+          const data = await res.json();
+          navigation.push('Main')
+        }
+        else{
+          alert('Giriş Yapılamadı');
+        }
+      
     }  
-
-    
 
       return (
       <View style={LoginScreenStyles.container}>
@@ -60,11 +85,13 @@ export default function LoginScreen({ navigation }){
                         <Image 
                           style = {LoginScreenStyles.StudentImageStyle}
                           source ={studentIcon} 
-                          height={30}
-                          width={30} 
+                          height={20}
+                          width={20} 
                           />
-                          <Text style={[LoginScreenStyles.StudentText, StudentTextColor]} > Öğrenci </Text>      
+                          <Text style={[LoginScreenStyles.StudentText, StudentTextColor]} > Öğrenci </Text>    
+                          <View style={LoginScreenStyles.studentSelectionLine} backgroundColor={studentSelection} ></View>  
                   </View>
+                  
                 </TouchableHighlight>
                 
                  
@@ -72,7 +99,6 @@ export default function LoginScreen({ navigation }){
 
                 <TouchableHighlight style={LoginScreenStyles.CommunityButton} activeOpacity={1} underlayColor={'white'} onPress={()=>_onCommunityButton()}>
                 <View >
-                    
                       <Image 
                         style = {LoginScreenStyles.CommunityImageStyle}
                         source={communityIcon} 
@@ -80,37 +106,59 @@ export default function LoginScreen({ navigation }){
                         width={100} 
                       />
                     <Text style={[LoginScreenStyles.CommText, CommunityTextColor]} >Topluluk/Takım</Text>
+                    <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={communitySelection} ></View>
                 </View>  
                 </TouchableHighlight>
                  
           </View>
+          
+          <View style={{}} >
+                
+                <View style={{flexDirection:'row'}}>
+                
+                    <View style={LoginScreenStyles.empty1}></View>
+                    <Image source={require("../assets/icons/at-sign.png")} 
+                      height={20}
+                      width={20} 
+                      style={LoginScreenStyles.atsignLogin}  
+                      />
+                    <TextInput 
+                               onChangeText={newText => setEmail(newText)}
+                               defaultValue={email} 
+                               placeholder='E-posta' 
+                               placeholderTextColor='rgba(165,165,165,1)' 
+                               cursorColor={'rgba(84,70,115,1)'}  
+                               style={LoginScreenStyles.textinput} 
+                              />
+                    <View style={LoginScreenStyles.empty1}></View>
+                </View>
 
-          <View style={LoginScreenStyles.studentSelectionLine} backgroundColor={studentSelection} ></View>
-          <View style={LoginScreenStyles.communitySelectionLine} backgroundColor={communitySelection} ></View>
-        
-          <View style={{flexDirection:'row'}}>
-              <Image source={require("../assets/icons/at-sign.png")} 
-              height={15}
-              width={20} 
-              style={LoginScreenStyles.atsignLogin}  
-              />
-              <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
-              
+                <View style={{flexDirection:'row'}}>
+                <Image source={require("../assets/icons/lock.png")} 
+                    height={20}
+                    width={20} 
+                    style={LoginScreenStyles.atsignLogin}  
+                    />
+                    <View style={LoginScreenStyles.empty1}></View>
+                    <TextInput 
+                              onChangeText={newText => setPassword(newText)}
+                              defaultValue={password} 
+                              secureTextEntry={true} 
+                              placeholder='Şifre' 
+                              placeholderTextColor='rgba(165,165,165,1)' 
+                              cursorColor={'rgba(84,70,115,1)'} 
+                              style={LoginScreenStyles.textinput} />
+                    <View style={LoginScreenStyles.empty1}></View>
+                </View>
+
+                
           </View>
 
-          <View style={{flexDirection:'row'}}>
-              <Image source={require("../assets/icons/lock.png")} 
-              height={30}
-              width={27} 
-              style={LoginScreenStyles.atsignLogin}  
-              />
-              <TextInput secureTextEntry={true} placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={LoginScreenStyles.textinput} />
-          </View>
-  
+          <View> 
           <TouchableNativeFeedback onPress={()=>_onForgotPasswordButton()} underlayColor="white">
-          <View style={LoginScreenStyles.forgotPassword}>
-            <Text style={LoginScreenStyles.forgotPasswordText}>Şifreni mi Unuttun?</Text>
-          </View>
+                  <View style={LoginScreenStyles.forgotPassword}>
+                    <Text style={LoginScreenStyles.forgotPasswordText}>Şifreni mi Unuttun?</Text>
+                  </View>
           </TouchableNativeFeedback>
 
           <TouchableNativeFeedback onPress={()=>_onLoginButton()} underlayColor="white">
@@ -119,7 +167,7 @@ export default function LoginScreen({ navigation }){
             </View>
           </TouchableNativeFeedback>
 
-          <View style={{flexDirection: 'row', alignItems: 'center', top: 50, width:370, left:20, }}>
+          <View style={{flexDirection: 'row', alignSelf: 'center', top: '12%', width:'90%', alignItems:'center' }}>
             <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
             <View>
               <Text style={{width: 50, textAlign: 'center', color: 'rgba(152,152,152,1)'}}>veya</Text>
@@ -137,8 +185,9 @@ export default function LoginScreen({ navigation }){
             </View>
           </TouchableNativeFeedback>
 
-          
+          </View>        
       </View>
       
+                      
     );
   }

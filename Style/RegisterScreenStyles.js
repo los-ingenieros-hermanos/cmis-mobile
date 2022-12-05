@@ -3,13 +3,15 @@ const {width, height} = Dimensions.get('window');
 import { useFonts } from 'expo-font';
 
 
-const LoginScreenStyles = StyleSheet.create(
+const RegisterScreenStyles = StyleSheet.create(
 {   
     atsignLogin:{
-        width: 24, 
-        height: 20,
-        top:40,
-        left:17,
+        width: width*0.05, 
+        height: width*0.05,
+        top: height*0.025,
+        left:width*0.045,
+        alignSelf:'center',
+        resizeMode:'center',
     },
     setColorGray:{
         color: "rgba(101,103,107,1)",
@@ -18,81 +20,79 @@ const LoginScreenStyles = StyleSheet.create(
         color:"rgba(84,70,115,1)",
     },
     StudentImageStyle:{
-        width: 27, 
-        height: 30,
-        left:15,
+        width: width*0.03, 
+        height: height*0.04,
+        alignSelf:'center',
         top:2, 
+        aspectRatio:1,
+        resizeMode:'center',
     },
-
     CommunityImageStyle:{
-        width: 60, 
-        height: 30, 
-        left: 15,
+        height: height*0.08, 
+        alignSelf:'center',
+        aspectRatio:1,
+        resizeMode:'center',
+        top: -height*0.02,
     },
     CommText:{
-        left:0,
-        top:5,
+        top:-height*0.035,
+        textAlign:'center',
+        fontSize:height*0.02,
     },
     StudentText:{
        top: 5,
-       left: 2,
+       fontSize:height*0.02,
+       textAlign:'center',
+       left:-1,
     },
     CommunityButton:{
-        width:120,
-        borderRadius:20,
+        flex: 1,
         alignItems:'center',
-        left:-40,
         height:70,
         paddingTop:10,
         paddingBottom:10,
     },
 
     StudentButton:{
-        width:120,
-        borderRadius:20,
+        flex:1,
         alignItems:'center',
         paddingTop:10,
         paddingBottom:10,
+        justifyContent:'center',
     },
     verticleLine:{
-        height: '75%',
+        height: '100%',
         width: 1.5,
         backgroundColor: '#909090',
-        left:-20,
     },
     studentSelectionLine:{
         height:3,
-        width:100,
-        left:77,
         borderRadius:20,
+        top:10,
     },
     communitySelectionLine:{
         height:3,
-        width:100,
-        left:239,
-        top:-3,
         borderRadius:20,
+        top: -height*0.025,  
     },
     StudentAndComm:{
         flexDirection:'row',
-        justifyContent: 'space-evenly',
-        left: 20,
+        justifyContent: 'center',
         paddingTop: 10,
     },
     textinput:{
-        height: 50,
-        width: 370,
+        height: height*0.06,
+        width: width*0.9,
         borderTopWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderWidth: 2,
         borderColor: 'rgba(165,165,165,1)',
-        marginVertical:10,
+        marginVertical: height*0.005,
         borderRadius: 5,
-        paddingLeft: 25,
-        paddingTop: 10,
-        top: 10,
-        left: -5,
+        paddingLeft: 20,
+        paddingTop: height*0.015,
+        top: height*0.017,
         color: 'black',
     },
 
@@ -112,38 +112,31 @@ const LoginScreenStyles = StyleSheet.create(
         flexDirection: 'row',
         position: 'absolute',
     },
-    SelectionCommunity:{
-        color: 'rgba(84,70,115,1)',
-        marginLeft: 240,
-        marginTop: 35,
-        position: 'absolute',
-    },
     AppName:{
         color: 'white',
-        /* fontFamily: 'Aldrich', */
         fontWeight: '600',
-        fontSize: 33,
+        fontSize: height*0.05,
         letterSpacing: 7.5,
-        left: 150,
-        top: 65,
+        marginTop: height * 0.1,
+        alignSelf: 'center',
     },
     upperRectangle:{
         backgroundColor:'rgba(84,70,115,1)',
-        height: 180,
-        width: width,
+        height: height*0.25,
+        width: '100%',
     },
     container: {
-        justifyContent: 'flex-end',
+        
     },
     LoginButton:{
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,
         backgroundColor: 'rgba(84,70,115,1)',
-        width: 370,
-        left:20,
-        top: 30,
-        height: 50,
+        width: width*0.9,
+        alignSelf:'center',
+        top: height*0.03,
+        height: height*0.06,
     },
     text:{
         fontSize: 16,
@@ -158,9 +151,9 @@ const LoginScreenStyles = StyleSheet.create(
         letterSpacing: 1.5,
     },
     forgotPassword:{
-        width: 150,
-        left: 240,
-        top: 10,
+        alignSelf:'flex-end',
+        top: height*0.02,
+        right:width*0.05,
     },
     forgotPasswordText:{
         letterSpacing: 1.5,
@@ -191,19 +184,19 @@ const LoginScreenStyles = StyleSheet.create(
     },
     RegisterButton: {
         backgroundColor:'rgba(126,204,113,1)',
-        height: 40,
-        width: 200,
+        height: height*0.05,
+        width: width*0.6,
         borderRadius: 5,
-        marginHorizontal: 30,
+        top: height*0.045,
         marginVertical: 10,
         borderWidth: 1,
         borderColor: 'white',
-        top: 50,
-        left: 75,
+        
+        alignSelf:'center',
         justifyContent:'center',
         
     },
 }
 );
 
-export default LoginScreenStyles
+export default RegisterScreenStyles

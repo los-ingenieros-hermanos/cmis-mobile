@@ -1,120 +1,211 @@
-import { StatusBar } from 'expo-status-bar';
-import LoginScreenStyles from '../Style/LoginScreenStyles';
-import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight} from 'react-native';
-import React, { Component, useState, useEffect } from 'react';
-import { Image } from 'react-native'
-/*
-const {height, width} = Dimensions.get('window');
-const [clickedStudent, setClickedStudent] = useState(false);
-const [clickedCommunity, setClickedCommunity] = useState(false);
-*/
+import { StyleSheet, Dimensions } from "react-native";
+const {width, height} = Dimensions.get('window');
+import { useFonts } from 'expo-font';
 
 
+const RegisterScreenStyles = StyleSheet.create(
+{   
+    atsignLogin:{
+        width: width*0.05, 
+        height: width*0.05,
+        top: height*0.025,
+        left:width*0.045,
+        alignSelf:'center',
+        resizeMode:'center',
+    },
+    setColorGray:{
+        color: "rgba(101,103,107,1)",
+    },
+    setColorPurple:{
+        color:"rgba(84,70,115,1)",
+    },
+    StudentImageStyle:{
+        width: width*0.03, 
+        height: height*0.04,
+        alignSelf:'center',
+        top:2, 
+        aspectRatio:1,
+        resizeMode:'center',
+    },
+    CommunityImageStyle:{
+        height: height*0.08, 
+        alignSelf:'center',
+        aspectRatio:1,
+        resizeMode:'center',
+        top: -height*0.02,
+    },
+    CommText:{
+        top:-height*0.035,
+        textAlign:'center',
+        fontSize:height*0.02,
+    },
+    StudentText:{
+       top: 5,
+       fontSize:height*0.02,
+       textAlign:'center',
+       left:-1,
+    },
+    CommunityButton:{
+        width:120,
+        borderRadius:20,
+        alignItems:'center',
+        left:-40,
+        height:70,
+        paddingTop:10,
+        paddingBottom:10,
+    },
 
+    StudentButton:{
+        width:120,
+        borderRadius:20,
+        alignItems:'center',
+        paddingTop:10,
+        paddingBottom:10,
+    },
+    verticleLine:{
+        height: '75%',
+        width: 1.5,
+        backgroundColor: '#909090',
+        left:-20,
+    },
+    studentSelectionLine:{
+        height:3,
+        borderRadius:20,
+        top:10,
+    },
+    communitySelectionLine:{
+        height:3,
+        borderRadius:20,
+    },
+    StudentAndComm:{
+        flexDirection:'row',
+        justifyContent: 'space-evenly',
+        left: 20,
+        paddingTop: 10,
+    },
+    textinput:{
+        height: height*0.06,
+        width: width*0.9,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderWidth: 2,
+        borderColor: 'rgba(165,165,165,1)',
+        marginVertical: height*0.005,
+        borderRadius: 5,
+        paddingLeft: 20,
+        paddingTop: height*0.015,
+        top: height*0.017,
+        color: 'black',
+    },
 
-_onForgotPasswordButton =() => {
-  alert('You pressed forgot my password button')
-} 
-
-
-
-
-export default function LoginScreen(){
-    const [studentIcon, setStudentIcon] = useState(require("../assets/icons/student_selected.png"));
-    const [communityIcon, setCommunityIcon] = useState(require("../assets/icons/community_notselected.png"));
-    const [studentTextColor, setstudentTextColor] = useState('')
-
-    _onStudentButton= () => {
-      setStudentIcon(require("../assets/icons/student_selected.png"));
-      setCommunityIcon(require("../assets/icons/community_notselected.png"));
-    }
-
-    _onCommunityButton= () => {
-      setCommunityIcon(require("../assets/icons/community_selected.png"));
-      setStudentIcon(require("../assets/icons/student_notselected.png"));
-    }
-
-    _onLoginButton= () => {
-      alert('LOGIN BUTTON')
-    }  
-
-      return (
-      <View style={LoginScreenStyles.container}>
-       
-          <View style={LoginScreenStyles.upperRectangle}>
-                <Text style={LoginScreenStyles.AppName}> cmis </Text>
-          </View>
-
-
+    UserIcon:{
+        position:'absolute',
+        marginLeft:115,
+    },
+    CommunityIcon:{
+        position:'relative',
+        marginLeft:270,
+        tintColor:'red',
+    },
+    SelectionStudent:{
+        color: 'rgba(84,70,115,1)',
+        marginLeft: 105,
+        marginTop: 35,
+        flexDirection: 'row',
+        position: 'absolute',
+    },
+    SelectionCommunity:{
+        color: 'rgba(84,70,115,1)',
+        marginLeft: 240,
+        marginTop: 35,
+        position: 'absolute',
+    },
+    AppName:{
+        color: 'white',
+        fontWeight: '600',
+        fontSize: height*0.05,
+        letterSpacing: 7.5,
+        marginTop: height * 0.1,
+        alignSelf: 'center',
+    },
+    upperRectangle:{
+        backgroundColor:'rgba(84,70,115,1)',
+        height: height*0.25,
+        width: '100%',
+    },
+    container: {
         
-          <View style={LoginScreenStyles.StudentAndComm}>
-                <TouchableHighlight style={LoginScreenStyles.StudentButton} activeOpacity={1} underlayColor={'white'} onPress={()=>_onStudentButton()}>
-                  <View>
-                        <Image 
-                          style = {LoginScreenStyles.StudentImageStyle}
-                          source ={studentIcon} 
-                          height={30}
-                          width={30} 
-                          />
-                          <Text style={LoginScreenStyles.StudentText}> Öğrenci </Text>      
-                  </View>
-                </TouchableHighlight>
-                
-                 
-                <View style={LoginScreenStyles.verticleLine}></View>
+    },
+    LoginButton:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        backgroundColor: 'rgba(84,70,115,1)',
+        width: width*0.9,
+        alignSelf:'center',
+        top: height*0.03,
+        height: height*0.06,
+    },
+    text:{
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 1,
+        color: 'white',
+    },
+    LoginButtonText: {
+        textAlign: 'center',
+        color: 'white',
+        letterSpacing: 1.5,
+    },
+    forgotPassword:{
+        alignSelf:'flex-end',
+        top: height*0.02,
+        right:width*0.05,
+    },
+    forgotPasswordText:{
+        letterSpacing: 1.5,
+        color : 'rgba(84,70,115,1)',
+        fontWeight: 'bold',
+    },
 
-                <TouchableHighlight style={LoginScreenStyles.CommunityButton} activeOpacity={1} underlayColor={'white'} onPress={()=>_onCommunityButton()}>
-                <View >
-                    
-                      <Image 
-                        style = {LoginScreenStyles.CommunityImageStyle}
-                        source={communityIcon} 
-                        height={60}
-                        width={100} 
-                      />
-                    <Text style={LoginScreenStyles.CommText}>Topluluk/Takım</Text>
-                </View>  
-                </TouchableHighlight>
-                 
-          </View>
+    LoginInnerText:{
+        color: 'rgba(84,70,115,1)',
+        fontSize: 17,
+        textAlign:'center',
+    },
+    LoginOuterText:{
+        color: 'white',
+        alignSelf: 'center',
+        fontSize: 15,
+        textAlign:'center',
+    },
+    RegisterInnerText:{
+        color: 'rgba(84,70,115,1)',
+        fontSize: 17,
+        textAlign:'center',
+    },
+    RegisterOuterText:{
+        color: 'white',
+        alignSelf: 'center',
+        fontSize: 15,
+    },
+    RegisterButton: {
+        backgroundColor:'rgba(126,204,113,1)',
+        height: height*0.05,
+        width: width*0.6,
+        borderRadius: 5,
         
-          <View>
-              <TextInput placeholder='E-posta' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'}  style={LoginScreenStyles.textinput} />
-              <TextInput placeholder='Şifre' placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={LoginScreenStyles.textinput} />
-          </View>
-  
-          <TouchableNativeFeedback onPress={()=>_onForgotPasswordButton()} underlayColor="white">
-          <View style={LoginScreenStyles.forgotPassword}>
-            <Text style={LoginScreenStyles.forgotPasswordText}>Şifreni mi Unuttun?</Text>
-          </View>
-          </TouchableNativeFeedback>
+        marginVertical: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        top: 50,
+        alignSelf:'center',
+        justifyContent:'center',
+        
+    },
+}
+);
 
-          <TouchableNativeFeedback onPress={()=>_onLoginButton()} underlayColor="white">
-            <View style={LoginScreenStyles.LoginButton}>
-              <Text style={LoginScreenStyles.LoginButtonText}>Giriş Yap</Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          <View style={{flexDirection: 'row', alignItems: 'center', top: 50, width:370, left:20, }}>
-            <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
-            <View>
-              <Text style={{width: 50, textAlign: 'center', color: 'rgba(152,152,152,1)'}}>veya</Text>
-            </View>
-            <View style={{flex: 1, height: 1, backgroundColor: 'rgba(152,152,152,1)'}} />
-          </View>
-
-          <TouchableNativeFeedback onPress={()=>Alert.alert('Cannot press this one')}>
-            <View style={LoginScreenStyles.RegisterButton}>
-            <Text style={LoginScreenStyles.OuterText}>
-              Yeni
-              <Text style={LoginScreenStyles.InnerText}> cmis </Text>
-              Hesabı Oluştur
-            </Text>
-            </View>
-          </TouchableNativeFeedback>
-
-          
-      </View>
-      
-    );
-  }
+export default RegisterScreenStyles
