@@ -26,6 +26,7 @@ const LoginScreenStyles = StyleSheet.create(
         top:2, 
         aspectRatio:1,
         resizeMode:'center',
+        left:2,
     },
 
     CommunityImageStyle:{
