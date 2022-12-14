@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, StatusBar, Touchable, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, StatusBar, Touchable, TouchableOpacity,Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Post from '../components/Post';
-import ProfilePicture from 'react-native-profile-picture';
+import { Ionicons } from '@expo/vector-icons';
 
-
+const {width, height} = Dimensions.get('window');
 
 export default function TopBar() {
   return (
@@ -15,18 +15,12 @@ export default function TopBar() {
 
         
             <View style={{flex:2,backgroundColor:'white', alignItems:'stretch', flexDirection:'column', justifyContent:'center'}}> 
-                <TouchableOpacity style={{alignSelf:'center'}}>
-                    <ProfilePicture
-                    isPicture={true}
-                    requirePicture={require('../storage/images/pp_image.png')}
-                    shape={'circle'}
-                    height={40}
-                    width={40}
-                    />
+                <TouchableOpacity style={{alignSelf:'flex-start', left:width*0.015}}>
+                <Ionicons name="menu-outline" size={50} color={'black'}></Ionicons>
                 </TouchableOpacity>
             </View>
 
-            <View style={{flex:4, backgroundColor:'white'}}>
+            <View style={{flex:4, backgroundColor:'white', justifyContent:'center'}}>
                 <Text style={{fontSize:35, color:"rgba(84,70,115,1)", alignSelf:'center', letterSpacing:7.5} }> cmis </Text>
             </View>
         
