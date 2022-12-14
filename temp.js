@@ -1,211 +1,171 @@
-import { StyleSheet, Dimensions } from "react-native";
-const {width, height} = Dimensions.get('window');
-import { useFonts } from 'expo-font';
+import React, {useState} from 'react';
+import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionic from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
+const Post = () => {
+  const postInfo = [
+    {
+      postTitle: 'mr shermon',
+      postPersonImage: require('../../storage/images/userProfile.png'),
+      postImage: require('../../storage/images/post1.jpg'),
+      likes: 765,
+      isLiked: false,
+    },
+    {
+      postTitle: 'chillhouse',
+      postPersonImage: require('../../storage/images/profile5.jpg'),
+      postImage: require('../../storage/images/post2.jpg'),
+      likes: 345,
+      isLiked: false,
+    },
+    {
+      postTitle: 'Tom',
+      postPersonImage: require('../../storage/images/profile4.jpg'),
+      postImage: require('../../storage/images/post3.jpg'),
+      likes: 734,
+      isLiked: false,
+    },
+    {
+      postTitle: 'The_Groot',
+      postPersonImage: require('../../storage/images/profile3.jpg'),
+      postImage: require('../../storage/images/post4.jpg'),
+      likes: 875,
+      isLiked: false,
+    },
+  ];
 
-const RegisterScreenStyles = StyleSheet.create(
-{   
-    atsignLogin:{
-        width: width*0.05, 
-        height: width*0.05,
-        top: height*0.025,
-        left:width*0.045,
-        alignSelf:'center',
-        resizeMode:'center',
-    },
-    setColorGray:{
-        color: "rgba(101,103,107,1)",
-    },
-    setColorPurple:{
-        color:"rgba(84,70,115,1)",
-    },
-    StudentImageStyle:{
-        width: width*0.03, 
-        height: height*0.04,
-        alignSelf:'center',
-        top:2, 
-        aspectRatio:1,
-        resizeMode:'center',
-    },
-    CommunityImageStyle:{
-        height: height*0.08, 
-        alignSelf:'center',
-        aspectRatio:1,
-        resizeMode:'center',
-        top: -height*0.02,
-    },
-    CommText:{
-        top:-height*0.035,
-        textAlign:'center',
-        fontSize:height*0.02,
-    },
-    StudentText:{
-       top: 5,
-       fontSize:height*0.02,
-       textAlign:'center',
-       left:-1,
-    },
-    CommunityButton:{
-        width:120,
-        borderRadius:20,
-        alignItems:'center',
-        left:-40,
-        height:70,
-        paddingTop:10,
-        paddingBottom:10,
-    },
+  return (
+    <View>
+      {postInfo.map((data, index) => {
+        const [like, setLike] = useState(data.isLiked);
+        return (
+          <View
+            key={index}
+            style={{
+              paddingBottom: 10,
+              borderBottomColor: 'gray',
+              borderBottomWidth: 0.1,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 15,
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  source={data.postPersonImage}
+                  style={{width: 40, height: 40, borderRadius: 100}}
+                />
+                <View style={{paddingLeft: 5}}>
+                  <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                    {data.postTitle}
+                  </Text>
+                </View>
+              </View>
+              <Feather name="more-vertical" style={{fontSize: 20}} />
+            </View>
+            <View
+              style={{
+                position: 'relative',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={data.postImage}
+                style={{width: '100%', height: 400}}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingHorizontal: 12,
+                paddingVertical: 15,
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity onPress={() => setLike(!like)}>
+                  <AntDesign
+                    name={like ? 'heart' : 'hearto'}
+                    style={{
+                      paddingRight: 10,
+                      fontSize: 20,
+                      color: like ? 'red' : 'black',
+                    }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionic
+                    name="ios-chatbubble-outline"
+                    style={{fontSize: 20, paddingRight: 10}}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Feather name="navigation" style={{fontSize: 20}} />
+                </TouchableOpacity>
+              </View>
+              <Feather name="bookmark" style={{fontSize: 20}} />
+            </View>
+            <View style={{paddingHorizontal: 15}}>
+              <Text>
+                Liked by {like ? 'you and' : ''}{' '}
+                {like ? data.likes + 1 : data.likes} others
+              </Text>
+              <Text
+                style={{
+                  fontWeight: '700',
+                  fontSize: 14,
+                  paddingVertical: 2,
+                }}>
+                If enjoy the video ! Please like and Subscribe :)
+              </Text>
+              <Text style={{opacity: 0.4, paddingVertical: 2}}>
+                View all comments
+              </Text>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image
+                    source={data.postPersonImage}
+                    style={{
+                      width: 25,
+                      height: 25,
+                      borderRadius: 100,
+                      backgroundColor: 'orange',
+                      marginRight: 10,
+                    }}
+                  />
+                  <TextInput
+                    placeholder="Add a comment "
+                    style={{opacity: 0.5}}
+                  />
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Entypo
+                    name="emoji-happy"
+                    style={{fontSize: 15, color: 'lightgreen', marginRight: 10}}
+                  />
+                  <Entypo
+                    name="emoji-neutral"
+                    style={{fontSize: 15, color: 'pink', marginRight: 10}}
+                  />
+                  <Entypo
+                    name="emoji-sad"
+                    style={{fontSize: 15, color: 'red'}}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
+};
 
-    StudentButton:{
-        width:120,
-        borderRadius:20,
-        alignItems:'center',
-        paddingTop:10,
-        paddingBottom:10,
-    },
-    verticleLine:{
-        height: '75%',
-        width: 1.5,
-        backgroundColor: '#909090',
-        left:-20,
-    },
-    studentSelectionLine:{
-        height:3,
-        borderRadius:20,
-        top:10,
-    },
-    communitySelectionLine:{
-        height:3,
-        borderRadius:20,
-    },
-    StudentAndComm:{
-        flexDirection:'row',
-        justifyContent: 'space-evenly',
-        left: 20,
-        paddingTop: 10,
-    },
-    textinput:{
-        height: height*0.06,
-        width: width*0.9,
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderWidth: 2,
-        borderColor: 'rgba(165,165,165,1)',
-        marginVertical: height*0.005,
-        borderRadius: 5,
-        paddingLeft: 20,
-        paddingTop: height*0.015,
-        top: height*0.017,
-        color: 'black',
-    },
-
-    UserIcon:{
-        position:'absolute',
-        marginLeft:115,
-    },
-    CommunityIcon:{
-        position:'relative',
-        marginLeft:270,
-        tintColor:'red',
-    },
-    SelectionStudent:{
-        color: 'rgba(84,70,115,1)',
-        marginLeft: 105,
-        marginTop: 35,
-        flexDirection: 'row',
-        position: 'absolute',
-    },
-    SelectionCommunity:{
-        color: 'rgba(84,70,115,1)',
-        marginLeft: 240,
-        marginTop: 35,
-        position: 'absolute',
-    },
-    AppName:{
-        color: 'white',
-        fontWeight: '600',
-        fontSize: height*0.05,
-        letterSpacing: 7.5,
-        marginTop: height * 0.1,
-        alignSelf: 'center',
-    },
-    upperRectangle:{
-        backgroundColor:'rgba(84,70,115,1)',
-        height: height*0.25,
-        width: '100%',
-    },
-    container: {
-        
-    },
-    LoginButton:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        backgroundColor: 'rgba(84,70,115,1)',
-        width: width*0.9,
-        alignSelf:'center',
-        top: height*0.03,
-        height: height*0.06,
-    },
-    text:{
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-        color: 'white',
-    },
-    LoginButtonText: {
-        textAlign: 'center',
-        color: 'white',
-        letterSpacing: 1.5,
-    },
-    forgotPassword:{
-        alignSelf:'flex-end',
-        top: height*0.02,
-        right:width*0.05,
-    },
-    forgotPasswordText:{
-        letterSpacing: 1.5,
-        color : 'rgba(84,70,115,1)',
-        fontWeight: 'bold',
-    },
-
-    LoginInnerText:{
-        color: 'rgba(84,70,115,1)',
-        fontSize: 17,
-        textAlign:'center',
-    },
-    LoginOuterText:{
-        color: 'white',
-        alignSelf: 'center',
-        fontSize: 15,
-        textAlign:'center',
-    },
-    RegisterInnerText:{
-        color: 'rgba(84,70,115,1)',
-        fontSize: 17,
-        textAlign:'center',
-    },
-    RegisterOuterText:{
-        color: 'white',
-        alignSelf: 'center',
-        fontSize: 15,
-    },
-    RegisterButton: {
-        backgroundColor:'rgba(126,204,113,1)',
-        height: height*0.05,
-        width: width*0.6,
-        borderRadius: 5,
-        
-        marginVertical: 10,
-        borderWidth: 1,
-        borderColor: 'white',
-        top: 50,
-        alignSelf:'center',
-        justifyContent:'center',
-        
-    },
-}
-);
-
-export default RegisterScreenStyles
+export default Post;

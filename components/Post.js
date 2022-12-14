@@ -9,23 +9,49 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const Post = () => {
   const postInfo = [
     {
-      postTitle: "Ersel Celal Eren",
+      postTitle: "Ersel Eren",
       postPersonImage: require("../storage/images/profile1.jpg"),
       postImage: require("../storage/images/post1.jpg"),
       likes: 765,
       isLiked: false,
+      isBookmarked: false,
+      isEvent: true,
+      isJoined: false,
     },
+    {
+      postTitle: "Celal Eren",
+      postPersonImage: require("../storage/images/profile1.jpg"),
+      postImage: require("../storage/images/post1.jpg"),
+      likes: 765,
+      isLiked: false,
+      isBookmarked: false,
+      isEvent: false,
+      isJoined: false,
+    },
+    {
+      postTitle: "Celal Eren",
+      postPersonImage: require("../storage/images/profile1.jpg"),
+      postImage: require("../storage/images/post1.jpg"),
+      likes: 765,
+      isLiked: false,
+      isBookmarked: true,
+      isEvent: false,
+      isJoined: false,
+    }
   ];
 
+  const [showView, setShowView] = useState(true);
   return (
-    <View>
+    <View style={{marginBottom:"50%"}}>
       {postInfo.map((data, index) => {
         const [like, setLike] = useState(data.isLiked);
+        const [bookmark, setBookmark] = useState(data.isBookmarked);
+        const [join, setJoin] = useState(data.isJoined);
         return (
           <View // Post
             key={index}
             style={{
-              paddingBottom: 10,
+              paddingBottom: 0,
               borderBottomColor: "gray",
               borderBottomWidth: 0.1,
               backgroundColor: "white",
@@ -90,10 +116,7 @@ const Post = () => {
                 justifyContent: "center",
               }}
             >
-              {/* <Text>
-                Liked by {like ? "you and" : ""}{" "}
-                {like ? data.likes + 1 : data.likes} others
-              </Text> */}
+              
               <Text
                 style={{
                   fontWeight: "700",
@@ -107,42 +130,49 @@ const Post = () => {
                 Subscribe If enjoy the video ! Please like and Subscribe If
                 enjoy the video ! Please like and Subscribe :)
               </Text>
-
+              
+              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
               <View
+                
                 style={{
                   paddingBottom: 5,
                   flexWrap: "wrap",
                   width: "60%",
-                }}
-              >
-                <Text
-                  style={{
-                    backgroundColor: "rgba(84,70,115,1)",
-                    color: "white",
-                    borderRadius: 10,
-
-                    textAlign: "center",
-                    height: 25,
-                  }}
-                >
-                  {
-                    <AntDesign
-                      name="calendar"
-                      size={24}
-                      color="white"
-                      left={10}
-                    />
-                  }
+                  backgroundColor: "rgba(84,70,115,1)",
+                  flexDirection:'row',
+                  alignItems:'center',
+                  
+                  borderRadius:20,
+                  padding:5,
+                  paddingLeft:10,
+                  display: data.isEvent ? "flex" : "none",
+                }}>
+                {<AntDesign name="calendar" size={24} color="white" marginRight={10}/>}
+                <Text style={{color: "white", textAlign: "center"}}>
                   17 Kasım 2022 - 14.00-16.00{" "}
                 </Text>
+
               </View>
 
+                
+              <View style={{ alignItems:'center', flexDirection:'row', display: data.isEvent ? "flex" : "none",}}>
+                <TouchableOpacity onPress={() => setJoin(!join)} style={{flexDirection:'row'}}>
+                <Text style={{fontWeight:'500'}}><AntDesign name={join? "check" : "plus"} size={24} color="black"/></Text>
+                  
+                  <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16}}>
+                  {join ? "Katıldın" : "Katıl"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              </View>
+            
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <View
                   style={{
+                    marginTop:5,
                     flex: 1,
-                    height: 1.7,
-                    backgroundColor: "rgba(127,127,127,1)",
+                    height: 1.8,
+                    backgroundColor: "rgba(127,127,127,0.5)",
                   }}
                 />
               </View>
@@ -160,17 +190,17 @@ const Post = () => {
                       marginRight: 15,
                       fontWeight: "bold",
                       letterSpacing: 1,
-                      paddingTop: 10,
+                      paddingTop: 5,
                     }}
                   >
-                    {data.likes} beğenme
+                  {like ? data.likes + 1 : data.likes} beğeni
                   </Text>
                   <Text
                     style={{
                       marginRight: 10,
                       fontWeight: "bold",
                       letterSpacing: 1,
-                      paddingTop: 10,
+                      paddingTop: 5,
                     }}
                   >
                     37 katılım
@@ -179,7 +209,7 @@ const Post = () => {
                 <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
                   <TouchableOpacity onPress={() => setLike(!like)}>
                     <AntDesign
-                      name="like2"
+                      name={like ? "like1" : "like2"}
                       style={{
                         paddingRight: 10,
                         fontSize: 22,
@@ -188,9 +218,9 @@ const Post = () => {
                       }}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setBookmark(!bookmark)}>
                     <MaterialCommunityIcons
-                      name="bookmark-plus-outline"
+                      name={bookmark ? "bookmark-remove" :"bookmark-plus-outline"}
                       style={{ fontSize: 25, paddingRight: 5, paddingTop: 3 }}
                     />
                   </TouchableOpacity>
@@ -204,42 +234,7 @@ const Post = () => {
               </View>
             </View>
 
-            {/* <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingHorizontal: 12,
-                paddingVertical: 15,
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <TouchableOpacity onPress={() => setLike(!like)}>
-                  <AntDesign
-                    name={like ? "heart" : "hearto"}
-                    style={{
-                      paddingRight: 10,
-                      fontSize: 20,
-                      color: like ? "red" : "black",
-                    }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionic
-                    name="ios-chatbubble-outline"
-                    style={{ fontSize: 20, paddingRight: 10 }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Feather name="navigation" style={{ fontSize: 20 }} />
-                </TouchableOpacity>
-              </View>
-              <MaterialCommunityIcons
-                name="bookmark-plus-outline"
-                size={30}
-                color="black"
-              />
-            </View> */}
+            
           </View>
         );
       })}
