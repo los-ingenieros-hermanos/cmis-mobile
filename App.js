@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +7,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import MainPage from './Screens/MainPage';
-
 
 function App() {
   const Stack = createNativeStackNavigator();

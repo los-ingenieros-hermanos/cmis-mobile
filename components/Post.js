@@ -42,7 +42,7 @@ const Post = () => {
 
   const [showView, setShowView] = useState(true);
   return (
-    <View style={{marginBottom:"50%"}}>
+    <View style={{}}>
       {postInfo.map((data, index) => {
         const [like, setLike] = useState(data.isLiked);
         const [bookmark, setBookmark] = useState(data.isBookmarked);

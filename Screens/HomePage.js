@@ -7,21 +7,20 @@ import TopBar from '../components/TopBar';
 
 export default function HomePage() {
   return (
-    <SafeAreaView style={styles.container}>
-      <TopBar/>
-      <ScrollView style={styles.scrollView}>
-        
-        
-        <Post />
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer independent={true}>
+      <SafeAreaView style={styles.container}>
+          
+          <ScrollView style={styles.scrollView}>  
+            <Post />
+          </ScrollView>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
     backgroundColor: "rgba(217,217,217,1)",

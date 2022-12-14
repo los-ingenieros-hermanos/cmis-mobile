@@ -1,27 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import LoginScreenStyles from "../Style/LoginScreenStyles";
-import {
-  StyleSheet,
-  Text,
-  Button,
-  View,
-  Dimensions,
-  Pressable,
-  TextInput,
-  TouchableNativeFeedback,
-  Alert,
-  ImageBackground,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
+import {StyleSheet,Text,Button,View,Dimensions,Pressable,TextInput,TouchableNativeFeedback,Alert,ImageBackground,TouchableHighlight,TouchableOpacity} from "react-native";
 import React, { Component, useState, useEffect } from "react";
 import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import axios from "axios";
-
-import MainPage from "./MainPage";
 
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
