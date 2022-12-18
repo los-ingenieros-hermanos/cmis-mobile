@@ -5,12 +5,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import SearchItem from '../../components/SearchItem';
 import SearchBar from '../../components/SearchBar';
 
-export default function SearchScreen() {
-
+export default function SearchScreen({route}) {
+  const { handleSearch } = route.params;
   return (
     
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <SearchBar />
+        <SearchBar handleSearch={handleSearch}/>
+        
+
         <ScrollView>
           <SearchItem />
           <SearchItem />

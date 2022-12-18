@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Animated, Dimensions, Text, View, BackHandler, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Component, useState, useEffect } from 'react';
+import { Component, useState, useEffect, useCallback } from 'react';
 
 import CalendarScreen from '../../Screens/TabScreens/CalendarScreen';
 import ProfileScreen from '../../Screens/TabScreens/ProfileScreen';
@@ -29,6 +29,13 @@ export default function TabNavigator({navigation}) {
   
   var routeName = "Home";
 
+  const [searchText, setSearchText] = useState('');
+
+  const handleSearch = () => {
+    console.log("Button pressed");
+    handleBackButtonClick();
+  };
+  
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -124,7 +131,7 @@ export default function TabNavigator({navigation}) {
         </Tab.Screen>
 
         
-        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} options={{
+        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} initialParams={{ handleSearch }} options={{
             tabBarLabel: ({ focused }) => (
                 <View style={{ position: 'absolute',}}>
                   <Text style={{color: focused ? "rgba(105,89,149,1)" : 'gray', fontSize: 10, fontWeight: 'bold'}}>Ara</Text>

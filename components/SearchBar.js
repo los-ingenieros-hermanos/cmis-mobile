@@ -5,8 +5,15 @@ import { EvilIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function SearchBar() {
+export default function SearchBar(props) {
   const navigation = useNavigation();
+
+  const { handleSearch } = props;
+
+  const handleButtonPress = () => {
+    handleSearch();
+    navigation.navigate("Home");
+  };
 
 
   return (
@@ -15,7 +22,7 @@ export default function SearchBar() {
         <View style={{flexDirection:'row', backgroundColor:'white', paddingBottom:10, marginTop:25}}>
         
             <View style={{ marginLeft:10, borderRadius:10, marginTop:10, flex:1}}>
-                <TouchableOpacity style={{alignSelf:'center'}} onPress={() => {navigation.goBack()}} >
+                <TouchableOpacity style={{alignSelf:'center'}} onPress={handleButtonPress} >
                     <AntDesign name="arrowleft" size={30} color="black" />
                 </TouchableOpacity>
             </View>
