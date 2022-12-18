@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Post from '../components/Post';
-import TopBar from '../components/TopBar';
+import Post from '../../components/Post';
+import TopBar from '../../components/TopBar';
 
-export default function HomePage() {
+export default function HomePage({navigation}) {
   return (
-    <NavigationContainer independent={true}>
+    
       <SafeAreaView style={styles.container}>
-          
+          <TopBar navigation={navigation}/>
           <ScrollView style={styles.scrollView}>  
             <Post />
           </ScrollView>
+          
       </SafeAreaView>
-    </NavigationContainer>
+      
+    
   );
 }
 
