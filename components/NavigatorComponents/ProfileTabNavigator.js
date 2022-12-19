@@ -15,13 +15,48 @@ const Drawer = createDrawerNavigator();
 export default function ProfileTabNavigator() {
   return (
     <Drawer.Navigator>
-              <Drawer.Screen name="Profil"  options={{headerShown:false}} component={ProfileScreen} />
-              <Drawer.Screen name="Askıda Proje"  options={{headerShown:false}} component={Ideas} />
-              <Drawer.Screen name="Ayarlar" options={{headerShown:false}} component={Setting} />
-              <Drawer.Screen name="Genel" options={{headerShown:false}} component={General} />
-              <Drawer.Screen name="Takip Ettiklerim" options={{headerShown:false}} component={Followed} />
-              <Drawer.Screen name="Topluluk/Takımlar" options={{headerShown:false}} component={Community} />
-              <Drawer.Screen name="Kaydedilenler" options={{headerShown:false}} component={Bookmarked} />
+              <Drawer.Screen name="Profil" component={ProfileScreen} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',
+                                                                          }}/>
+              
+              <Drawer.Screen name="Askıda Proje" component={Ideas} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',}} />
+              
+              <Drawer.Screen name="Ayarlar" component={Setting} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',}} />
+              
+              <Drawer.Screen name="Genel" component={General} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',}}  />
+              
+              <Drawer.Screen name="Takip Ettiklerim" component={Followed} options={{headerShown:false,
+                                                                                    drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                                    drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                                    drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                                    drawerActiveTintColor:'black',}}  />
+              
+              <Drawer.Screen name="Topluluk/Takımlar" component={Community} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',}} />
+              
+              <Drawer.Screen name="Kaydedilenler" component={Bookmarked} options={{headerShown:false,
+                                                                          drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
+                                                                          drawerInactiveTintColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveBackgroundColor:'rgba(208,210,242,1)',
+                                                                          drawerActiveTintColor:'black',}}  />
     </Drawer.Navigator>
   )
 }
