@@ -14,24 +14,19 @@ export default function UserListScreen({navigation}) {
       
       <View style={{backgroundColor:'rgba(240,242,245,1)', flex:1, alignItems:'center'}}> 
         <View style={{backgroundColor:'white', height:'6.5%', flexDirection:'row', alignItems:'center', justifyContent:'center'}}> 
-            <TouchableOpacity style={{flex:1, paddingLeft:5}}>
-            <Ionicons name="arrow-back-outline" size={45} color="black"/>
+            <TouchableOpacity onPress={() => navigation.goBack() } style={{flex:1, paddingLeft:5}}>
+              <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
             <Text style={{fontSize:17, flex:1, position:'absolute'}}>Üyeler</Text> 
         </View>
 
-        <ScrollView style={{backgroundColor:'rgba(240,242,245,1)', flex:1}}>
+        <ScrollView style={{backgroundColor:'rgba(240,242,245,1)'}}>
           
-          <UserSearchItem name="ersel"/>
-          <UserSearchItem name="celal"/>
-          <UserSearchItem name="eren"/>
+          <UserSearchItem name={'name1'}/>
+          <UserSearchItem name={'name2'}/>
+          <UserSearchItem name={'name3'}/>
         
         </ScrollView>
-
-
-
-
-      
 
       </View>
 

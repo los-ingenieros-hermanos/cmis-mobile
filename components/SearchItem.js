@@ -10,11 +10,14 @@ const getWidth = () => Dimensions.get('window').width;
 
 
 
-export default function SearchItem() {
+export default function SearchItem({name}) {
   const navigation = useNavigation();
+  
+
+  
   return (
     <TouchableOpacity
-    onPress={() => this.props.rootNavigation.navigation.navigate('Test')}> 
+    onPress={() => console.log(name)}> 
 
     <View style={{backgroundColor:'white', height:50, width:(getWidth()*0.95), flexDirection:'row', 
       marginVertical:5, paddingLeft:10, paddingRight:10,

@@ -17,7 +17,7 @@ export default function ProfileScreen({navigation}) {
   return (
       <View style={{flex:1}}>
               <TopBar navigation={navigation}/>
-              <ScrollView style={{ flex:1, backgroundColor:'rgba(240,242,245,1)'}}> 
+              <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)', marginBottom:62}}> 
               
           
               <View style={{width:'100%', height:'10%'}}> 
@@ -80,12 +80,13 @@ export default function ProfileScreen({navigation}) {
                     <View style={{backgroundColor:'rgba(217,217,217,1)', height:'40%', width:'15%', borderRadius:10, marginRight:5}}></View>
                 </View>
               </View>
-
-                  <View style={{top:'-2%'}}> 
-                    <Post />
-                  </View>
+                  
+                    <View style={{top:'-2%', flex:1}}> 
+                      <Post />
+                    </View>
+                
               </ScrollView>
-              </View>
+        </View>
      
   );
 }

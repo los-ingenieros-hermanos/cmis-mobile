@@ -14,10 +14,10 @@ export default function SearchScreen({route}) {
         
 
         <ScrollView>
-          <SearchItem />
-          <SearchItem />
-          <SearchItem />
-          <SearchItem />
+          <SearchItem name={'name1'}/>
+          <SearchItem name={'name2'}/>
+          <SearchItem name={'name3'}/>
+          <SearchItem name={'name4'}/>
         </ScrollView>
 
     </View>
