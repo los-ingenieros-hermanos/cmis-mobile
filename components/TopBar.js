@@ -14,7 +14,7 @@ export default function TopBar({navigation}) {
 
     return (
        
-        <View style={{backgroundColor:"rgba(228,228,228,1)", height:65, flexDirection:'row', paddingBottom:1}}>
+        <View style={{backgroundColor:"rgba(228,228,228,1)", height:65, flexDirection:'row',marginTop:10 ,paddingBottom:1}}>
 
             <View style={{flex:2,backgroundColor:'white', alignItems:'stretch', flexDirection:'column', justifyContent:'center'}}> 
                 <TouchableOpacity onPress={() => navigation.openDrawer()} style={{alignSelf:'flex-start', left:width*0.015}}>
@@ -26,7 +26,7 @@ export default function TopBar({navigation}) {
                 <Text style={{fontSize:35, color:"rgba(84,70,115,1)", alignSelf:'center', letterSpacing:7.5} }> cmis </Text>
             </View>
         
-            <View style={{flex:2, backgroundColor:'yellow'}}>
+            <View style={{flex:2, backgroundColor:'white'}}>
                 <Text> IKON </Text>
             </View>
         </View>   

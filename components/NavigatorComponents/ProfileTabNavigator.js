@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Ideas from "../../Screens/DrawerScreens/IdeasScreen";
@@ -9,13 +8,14 @@ import Followed from "../../Screens/DrawerScreens/FollowedScreen";
 import Community from "../../Screens/DrawerScreens/CommunitiesScreen";
 import Bookmarked from "../../Screens/DrawerScreens/BookmarkedsScreen";
 import ProfileScreen from "../../Screens/TabScreens/ProfileScreen";
+import ProfileStackNavigator from "../../Screens/StackScreens/ProfileStackNavigator";
 
 const Drawer = createDrawerNavigator();
 
 export default function ProfileTabNavigator() {
   return (
     <Drawer.Navigator>
-              <Drawer.Screen name="Profil" component={ProfileScreen} options={{headerShown:false,
+              <Drawer.Screen name="Profil" component={ProfileStackNavigator} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
