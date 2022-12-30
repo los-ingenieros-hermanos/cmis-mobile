@@ -1,35 +1,37 @@
 import * as React from 'react';
-import { Animated, Dimensions, Text, View, BackHandler, Alert} from 'react-native';
+import {useState, useEffect, useRef} from 'react';
+import { Animated, Dimensions, Text, View, BackHandler, Alert, Keyboard } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Component, useState, useEffect, useCallback } from 'react';
+import { AntDesign, Octicons } from '@expo/vector-icons'; 
 
 import CalendarScreen from '../../Screens/TabScreens/CalendarScreen';
-import ProfileScreen from '../../Screens/TabScreens/ProfileScreen';
-
-import { AntDesign } from '@expo/vector-icons'; 
-import { useRef } from 'react';
-import { Octicons } from '@expo/vector-icons';
 import ProfilePicture from 'react-native-profile-picture';
-import { Keyboard } from 'react-native';
 import SearchNavigator from './SearchNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
 import ProfileTabNavigator from './ProfileTabNavigator';
 
-const Tab = createBottomTabNavigator();
+import { useSelector, useDispatch } from 'react-redux';
+import { changeTab } from '../../redux/actions/currentTabAction';
 
+const Tab = createBottomTabNavigator();
 
 export default function TabNavigator({navigation}) {
   
-  //const navigation = useNavigation();
+  const dispatch = useDispatch();
+ 
+  const name1 = useSelector((store) => store.tabName.tabName);
+ 
 
+  const handleChange = (nameOfCurrentTab) => {
+    dispatch(changeTab(nameOfCurrentTab));
+  };
+   
   const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
   const [opacityValue, setOpacityValue] = useState(1);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   
   var routeName = "Home";
-
-  const [searchText, setSearchText] = useState('');
 
   const handleSearch = () => {
     console.log("Button pressed");
@@ -50,7 +52,7 @@ export default function TabNavigator({navigation}) {
   }, []);
 
   handleBackButtonClick = () => {
-      
+      console.log("routeName: " + name1);
       if (routeName=="Home") {
         Alert.alert(
           'Exit App',
@@ -126,7 +128,8 @@ export default function TabNavigator({navigation}) {
             ),
           }} listeners={({ navigation, route}) => ({
             tabPress: e => { Animated.spring(tabOffsetValue, { toValue: getWidth()*0.025, useNativeDriver: true }).start();
-            routeName = route.name;}
+            routeName = route.name;
+            handleChange("Home");}
           })}>
         </Tab.Screen>
 
@@ -146,7 +149,8 @@ export default function TabNavigator({navigation}) {
           }} listeners={({ navigation, route }) => ({
             tabPress: e =>{ 
               Animated.spring(tabOffsetValue,{ toValue: getWidth()*0.27, useNativeDriver: true }).start();
-              routeName = route.name;} 
+              routeName = route.name;
+              handleChange("Search");} 
           })}>
         </Tab.Screen>
 
@@ -164,7 +168,8 @@ export default function TabNavigator({navigation}) {
             )
           }} listeners={({ navigation, route }) => ({
             tabPress: e => {Animated.spring(tabOffsetValue, {toValue: getWidth()*0.52, useNativeDriver: true}).start();
-            routeName = route.name;}
+            routeName = route.name;
+            handleChange("Calendar");}
           })}>
         </Tab.Screen>
 
@@ -183,7 +188,7 @@ export default function TabNavigator({navigation}) {
           }} listeners={({ navigation, route }) => ({
             tabPress: e => {Animated.spring(tabOffsetValue, { toValue: getWidth()*0.77, useNativeDriver: true}).start();
             routeName = route.name;
-            }
+            handleChange("Profile");}
           })}>
         </Tab.Screen>
         

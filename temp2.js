@@ -19,16 +19,16 @@ export default function ProfileScreen({navigation}) {
               <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)', marginBottom:62}}> 
               
           
-              <View style={{width:'100%', height:'10%'}}> 
+              <View style={{width:'100%', height:200}}> 
                 <Image style={{resizeMode:'cover', width:width, height:200, overflow:'hidden'}} source={require('../../storage/images/geekday.png')} />
               </View>
               
 
-              <View style={{flex:1}}> 
+              
                   
-                  <View style={{backgroundColor:'rgba(240,242,245,1)', flexDirection:'row', justifyContent:'space-between'}}> 
-                    <View style={{top:'-15%', left:25, flexDirection:'column'}}>
-                      <Image style={{borderWidth:7 ,borderColor:'rgba(240,242,245,1)',resizeMode:'cover', width:125, height:125,borderRadius:1000}} source={require('../../storage/images/pp_image.png')} />
+                  <View style={{backgroundColor:'rgba(240,242,245,1)', backgroundColor:'yellow',flexDirection:'row',justifyContent:'space-between'}}> 
+                    <View style={{top:'-15%', left:'10%', flexDirection:'column', alignItems:'center'}}>
+                      <Image style={{borderWidth:7 ,borderColor:'rgba(240,242,245,1)',resizeMode:'cover', width:120, height:120,borderRadius:1000}} source={require('../../storage/images/pp_image.png')} />
                       <Text style={{textAlign:'center',maxWidth:200,fontSize: RFValue(17, 580),color:'rgba(43,31,71,1)', fontWeight:'600'}}> GTÜ Bilgisayar Topluluğu</Text>
                     </View>
 
@@ -50,7 +50,7 @@ export default function ProfileScreen({navigation}) {
               
               
 
-                <View style={{top:'-10%',backgroundColor:'rgba(240,242,245,1)', height:30, flexDirection:'row', justifyContent:'space-evenly', marginHorizontal:5, flex:1}}>
+                <View style={{top:'-13%',backgroundColor:'rgba(240,242,245,1)',backgroundColor:'red' ,height:30, flexDirection:'row', justifyContent:'space-evenly', marginHorizontal:5, flex:1}}>
                     <TouchableOpacity onPress={() => navigation.navigate("Applications")} style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'30%'}}>
                       <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Başvurular</Text>
                     </TouchableOpacity>
@@ -68,10 +68,10 @@ export default function ProfileScreen({navigation}) {
                     </TouchableOpacity>
 
                 </View>
-              </View>
+              
               
 
-              <View style={{top:'-2%',shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5,marginBottom:10 ,backgroundColor:'white', height:'8%', borderRadius:10, width:'100%',marginTop:'2%'}}>
+              <View style={{ top:0,shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 ,backgroundColor:'white', height:'8%', borderRadius:10, width:'100%'}}>
                 <Text style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:16,fontWeight:'300' ,lineHeight:20, height:'65%', width:'85%'}}> Kulüp açıklaması. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in egestas erat, in aliquet metus. Praesent porta quis nunc eu elerisque. Sed id nulla venenatis tortor euismod imperdiet ac sed augue.</Text>
                 <View style={{height:'25%', flexDirection:'row', top:5, alignItems:'center'}}> 
                     <Text style={{marginLeft:'4%', color:'rgba(51,51,51,1)'}}> Etiketler: </Text>
@@ -80,7 +80,7 @@ export default function ProfileScreen({navigation}) {
                 </View>
               </View>
                   
-                    <View style={{top:'-2%', flex:1}}> 
+                    <View style={{top:'-2%'}}> 
                       <Post />
                     </View>
                 

@@ -38,21 +38,11 @@ const Post = () => {
       isEvent: false,
       isJoined: false,
     },
-    {
-      postTitle: "Celal Eren",
-      postPersonImage: require("../storage/images/profile1.jpg"),
-      postImage: require("../storage/images/post1.jpg"),
-      likes: 765,
-      isLiked: false,
-      isBookmarked: true,
-      isEvent: false,
-      isJoined: false,
-    }
   ];
 
   const [showView, setShowView] = useState(true);
   return (
-    <View style={{paddingBottom:300, backgroundColor:'red'}}>
+    <View style={{ paddingBottom:65}}>
       {postInfo.map((data, index) => {
         const [like, setLike] = useState(data.isLiked);
         const [bookmark, setBookmark] = useState(data.isBookmarked);
