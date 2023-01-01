@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Dimensions } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+// get dimensions of the screen
+const { width, height } = Dimensions.get("window");
+
+
 
 const Post = () => {
   const postInfo = [
@@ -137,7 +142,7 @@ const Post = () => {
                 style={{
                   paddingBottom: 5,
                   flexWrap: "wrap",
-                  width: "60%",
+                  width: width * 0.6,
                   backgroundColor: "rgba(84,70,115,1)",
                   flexDirection:'row',
                   alignItems:'center',
@@ -146,6 +151,7 @@ const Post = () => {
                   padding:5,
                   paddingLeft:10,
                   display: data.isEvent ? "flex" : "none",
+                  justifyContent:'center',
                 }}>
                 {<AntDesign name="calendar" size={24} color="white" marginRight={10}/>}
                 <Text style={{color: "white", textAlign: "center"}}>

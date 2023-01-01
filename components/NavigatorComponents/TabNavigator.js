@@ -14,24 +14,27 @@ import ProfileTabNavigator from './ProfileTabNavigator';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeTab } from '../../redux/actions/currentTabAction';
 
-const Tab = createBottomTabNavigator();
+
 
 export default function TabNavigator({navigation}) {
+  const Tab = createBottomTabNavigator();
+  const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
+  const [opacityValue, setOpacityValue] = useState(1);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   
+  var routeName = "Home";
+
   const dispatch = useDispatch();
  
   const name1 = useSelector((store) => store.tabName.tabName);
  
 
   const handleChange = (nameOfCurrentTab) => {
+    console.log("nameOfCurrentTab: " + nameOfCurrentTab);
     dispatch(changeTab(nameOfCurrentTab));
+    console.log("name1: " + name1);
   };
-   
-  const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
-  const [opacityValue, setOpacityValue] = useState(1);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  
-  var routeName = "Home";
+ 
 
   const handleSearch = () => {
     console.log("Button pressed");
@@ -51,9 +54,9 @@ export default function TabNavigator({navigation}) {
     return () => backHandler.remove();
   }, []);
 
-  handleBackButtonClick = () => {
-      console.log("routeName: " + name1);
-      if (routeName=="Home") {
+  const handleBackButtonClick = () => {
+      console.log("routeName1: " + name1);
+      if (name1=="Home") {
         Alert.alert(
           'Exit App',
           'Exiting the application?', [{
@@ -73,6 +76,23 @@ export default function TabNavigator({navigation}) {
         routeName = "Home";
       }
   };
+
+
+  // const handleBackButton = () => {
+  //   if (this.props.navigation.isFocused()) {
+  //     this.props.navigation.goBack();
+  //     return true;
+  //   }
+  //   if (this.props.navigation.state.routeName === 'Search' ||
+  //       this.props.navigation.state.routeName === 'Calendar' ||
+  //       this.props.navigation.state.routeName === 'Profile') {
+  //         Animated.spring(tabOffsetValue, { toValue: getWidth()*0.025, useNativeDriver: true }).start(() => {
+  //           this.props.navigation.navigate('Home');
+  //         });
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

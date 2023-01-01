@@ -1,15 +1,32 @@
-import { View, Text, Touchable, TouchableOpacity, ScrollView, Dimensions} from 'react-native'
+import { View, Text, Touchable, TouchableOpacity,BackHandler ,ScrollView, Dimensions} from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import TopBar from '../components/TopBar'
 import { Ionicons } from '@expo/vector-icons';
 import UserSearchItem from '../components/UserSearchItem';
-import { useState } from 'react';
 import UserApplicationItem from '../components/UserApplicationItem';
+import {useState, useEffect, useRef} from 'react';
 
 const { width, height } = Dimensions.get('window');
 export default function UserListScreen({navigation}) {
   
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+    };
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      handleBackButtonClick,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const handleBackButtonClick = () => {
+    console.log("BACK BUTTON CLICKED");
+   
+  };
+
   return (
     <View style={{backgroundColor:'white', flex:1}}>
       <TopBar navigation={navigation}/>
