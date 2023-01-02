@@ -8,6 +8,8 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Feather } from '@expo/vector-icons';
 import Post from '../../components/Post';
 import { Dimensions } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+
 const { width, height } = Dimensions.get('window');
 
 
@@ -57,8 +59,8 @@ export default function ProfileScreen({navigation}) {
                         <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Etkinlikler</Text>
                       </TouchableOpacity>
                       
-                      <TouchableOpacity style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'10%'}}>
-                      <Feather name="edit" size={RFValue(13, 580)} color="white" />
+                      <TouchableOpacity onPress={() => navigation.navigate("CreatePost")} style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'10%'}}>
+                        <AntDesign name="plus" size={22} color="white" />
                       </TouchableOpacity>
                   </View>
               

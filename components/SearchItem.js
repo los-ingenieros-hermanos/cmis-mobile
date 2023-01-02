@@ -10,14 +10,17 @@ const getWidth = () => Dimensions.get('window').width;
 
 
 
-export default function SearchItem({name}) {
-  const navigation = useNavigation();
+export default function SearchItem({name,navigation}) {
   
+  const handleClicked = () => {
+    console.log('clicked1');
+    navigation.navigate("SearchedProfile");
+  };
 
   
   return (
     <TouchableOpacity
-    onPress={() => console.log(name)}> 
+    onPress={() => handleClicked()}> 
 
     <View style={{backgroundColor:'white', height:50, width:(getWidth()*0.95), flexDirection:'row', 
       marginVertical:5, paddingLeft:10, paddingRight:10,

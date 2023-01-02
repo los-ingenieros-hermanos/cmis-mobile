@@ -17,10 +17,17 @@ export default function UserSearchItem({name}) {
     
     const [followed, setFollowed] = useState(false);
     const [joined, setJoined] = useState(false);
+    const [backcolor, setBackcolor] = useState('white');
 
     const handleClicked = () => {
-        if(selected === true){setSelected(false);}
-        else{setSelected(true);}
+        if(selected === true){
+            setSelected(false);
+            setBackcolor('white');
+        }
+        else{
+            setSelected(true);
+            setBackcolor('rgba(208,210,242,0.2)');
+        }
     };
 
     const handleFollowButton = () => {
@@ -33,13 +40,17 @@ export default function UserSearchItem({name}) {
         else{setJoined(true);}
     };
 
+    const handleGoToProfileButton = () => {
+        console.log('Go to profile');
+    };
+
 
   
     return (
     <View>
             <TouchableOpacity onPress={() => handleClicked()} style={{flexDirection:'column'}}> 
 
-            <View style={{backgroundColor:'white', height:height*0.07, width:(width*0.95), flexDirection:'row', 
+            <View style={{backgroundColor: selected ? 'rgba(168,152,203,1)' : 'white', height:height*0.07, width:(width*0.95), flexDirection:'row', 
                 marginVertical:5, paddingLeft:10, paddingRight:10,
                 alignItems:'center',borderRadius:6, alignSelf:'flex-start',
                 borderColor:'rgba(208,210,242,0.2)',
@@ -51,7 +62,7 @@ export default function UserSearchItem({name}) {
                     <View style={{borderWidth:1, borderRadius:1000, borderColor:'rgba(208,210,242,0.2)'}}>
                         <ProfilePicture isPicture={true} requirePicture={require('../storage/topluluk.png')} shape='circle' width={35} height={35}/>
                     </View>
-                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5}}>GTÜ Topluluk Takım 1</Text>
+                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5, color: selected ? 'white' : 'black'}}>GTÜ Topluluk Takım 1</Text>
                 </View>     
                 
                 <View style={{flexDirection:'row'}}>
@@ -65,8 +76,15 @@ export default function UserSearchItem({name}) {
 
             {selected === true && (
                 <View style={{position:'relative',height:30, flexDirection:'row', justifyContent:'center'}}> 
+                    <TouchableOpacity onPress={() => handleGoToProfileButton()} style={{backgroundColor:'rgba(208,210,242,1)', marginHorizontal:'3%' ,width:'30%',borderRadius:5, justifyContent:'center'}}>
+                        <View >
+                            <Text style={{color:'rgba(84,70,115,1)', textAlign:'center'}}> Profili Görüntüle</Text>
+                        </View>
+                       
+                    </TouchableOpacity>
+
                     
-                    <TouchableOpacity onPress={() => handleFollowButton()} style={{backgroundColor:'rgba(208,210,242,1)', marginHorizontal:'3%' ,width:'30%',borderRadius:5, justifyContent:'center'}}>
+                    <TouchableOpacity onPress={() => handleFollowButton()} style={{backgroundColor:'rgba(208,210,242,1)', marginHorizontal:'3%' ,width:'25%',borderRadius:5, justifyContent:'center'}}>
                         {followed === true && (<View > 
                             <Text style={{color:'rgba(84,70,115,1)', textAlign:'center'}}> Takipten Çık</Text>
                         </View>)}
@@ -75,7 +93,7 @@ export default function UserSearchItem({name}) {
                         </View>)}                       
                     </TouchableOpacity>
                     
-                    {joined === false && (<TouchableOpacity onPress={() => handleJoinButton()} style={{backgroundColor:'rgba(84,70,115,1)',marginHorizontal:'3%', width:'30%',borderRadius:5, justifyContent:'center'}}>
+                    {joined === false && (<TouchableOpacity onPress={() => handleJoinButton()} style={{backgroundColor:'rgba(84,70,115,1)',marginHorizontal:'3%', width:'25%',borderRadius:5, justifyContent:'center'}}>
                             
                             <View > 
                                 <Text style={{color:'white', textAlign:'center'}}> Katıl</Text>
