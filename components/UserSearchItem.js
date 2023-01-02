@@ -22,7 +22,7 @@ export default function UserSearchItem({name}) {
     <View>
             <TouchableOpacity onPress={() => handleClicked()} style={{flexDirection:'column'}}> 
 
-            <View style={{backgroundColor:'white', height:height*0.07, width:(getWidth()*0.95), flexDirection:'row', 
+            <View style={{backgroundColor: selected ? 'rgba(195,183,223,1)' : 'white', height:height*0.07, width:(getWidth()*0.95), flexDirection:'row', 
                 marginVertical:5, paddingLeft:10, paddingRight:10,
                 alignItems:'center',borderRadius:6, alignSelf:'flex-start',
                 borderColor:'rgba(208,210,242,0.2)',
@@ -32,7 +32,7 @@ export default function UserSearchItem({name}) {
                 
                 <View style={{ flexDirection:'row', width:'95%', alignItems:'center'}}>
                     <ProfilePicture isPicture={true} requirePicture={require('../storage/images/pp_image.png')} shape='circle' width={35} height={35}/>
-                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5}}>Ersel Celal Eren</Text>
+                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5, color:selected ? 'white' : 'black'}}>Ersel Celal Eren</Text>
                 </View>     
             </View>
 

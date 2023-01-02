@@ -5,6 +5,7 @@ import TopBar from '../../components/TopBar'
 import { Ionicons } from '@expo/vector-icons';
 import CommunityItem from '../../components/CommunityItem';
 import { useState } from 'react';
+import BookmarkedItem from '../../components/BookmarkedItem';
 const { width, height } = Dimensions.get('window');
 
 
@@ -16,17 +17,17 @@ export default function UserListScreen({navigation}) {
       
       <View style={{backgroundColor:'rgba(240,242,245,1)',flex:1, alignItems:'center'}}> 
         <View style={{backgroundColor:'white', height:height*0.07,flexDirection:'row', alignItems:'center', justifyContent:'center'}}> 
-            <TouchableOpacity onPress={() => /*navigation.reset({ index: 0, routes: [{ name: 'Profile' }],})*/ navigation.goBack() } style={{flex:1, paddingLeft:5}}>
+            <TouchableOpacity onPress={() => navigation.goBack() } style={{flex:1, paddingLeft:5}}>
               <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
-            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Takımlar</Text> 
+            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Kaydedilenler</Text> 
         </View>
 
         <ScrollView style={{backgroundColor:'rgba(240,242,245,1)'}}>
           
-          <CommunityItem name={'name1'}/>
-          <CommunityItem name={'name2'}/>
-          <CommunityItem name={'name3'}/>
+          <BookmarkedItem />
+          <BookmarkedItem />
+          <BookmarkedItem />
         
         </ScrollView>
 

@@ -6,9 +6,12 @@ import Ideas from "../../Screens/DrawerScreens/IdeasScreen";
 import Setting from "../../Screens/DrawerScreens/SettingScreen";
 import General from "../../Screens/DrawerScreens/GeneralScreen";
 import Followed from "../../Screens/DrawerScreens/FollowedScreen";
-import Community from "../../Screens/DrawerScreens/CommunitiesScreen";
-import Bookmarked from "../../Screens/DrawerScreens/BookmarkedsScreen";
+
 import HomeScreen from "../../Screens/TabScreens/HomeScreen";
+
+import Bookmarkeds from "../../Screens/StackScreens/BookmarkedsListScreen";
+import Community from "../../Screens/StackScreens/CommunitiesListScreen";
+import BookmarkedNavigator from "./BookmarkedNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -52,7 +55,7 @@ export default function HomeTabNavigator() {
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
                                                                           drawerActiveTintColor:'black',}} />
               
-              <Drawer.Screen name="Kaydedilenler" component={Bookmarked} options={{headerShown:false,
+              <Drawer.Screen name="Kaydedilenler" component={BookmarkedNavigator} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',

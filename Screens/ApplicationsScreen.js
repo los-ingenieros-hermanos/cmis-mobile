@@ -36,7 +36,7 @@ export default function UserListScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.goBack() } style={{flex:1, paddingLeft:5}}>
               <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
-            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Üyeler</Text> 
+            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Başvurular</Text> 
         </View>
 
         <ScrollView style={{backgroundColor:'rgba(240,242,245,1)'}}>

@@ -22,7 +22,7 @@ export default function UserApplicationItem({name}) {
     <View>
             <TouchableOpacity onPress={() => handleClicked()} style={{flexDirection:'column'}}> 
 
-            <View style={{backgroundColor:'white', height:50, width:(getWidth()*0.95), flexDirection:'row', 
+            <View style={{backgroundColor: selected ? 'rgba(195,183,223,1)' : 'white', height:50, width:(getWidth()*0.95), flexDirection:'row', 
                 marginVertical:5, paddingLeft:10, paddingRight:10,
                 alignItems:'center',borderRadius:6, alignSelf:'flex-start',borderColor:'rgba(208,210,242,0.2)',
                 borderTopWidth:0, borderLeftWidth:0, borderRightWidth:0,
@@ -30,7 +30,7 @@ export default function UserApplicationItem({name}) {
                 
                 <View style={{ flexDirection:'row', width:'95%', alignItems:'center'}}>
                     <ProfilePicture isPicture={true} requirePicture={require('../storage/images/pp_image.png')} shape='circle' width={35} height={35}/>
-                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5}}>Ersel Celal Eren</Text>
+                    <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5, color:selected ? 'white' : 'black',}}>Ersel Celal Eren</Text>
                 </View>     
             </View>
 

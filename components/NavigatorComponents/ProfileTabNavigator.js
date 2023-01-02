@@ -5,10 +5,12 @@ import Ideas from "../../Screens/DrawerScreens/IdeasScreen";
 import Setting from "../../Screens/DrawerScreens/SettingScreen";
 import General from "../../Screens/DrawerScreens/GeneralScreen";
 import Followed from "../../Screens/DrawerScreens/FollowedScreen";
-import Community from "../../Screens/StackScreens/CommunitiesListScreen";
 import Bookmarked from "../../Screens/DrawerScreens/BookmarkedsScreen";
-import ProfileScreen from "../../Screens/TabScreens/ProfileScreen";
 import ProfileStackNavigator from "./ProfileStackNavigator";
+
+
+import BookmarkedsListScreen from "../../Screens/StackScreens/BookmarkedsListScreen";
+import Community from "../../Screens/StackScreens/CommunitiesListScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -52,30 +54,6 @@ export default function ProfileTabNavigator() {
       />
 
       <Drawer.Screen
-        name="Genel"
-        component={General}
-        options={{
-          headerShown: false,
-          drawerStyle: [{ backgroundColor: "rgba(84,70,115,1)" }],
-          drawerInactiveTintColor: "rgba(208,210,242,1)",
-          drawerActiveBackgroundColor: "rgba(208,210,242,1)",
-          drawerActiveTintColor: "black",
-        }}
-      />
-
-      <Drawer.Screen
-        name="Takip Ettiklerim"
-        component={Followed}
-        options={{
-          headerShown: false,
-          drawerStyle: [{ backgroundColor: "rgba(84,70,115,1)" }],
-          drawerInactiveTintColor: "rgba(208,210,242,1)",
-          drawerActiveBackgroundColor: "rgba(208,210,242,1)",
-          drawerActiveTintColor: "black",
-        }}
-      />
-
-      <Drawer.Screen
         name="Topluluk/Takımlar"
         component={Community}
         options={{
@@ -89,7 +67,7 @@ export default function ProfileTabNavigator() {
 
       <Drawer.Screen
         name="Kaydedilenler"
-        component={Bookmarked}
+        component={BookmarkedsListScreen}
         options={{
           headerShown: false,
           drawerStyle: [{ backgroundColor: "rgba(84,70,115,1)" }],
