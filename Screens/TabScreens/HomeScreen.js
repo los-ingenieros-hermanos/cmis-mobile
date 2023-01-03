@@ -5,26 +5,23 @@ import TopBar from '../../components/TopBar';
 import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTab } from '../../redux/actions/currentTabAction';
 
 
 export default function HomePage({navigation}) {
    
   const name1 = useSelector((store) => store.tabName.tabName);
- 
+  const IDTest = useSelector((store) => store.userID.userID);
 
   const test = () => {
-    console.log("TESTESTEST : " + name1);
+    console.log("IDTest1 : "+IDTest);
   };
 
-  // Call the handleChange function inside the componentDidMount lifecycle method
-  useEffect(() => {
-    test();
-  }, [name1]);
-  
+  test();
+
   return (
     
       <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="dark-content" backgroundColor="white"/>
           <TopBar navigation={navigation}/>
           <ScrollView style={styles.scrollView}>  
             <Post />

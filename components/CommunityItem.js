@@ -99,7 +99,7 @@ export default function UserSearchItem({name}) {
                                 <Text style={{color:'white', textAlign:'center'}}> Katıl</Text>
                             </View> 
                     </TouchableOpacity>)}
-                    {joined === true && (<TouchableOpacity onPress={() => handleJoinButton()} style={{backgroundColor:'rgba(187,58,58,1)',marginHorizontal:'3%', width:'30%',borderRadius:5, justifyContent:'center'}}>
+                    {joined === true && (<TouchableOpacity onPress={() => handleJoinButton()} style={{backgroundColor:'rgba(187,58,58,1)',marginHorizontal:'3%', width:'25%',borderRadius:5, justifyContent:'center'}}>
 
                             <View >
                                 <Text style={{color:'white', textAlign:'center'}}> Ayrıl</Text>

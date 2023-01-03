@@ -20,6 +20,7 @@ function App() {
          <Stack.Screen name="Login" component={LoginScreen} />
          <Stack.Screen name="Register" /*options={{title: 'Register'}}*/ component={RegisterScreen} />
          <Stack.Screen name="Main" component={TabNavigator} />
+         <Stack.Screen name="Test" component={TestScreen} />
        </Stack.Navigator>
 
      </NavigationContainer>

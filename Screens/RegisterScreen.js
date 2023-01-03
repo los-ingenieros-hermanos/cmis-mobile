@@ -63,55 +63,63 @@ export default function RegisterScreen({ navigation }){
     _onRegisterButton= async () => {
       //Topluluk ise firstName olarak gönder,
       //Öğrenci ise fistName LastName böl 
-      if(role=="student"){
-        if(password1!=password2){
+      console.log("Role :" + role);
+      console.log("FirstName :" + firstName);
+      console.log("LastName : "+ lastName);
+      console.log("Email : " + email);
+      console.log("PW1 : "+password1);
+      console.log("PW2 : "+password2);
+      
+      if(password1!=password2){
           alert("Girdiğiniz şifreler farklı");
           return;
-        }
-        const res = await fetch('http://192.168.1.35:8070/api/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ "firstName": firstName,
-          "lastName" : lastName,
-          "email": email,
-          "password": password1,
-          "role": ["student"] }),
-        });
-        if (res.ok) {
-          alert('Kayıt Olundu');
-          const data = await res.json();
-          console.log(data);
-          return data;
-        }
-        else{
-          alert('Kayıt Başarısız');
-        }
-        console.log(res);  
       }
-      else if(role=="community"){
-        setRole("community");
-        const res = await fetch('http://192.168.1.35:8070/api/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ "firstName": firstName,
-          "email": email,
-          "password": password1,
-          "role": ["community"] }),
-        });
-        if (res.ok) {
-          alert('You are registered');
-          const data = await res.json();
-          console.log(data);
-          return data;
-        }
-        else{
-          alert('Kayıt Başarısız');
-        }
-        
+      else{
+
+          if(role=="student"){
+            const res = await fetch('https://cmisbackend.azurewebsites.net/api/auth/signup', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({"firstName": firstName,
+                                    "lastName" : lastName,
+                                    "email": email,
+                                    "password": password1,
+                                    "role": ["student"] }),
+            });
+              if (res.ok) {
+                alert('Kayıt Olundu');
+                const data = await res.json();
+                console.log(data);
+                return data;
+              }
+              else{
+                alert('Kayıt Başarısız');
+              }
+              console.log(res);  
+          }
+          else if(role=="community"){
+            setRole("community");
+            const res = await fetch('https://cmisbackend.azurewebsites.net/api/auth/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ "firstName": firstName,
+              "email": email,
+              "password": password1,
+              "role": ["community"] }),
+            });
+            if (res.ok) {
+              alert('Kayıt Olundu');
+              const data = await res.json();
+              console.log(data);
+              return data;
+            }
+            else{
+              alert('Kayıt Başarısız');
+            }
+            
+          }
       }
 
       // try {
@@ -236,7 +244,7 @@ export default function RegisterScreen({ navigation }){
               width={20} 
               style={RegisterScreenStyles.atsignLogin}  
               />
-              <TextInput onChangeText={newText => setFirstName(newText)} placeholder={placeholder2Text} placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={RegisterScreenStyles.textinput} />              
+              <TextInput onChangeText={newText => setLastName(newText)} placeholder={placeholder2Text} placeholderTextColor='rgba(165,165,165,1)' cursorColor={'rgba(84,70,115,1)'} style={RegisterScreenStyles.textinput} />              
           </View>
 
           <View style={{flexDirection:'row'}}>

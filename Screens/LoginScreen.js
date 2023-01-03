@@ -1,38 +1,38 @@
 import { StatusBar } from "expo-status-bar";
 import LoginScreenStyles from "../Style/LoginScreenStyles";
-import {StyleSheet,Text,Button,View,Dimensions,Pressable,TextInput,TouchableNativeFeedback,Alert,ImageBackground,TouchableHighlight,TouchableOpacity} from "react-native";
-import React, { Component, useState, useEffect } from "react";
+import {Text,View,TextInput,TouchableNativeFeedback,Alert,TouchableHighlight} from "react-native";
+import React, {useState} from "react";
 import { Image } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setID } from '../redux/actions/userIDAction';
 
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
 };
 
-const baseUrl = "localhost:8070";
+const baseUrl = "https://cmisbackend.azurewebsites.net/";
 
 export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const ID1 = useSelector((store) => store.userID.userID);
+  
   const [studentSelection, setstudentSelection] = useState("rgba(84,70,115,1)");
   const [communitySelection, setcommunitySelection] = useState("transparent");
-  const [studentIcon, setStudentIcon] = useState(
-    require("../assets/icons/student_selected.png")
-  );
-  const [communityIcon, setCommunityIcon] = useState(
-    require("../assets/icons/community_notselected.png")
-  );
-
-  const [StudentTextColor, setStudentTextColor] = useState(
-    LoginScreenStyles.setColorGray
-  );
-  const [CommunityTextColor, setCommunityTextColor] = useState(
-    LoginScreenStyles.setColorGray
-  );
+  const [studentIcon, setStudentIcon] = useState(require("../assets/icons/student_selected.png"));
+  const [communityIcon, setCommunityIcon] = useState(require("../assets/icons/community_notselected.png"));
+  const [StudentTextColor, setStudentTextColor] = useState(LoginScreenStyles.setColorGray);
+  const [CommunityTextColor, setCommunityTextColor] = useState(LoginScreenStyles.setColorGray);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [id, setId] = useState("");
 
-  _onStudentButton = () => {
+
+  handleID = () => {
+    console.log("HANDLE ID INSIDE");
+    dispatch(setID(id));
+  };
+
+  const _onStudentButton = () => {
     setStudentIcon(require("../assets/icons/student_selected.png"));
     setCommunityIcon(require("../assets/icons/community_notselected.png"));
     setcommunitySelection("transparent");
@@ -41,7 +41,7 @@ export default function LoginScreen({ navigation }) {
     setCommunityTextColor(LoginScreenStyles.setColorGray);
   };
 
-  _onCommunityButton = () => {
+  const _onCommunityButton = () => {
     setCommunityIcon(require("../assets/icons/community_selected.png"));
     setStudentIcon(require("../assets/icons/student_notselected.png"));
     setstudentSelection("transparent");
@@ -50,8 +50,18 @@ export default function LoginScreen({ navigation }) {
     setStudentTextColor(LoginScreenStyles.setColorGray);
   };
 
+
+  _printStates = () => {
+    console.log("email : "+email);
+    console.log("password : "+password);
+    console.log("id : "+id);
+    console.log("ID1 : "+ID1);
+    
+
+  };
+
   _onLoginButton = async () => {
-    const res = await fetch("http://192.168.1.35:8070/api/auth/signin", {
+    const res = await fetch("https://cmisbackend.azurewebsites.net/api/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,15 +69,49 @@ export default function LoginScreen({ navigation }) {
       body: JSON.stringify({ email: email, password: password }),
     });
     if (res.ok) {
+      const data1 = await res.json();
+      
+      setId(data1.id);
+      handleID();
+      _printStates();
+      //navigate main page
       alert("Giriş Başarılı");
-      const data = await res.json();
-      navigation.push("Main");
+      navigation.navigate("Main");
+  
     } else {
+      //print response that returns from server
+      const c = await res.json();
+      console.log("->C : "+c);
+      alert(c.message);
+
       alert("Giriş Yapılamadı");
     }
   };
 
+  // _onLoginButton = async () => {
+  //   await fetch("https://cmisbackend.azurewebsites.net/api/auth/signin", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ email: email, password: password }),
+  //   }).then((response) => response.json())
+  //     .then((responseJson) => { 
+  //       setData(responseJson)
+  //       console.log("ersel")
+  //       console.log(data)
+  //       console.log("celal")
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+    
+  //   };
+
+
   return (
+    <>
+    <StatusBar barStyle="light-content" style="light" />
     <View style={LoginScreenStyles.container}>
       <View style={LoginScreenStyles.upperRectangle}>
         <Text style={LoginScreenStyles.AppName}> cmis </Text>
@@ -233,5 +277,6 @@ export default function LoginScreen({ navigation }) {
         </TouchableNativeFeedback>
       </View>
     </View>
+    </>
   );
 }

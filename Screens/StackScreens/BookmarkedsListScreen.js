@@ -9,7 +9,7 @@ import BookmarkedItem from '../../components/BookmarkedItem';
 const { width, height } = Dimensions.get('window');
 
 
-export default function UserListScreen({navigation}) {
+export default function BookmarkedListScreen({navigation}) {
   
   return (
     <View style={{backgroundColor:'white', flex:1}}>
