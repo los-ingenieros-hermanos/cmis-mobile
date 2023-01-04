@@ -19,7 +19,8 @@ const Post = () => {
   
   const id = useSelector((store) => store.userID.userID);
   const url1 = useSelector((store) => store.url.url);
-  let userObj;
+  const [userObj, setUserObj] = useState(null);
+
   useEffect(() => {
   
     console.log("--------------------");
@@ -30,7 +31,7 @@ const Post = () => {
           .then((responseJson) => {
             console.log(responseJson);
             let userStr = JSON.stringify(responseJson);
-            userObj = JSON.parse(userStr);
+            setUserObj(JSON.parse(userStr));
             console.log("==================================6");
             console.log(userObj);
             console.log("==================================7");
@@ -47,7 +48,7 @@ const Post = () => {
     console.log("==================================5");
     return;
   
-  }, []);
+  }, [userObj]);
 
 
   const postInfo = [
@@ -87,7 +88,7 @@ const Post = () => {
     <View style={{ paddingBottom:65, backgroundColor:'red'}}>
       {/* {getPosts()} */}
       
-      {/* {postInfo.map((data, index) => {
+      {postInfo.map((data, index) => {
         const [like, setLike] = useState(data.isLiked);
         const [bookmark, setBookmark] = useState(data.isBookmarked);
         const [join, setJoin] = useState(data.isJoined);
@@ -282,7 +283,7 @@ const Post = () => {
             
           </View>
         );
-      })} */}
+      })}
 
       
       
