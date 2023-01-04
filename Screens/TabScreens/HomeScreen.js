@@ -12,12 +12,6 @@ export default function HomePage({navigation}) {
   const name1 = useSelector((store) => store.tabName.tabName);
   const IDTest = useSelector((store) => store.userID.userID);
 
-  const test = () => {
-    console.log("IDTest1 : "+IDTest);
-  };
-
-  test();
-
   return (
     
       <SafeAreaView style={styles.container}>

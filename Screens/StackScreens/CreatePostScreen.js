@@ -1,14 +1,64 @@
-import { View, Text, TextInput, Dimensions, Button, Touchable, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, Dimensions, Button, Touchable, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useSelector, useDispatch } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
+const base64string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAkSURBVDhPY3jhY/ufGnjUIMJ41CDCeNQgwnjUIMJ42Bpk+x8AsVZtrnFMDcMAAAAASUVORK5CYII="
+
+
+const ImageOptions = {
+  title: 'select image', storageOptions: {skipBackup: true, path: 'images'},
+  maxWidth: 150, maxHeight: 150, chooseFromLibraryButtonTitle: 'Choose from gallery',
+};
+
 export default function CreatePostScreen({navigation}) {
     const [imageUri, setImageUri] = useState(null);
-    
+    const [image, setImage] = useState(null);
+    const [postTitle, setPostTitle] = useState("");
+    const [postContent, setPostContent] = useState("");
+    const [postImage, setPostImage] = useState("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAkSURBVDhPY3jhY/ufGnjUIMJ41CDCeNQgwnjUIMJ42Bpk+x8AsVZtrnFMDcMAAAAASUVORK5CYII=");
+    const url1 = useSelector((store) => store.url.url);
+    const id = useSelector((store) => store.userID.userID);
+    //console.log("______________________1");
+    //console.log(url1 +"/api/cmis/communities/" + id + "/posts");
+    //console.log("______________________2");
+
+    const createPost = () => {
+    fetch(url1 +"/api/cmis/communities/" + id + "/posts", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: postTitle, text: postContent, image: base64string, visibility: "PUBLIC" }),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    };
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    };
 
     return (
     <View>
@@ -29,13 +79,13 @@ export default function CreatePostScreen({navigation}) {
         </View>
         
         <View style={{backgroundColor:'white', height:height*0.08, alignItems:'center', justifyContent:'center'}}>    
-            <TextInput placeholder='Gönderi Başlığını Girin' style={{borderTopWidth:0,borderLeftWidth:0,fontSize: RFValue(13,580), 
+            <TextInput value={postTitle} onChangeText={text => setPostTitle(text)} placeholder='Gönderi Başlığını Girin' style={{borderTopWidth:0,borderLeftWidth:0,fontSize: RFValue(13,580), 
                                                             borderRightWidth:0,borderWidth:2,borderColor:'rgba(84,70,115,1)', 
                                                             height:30, width:width*0.90}}></TextInput>
         </View>
 
         <View style={{backgroundColor:'white', height:height*0.08, alignItems:'center', justifyContent:'center'}}> 
-            <TextInput multiline numberOfLines={null} placeholder='Gönderi Açıklamasını Girin' style={{borderTopWidth:0,borderLeftWidth:0, 
+            <TextInput value={postContent} onChangeText={text => setPostContent(text)} multiline numberOfLines={null} placeholder='Gönderi Açıklamasını Girin' style={{borderTopWidth:0,borderLeftWidth:0, 
                                                              borderRightWidth:0,borderWidth:2,
                                                              borderColor:'rgba(84,70,115,1)', 
                                                              width:width*0.90, fontSize: RFValue(13,580), backgroundColor:'white'}}>
@@ -44,24 +94,21 @@ export default function CreatePostScreen({navigation}) {
         
         
         
-        <View style={{alignItems: 'center', justifyContent: 'center' }}>
-      
-        <Button onPress={() =>
-                        ImagePicker.launchImageLibrary(
-                          {
-                            mediaType: 'photo',
-                            includeBase64: false,
-                            maxHeight: 200,
-                            maxWidth: 200,
-                          },
-                          (response) => {
-                            console.log(response);
-                            this.setState({resourcePath: response});
-                          },
-                        )
-                      }
-                title="Select Image"/>
-      
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={createPost} style={{borderWidth:2,borderColor:'rgba(84,70,115,1)',height:height*0.075, backgroundColor:'white', justifyContent:'center', borderRadius:5, top:10}}>
+         <View style={{width:width*0.3, alignItems:'center'}}> 
+              <Text style={{fontSize: RFValue(13,580), color:'rgba(84,70,115,1)'}}> Görüntü Ekle</Text>
+          </View>
+        </TouchableOpacity>
+        
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, top:20 }} />}
+
+      <Image
+        style={{width: 200, height: 200, top:20}}
+        source={{
+          uri: `data:${base64string}`,
+        }}
+      />
         </View>
 
       

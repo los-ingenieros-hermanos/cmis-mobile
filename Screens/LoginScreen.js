@@ -6,16 +6,19 @@ import { Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { setID } from '../redux/actions/userIDAction';
 
+import {s_updateBookmarks,s_updateEmail,s_updateEvents,s_updateID,s_updateImage,s_updateInterests,s_updateRole,s_updateFirstName,s_updateLastName} from '../redux/actions/studentDataAction';
+import {c_updateBanner,c_updateEmail,c_updateFirstName,c_updateFollowerCount,c_updateID,c_updateImage,c_updateMemberCount,c_updateRole,c_updateTags,c_updateUsername} from '../redux/actions/communityDataAction';
+
+
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
 };
 
-const baseUrl = "https://cmisbackend.azurewebsites.net/";
-
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   const ID1 = useSelector((store) => store.userID.userID);
-  
+  const url1 = useSelector((store) => store.url.url);
+
   const [studentSelection, setstudentSelection] = useState("rgba(84,70,115,1)");
   const [communitySelection, setcommunitySelection] = useState("transparent");
   const [studentIcon, setStudentIcon] = useState(require("../assets/icons/student_selected.png"));
@@ -25,13 +28,8 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [id, setId] = useState("");
-
-
-  handleID = () => {
-    console.log("HANDLE ID INSIDE");
-    dispatch(setID(id));
-  };
-
+  var id2;
+  var role = "ROLE_STUDENT";
   const _onStudentButton = () => {
     setStudentIcon(require("../assets/icons/student_selected.png"));
     setCommunityIcon(require("../assets/icons/community_notselected.png"));
@@ -50,64 +48,109 @@ export default function LoginScreen({ navigation }) {
     setStudentTextColor(LoginScreenStyles.setColorGray);
   };
 
+  function getData(){
+    console.log("ROLE IS : " + role);
 
-  _printStates = () => {
-    console.log("email : "+email);
-    console.log("password : "+password);
-    console.log("id : "+id);
-    console.log("ID1 : "+ID1);
-    
+    if(role=="ROLE_COMMUNITY"){
+      fetch(url1+'/api/cmis/communities/'+id2, {
+        method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          
+          console.log("2getData_____________" + responseJson.id);
+          console.log("3getData_____________" + responseJson.user.firstName);
+          console.log("4getData_____________" + responseJson.banner);
+          console.log("5getData_____________" + responseJson.user.email);
+          console.log("6getData_____________" + responseJson.followerCount);
+          console.log("7getData_____________" + responseJson.memberCount);
+          console.log("8getData_____________" + responseJson.tags[0]);
+          console.log("9getData_____________" + responseJson.image);
+          console.log("10getData_____________" + responseJson.user.username);
+          console.log("11getData_____________" + responseJson.user.roles[0].name);        
+          dispatch(c_updateID(responseJson.id));
+          dispatch(c_updateFirstName(responseJson.user.firstName));
+          dispatch(c_updateEmail(responseJson.user.email));
+          dispatch(c_updateRole(responseJson.user.roles[0].name));
+          dispatch(c_updateUsername(responseJson.user.username));
+          dispatch(c_updateFollowerCount(responseJson.followerCount));
+          dispatch(c_updateMemberCount(responseJson.memberCount));
+          dispatch(c_updateBanner(responseJson.banner));
+          dispatch(c_updateImage(responseJson.image));
+          dispatch(c_updateTags(responseJson.tags[0]));
 
-  };
-
-  _onLoginButton = async () => {
-    const res = await fetch("https://cmisbackend.azurewebsites.net/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    });
-    if (res.ok) {
-      const data1 = await res.json();
-      
-      setId(data1.id);
-      handleID();
-      _printStates();
-      //navigate main page
-      alert("Giriş Başarılı");
-      navigation.navigate("Main");
-  
-    } else {
-      //print response that returns from server
-      const c = await res.json();
-      console.log("->C : "+c);
-      alert(c.message);
-
-      alert("Giriş Yapılamadı");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     }
+    else if(role=="ROLE_STUDENT"){
+      fetch(url1 +'/api/cmis/students/'+id2, {
+      method: 'GET'
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+        //console.log("DATA 1 : "+ responseJson);
+        dispatch(s_updateID(responseJson.user.id));
+        dispatch(s_updateFirstName(responseJson.user.firstName));
+        dispatch(s_updateLastName(responseJson.user.lastName));
+        dispatch(s_updateEmail(responseJson.user.email));
+        dispatch(s_updateRole(responseJson.user.roles[0].name));
+        dispatch(s_updateImage(responseJson.image));
+        dispatch(s_updateBookmarks(responseJson.bookmarkedPosts));
+        dispatch(s_updateEvents(responseJson.events));
+        dispatch(s_updateInterests(responseJson.interests));
+        console.log("responseJson2 : "+responseJson.user.id);
+        console.log("responseJson3 : "+responseJson.user.firstName);
+        console.log("responseJson4 : "+responseJson.user.lastName);
+        console.log("responseJson5 : "+responseJson.user.roles[0].name);
+        console.log("responseJson6 : "+responseJson.image);
+        console.log("responseJson7 : "+responseJson.bookmarks);
+        console.log("responseJson8 : "+responseJson.events);
+        console.log("responseJson9 : "+responseJson.interests);
+        console.log("responseJson10 : "+responseJson.user.email);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  }
+
+
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  _onLoginButton = () => {
+      console.log("INSIDE LOGIN BUTTON");
+      console.log(url1);
+      fetch(url1 +"/api/auth/signin", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: "localcomm2@gtu.edu.tr", password: "localcomm2" }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          id2 = data.id;
+          role = data.roles[0];
+          console.log("ROLE IN LOGIN BUTTON : "+ role);
+          dispatch(setID(id2));
+          getData();
+          alert("Giriş Başarılı");
+          navigation.navigate("Main");
+        })
+        .catch((err) => {
+          console.log(err.message);
+          alert("Giriş Yapılamadı");
+        });
+        console.log("FLAG 1");
   };
-
-  // _onLoginButton = async () => {
-  //   await fetch("https://cmisbackend.azurewebsites.net/api/auth/signin", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email: email, password: password }),
-  //   }).then((response) => response.json())
-  //     .then((responseJson) => { 
-  //       setData(responseJson)
-  //       console.log("ersel")
-  //       console.log(data)
-  //       console.log("celal")
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-    
-  //   };
-
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  /**---------------------------- LOGIN BUTTON ---------------------------*/
+  
 
   return (
     <>

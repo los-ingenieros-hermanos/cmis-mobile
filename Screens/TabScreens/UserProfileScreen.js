@@ -6,41 +6,26 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Feather } from '@expo/vector-icons';
 import Post from '../../components/Post';
 import { Dimensions } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
-const ImageOptions = {
-  title: 'select image', storageOptions: {skipBackup: true, path: 'images'},
-  maxWidth: 150, maxHeight: 150, chooseFromLibraryButtonTitle: 'Choose from gallery',
-};
-
 export default function UserProfileScreen({navigation}) {
   
-  ImageUpload = () => {
-    console.log('UPLOADImage====')
-    ImagePicker.showImagePicker(ImageOptions, (response) => {
-        console.log('Image Response = ', response);
-        if (response.didCancel) {
-            console.log('User cancelled image picker');
-        } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-        } else {
-            const source = {filename: response.fileName, type: response.type, uri: response.fileSize};
-            const self = this;
-            const userId = '';
-            console.log('source', source)
+  const first = useSelector((store) => store.userData.firstname);
+  const last = useSelector((store) => store.userData.lastname);
 
-            let formData = new FormData();
-            formData.append("filename", source);
-
-            
-        }
-    });
+  handleName = () => {
+    console.log("First Name : "+first);
+    console.log("Last Name : "+last);
   };
-   
+
+  useEffect(() => {
+    handleName();
+  }, []);
+
+
   return (
       <View style={{flex:1}}>
               <TopBar navigation={navigation}/>
@@ -57,7 +42,9 @@ export default function UserProfileScreen({navigation}) {
                       </View>
 
                       <View style={{left:width*0.05}}>
-                         <Text style={{top:5,textAlign:'center',width:width*0.60,fontSize: RFValue(16, 580),color:'rgba(43,31,71,1)', fontWeight:'600'}}> Ersel Celal Eren</Text>
+                        <Text style={{top:5,textAlign:'center',width:width*0.60,fontSize: RFValue(16, 580),color:'rgba(43,31,71,1)', fontWeight:'600'}}> 
+                            {first + " "+ last}
+                        </Text>
                       </View>
 
 
@@ -80,7 +67,7 @@ export default function UserProfileScreen({navigation}) {
                         <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Etkinlikler</Text>
                       </TouchableOpacity>
                       
-                      <TouchableOpacity onPress={ImageUpload} style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'10%'}}>
+                      <TouchableOpacity style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'10%'}}>
                       <Feather name="edit" size={RFValue(13, 580)} color="white" />
                       </TouchableOpacity>
                   </View>

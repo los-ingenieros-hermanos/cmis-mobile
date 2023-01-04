@@ -77,7 +77,7 @@ export default function RegisterScreen({ navigation }){
       else{
 
           if(role=="student"){
-            const res = await fetch('https://cmisbackend.azurewebsites.net/api/auth/signup', {
+            const res = await fetch('http://192.168.1.35:8070/api/auth/signup', {
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({"firstName": firstName,
@@ -96,10 +96,10 @@ export default function RegisterScreen({ navigation }){
                 alert('Kayıt Başarısız');
               }
               console.log(res);  
-          }
+          } 
           else if(role=="community"){
             setRole("community");
-            const res = await fetch('https://cmisbackend.azurewebsites.net/api/auth/signup', {
+            const res = await fetch('http://192.168.1.35:8070/api/auth/signup', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

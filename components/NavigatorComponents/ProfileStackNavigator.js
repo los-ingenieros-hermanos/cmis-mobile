@@ -8,11 +8,37 @@ import UserListScreen from "../../Screens/UserListScreen";
 import ApplicationsScreen from "../../Screens/ApplicationsScreen";
 import CreatePostScreen from "../../Screens/StackScreens/CreatePostScreen";
 
-function App() {
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
+export default function ProfileStackNavigator() {
   const Stack = createNativeStackNavigator();
+  
+  const userRole = useSelector((store) => store.userData.role);
+  const [condition, setCondition] = React.useState(false);
+
+  handleScreen = () => {
+    console.log("USERROLE : "+userRole);
+
+    if(userRole == "ROLE_STUDENT"){
+      setCondition(true);
+      console.log("Student");
+    }else if(userRole == "ROLE_COMMUNITY"){
+      setCondition(false);
+      console.log("Community");
+    }
+    else{
+      console.log("Else");
+    }
+  };
+
+  useEffect(() => {
+    handleScreen();
+  }, []);
+
   return (
     <Stack.Navigator initialRouteName="Profile" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Profile" component={condition ? UserProfileScreen : ProfileScreen} />
       <Stack.Screen name="UserList" component={UserListScreen} />
       <Stack.Screen name="Applications" component={ApplicationsScreen} />
       <Stack.Screen name="CreatePost" component={CreatePostScreen} />
@@ -20,4 +46,3 @@ function App() {
   );
 }
 
-export default App;

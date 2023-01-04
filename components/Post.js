@@ -1,17 +1,55 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput, Dimensions } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, StyleSheet } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
+
+
+
 
 // get dimensions of the screen
 const { width, height } = Dimensions.get("window");
 
-
-
 const Post = () => {
+  
+  const id = useSelector((store) => store.userID.userID);
+  const url1 = useSelector((store) => store.url.url);
+  let userObj;
+  useEffect(() => {
+  
+    console.log("--------------------");
+    fetch(url1 +'/api/cmis/posts/', {
+        method: 'GET'
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            console.log(responseJson);
+            let userStr = JSON.stringify(responseJson);
+            userObj = JSON.parse(userStr);
+            console.log("==================================6");
+            console.log(userObj);
+            console.log("==================================7");
+
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+  }, []);
+
+  useEffect(() => {
+    console.log("==================================4");
+    console.log(userObj);
+    console.log("==================================5");
+    return;
+  
+  }, []);
+
+
   const postInfo = [
     {
       postTitle: "Ersel Eren",
@@ -45,10 +83,11 @@ const Post = () => {
     },
   ];
 
-  const [showView, setShowView] = useState(true);
   return (
-    <View style={{ paddingBottom:65}}>
-      {postInfo.map((data, index) => {
+    <View style={{ paddingBottom:65, backgroundColor:'red'}}>
+      {/* {getPosts()} */}
+      
+      {/* {postInfo.map((data, index) => {
         const [like, setLike] = useState(data.isLiked);
         const [bookmark, setBookmark] = useState(data.isBookmarked);
         const [join, setJoin] = useState(data.isJoined);
@@ -243,9 +282,34 @@ const Post = () => {
             
           </View>
         );
-      })}
+      })} */}
+
+      
+      
+    
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  postContainer: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  text: {
+    fontSize: 16,
+    marginVertical: 8,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    marginVertical: 8,
+  },
+});
 
 export default Post;
