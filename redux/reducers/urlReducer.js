@@ -1,6 +1,6 @@
 // redux/reducers/countReducer.js
 const initialState = {
-    url:"http://192.168.45.84:8070"
+    url:"http://192.168.1.35:8070"
   };
    
   export default (state = initialState, action) => {

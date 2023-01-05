@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-export default function HomePage({navigation}) {
+export default function HomeScreen({navigation}) {
    
   const name1 = useSelector((store) => store.tabName.tabName);
   const IDTest = useSelector((store) => store.userID.userID);

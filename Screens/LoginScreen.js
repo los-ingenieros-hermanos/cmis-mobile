@@ -4,8 +4,9 @@ import {Text,View,TextInput,TouchableNativeFeedback,Alert,TouchableHighlight} fr
 import React, {useState} from "react";
 import { Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { setID } from '../redux/actions/userIDAction';
-
+import { setID, setRole} from '../redux/actions/userIDAction';
+import {Font} from 'expo';
+import { useFonts } from 'expo-font';
 import {s_updateBookmarks,s_updateEmail,s_updateEvents,s_updateID,s_updateImage,s_updateInterests,s_updateRole,s_updateFirstName,s_updateLastName} from '../redux/actions/studentDataAction';
 import {c_updateBanner,c_updateEmail,c_updateFirstName,c_updateFollowerCount,c_updateID,c_updateImage,c_updateMemberCount,c_updateRole,c_updateTags,c_updateUsername} from '../redux/actions/communityDataAction';
 
@@ -30,6 +31,15 @@ export default function LoginScreen({ navigation }) {
   const [id, setId] = useState("");
   var id2;
   var role = "ROLE_STUDENT";
+  
+  const [fontsLoaded] = useFonts({
+    'Aldrich-Regular': require('../assets/fonts/Aldrich-Regular.ttf'),
+  });
+ 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   const _onStudentButton = () => {
     setStudentIcon(require("../assets/icons/student_selected.png"));
     setCommunityIcon(require("../assets/icons/community_notselected.png"));
@@ -65,7 +75,6 @@ export default function LoginScreen({ navigation }) {
           console.log("6getData_____________" + responseJson.followerCount);
           console.log("7getData_____________" + responseJson.memberCount);
           console.log("8getData_____________" + responseJson.tags[0]);
-          console.log("9getData_____________" + responseJson.image);
           console.log("10getData_____________" + responseJson.user.username);
           console.log("11getData_____________" + responseJson.user.roles[0].name);        
           dispatch(c_updateID(responseJson.id));
@@ -96,7 +105,6 @@ export default function LoginScreen({ navigation }) {
         dispatch(s_updateLastName(responseJson.user.lastName));
         dispatch(s_updateEmail(responseJson.user.email));
         dispatch(s_updateRole(responseJson.user.roles[0].name));
-        dispatch(s_updateImage(responseJson.image));
         dispatch(s_updateBookmarks(responseJson.bookmarkedPosts));
         dispatch(s_updateEvents(responseJson.events));
         dispatch(s_updateInterests(responseJson.interests));
@@ -137,6 +145,7 @@ export default function LoginScreen({ navigation }) {
           role = data.roles[0];
           console.log("ROLE IN LOGIN BUTTON : "+ role);
           dispatch(setID(id2));
+          dispatch(setRole(data.roles[0]));
           getData();
           alert("Giriş Başarılı");
           navigation.navigate("Main");
@@ -157,7 +166,7 @@ export default function LoginScreen({ navigation }) {
     <StatusBar barStyle="light-content" style="light" />
     <View style={LoginScreenStyles.container}>
       <View style={LoginScreenStyles.upperRectangle}>
-        <Text style={LoginScreenStyles.AppName}> cmis </Text>
+        <Text style={{color: 'white',fontWeight: '600',fontSize: 33,letterSpacing: 7.5,marginTop: '20%',alignSelf: 'center',fontFamily:"Aldrich-Regular"}}> cmis </Text>
       </View>
 
       <View style={LoginScreenStyles.StudentAndComm}>

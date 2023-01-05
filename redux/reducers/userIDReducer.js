@@ -1,6 +1,7 @@
 // redux/reducers/countReducer.js
 const initialState = {
-    userID:0
+    userID:0,
+    userRole:""
   };
    
   export default (state = initialState, action) => {
@@ -10,6 +11,11 @@ const initialState = {
           ...state,
           userID:action.payload,
         };
+      case 'SET_ROLE':
+          return {
+            ...state,
+            userRole:action.payload,
+          };  
       default:
         return state;
     }

@@ -1,12 +1,11 @@
-
 import { StatusBar } from 'expo-status-bar';
 import RegisterScreenStyles from '../Style/RegisterScreenStyles';
-import { StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight, ScrollView} from 'react-native';
+import {StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight, ScrollView} from 'react-native';
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import axios from 'axios';
+import { useFonts } from 'expo-font';
+
+const {width, height} = Dimensions.get('window');
 
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
@@ -32,6 +31,14 @@ export default function RegisterScreen({ navigation }){
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [role,setRole] = useState('student');
+
+    const [fontsLoaded] = useFonts({
+      'Aldrich-Regular': require('../assets/fonts/Aldrich-Regular.ttf'),
+    });
+   
+    if (!fontsLoaded) {
+      return null;
+    };
 
     _onStudentButton= () => {
       setStudentIcon(require("../assets/icons/student_selected.png"));
@@ -179,7 +186,7 @@ export default function RegisterScreen({ navigation }){
       <View style={RegisterScreenStyles.container}>
        
           <View style={RegisterScreenStyles.upperRectangle}>
-                <Text style={RegisterScreenStyles.AppName}> cmis </Text>
+                <Text style={{color: 'white',fontWeight: '600',fontSize: height*0.05,letterSpacing: 7.5,marginTop: height * 0.1,alignSelf: 'center',}}> cmis </Text>
           </View>
 
         

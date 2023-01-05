@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState, useEffect, useRef} from 'react';
-import { Animated, Dimensions, Text, View, BackHandler, Alert, Keyboard } from 'react-native';
+import { Animated, Dimensions, Text, View, BackHandler, Alert, Keyboard, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Octicons } from '@expo/vector-icons'; 
@@ -21,7 +21,27 @@ export default function TabNavigator({navigation}) {
   const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
   const [opacityValue, setOpacityValue] = useState(1);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  
+  const [imagex, setImagex] = useState("");
+  //const url1 = useSelector((store) => store.url.url);
+  const image1 = useSelector((store) => store.userData.image);
+  const image2 = useSelector((store) => store.communityData.image);
+  const role = useSelector((store) => store.userID.userRole);
+
+  useEffect(() => {
+    if(role=="ROLE_COMMUNITY"){
+      setImagex(image2);
+      console.log(">>>>>> IF ");
+    }
+    else if(role=="ROLE_STUDENT"){
+      setImagex(image1);
+      console.log(">>>>>>> ELSE IF");
+    }
+    else{
+      console.log(">>>>>>> ELSE");
+    }
+
+  }, []);
+
   var routeName = "Home";
 
   const dispatch = useDispatch();
@@ -53,6 +73,7 @@ export default function TabNavigator({navigation}) {
 
     return () => backHandler.remove();
   }, []);
+
 
   const handleBackButtonClick = () => {
       console.log("routeName1: " + name1);
@@ -202,7 +223,7 @@ export default function TabNavigator({navigation}) {
               ),
             tabBarIcon: ({ focused }) => (
               <View style={{ position: 'absolute'}}>
-                  <ProfilePicture isPicture={true} requirePicture={require('../../storage/images/pp_image.png')} shape='circle' width={35} height={35}/>
+                  <Image style={{width: 50, height: 50}} source={{uri: `${imagex}`}}/>
               </View>
             )
           }} listeners={({ navigation, route }) => ({

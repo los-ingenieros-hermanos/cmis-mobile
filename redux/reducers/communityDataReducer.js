@@ -4,7 +4,7 @@ const initialState = {
     firstname:"belirtilmedi",
     email:"belirtilmedi",
     id:-1,
-    image:null,
+    image:"",
     role:"belirtilmedi",
     tags:[],
     username:"belirtilmedi",
