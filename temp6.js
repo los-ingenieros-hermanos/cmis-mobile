@@ -1,5 +1,5 @@
 import { View, Text, Touchable, TouchableOpacity, ScrollView,Dimensions} from 'react-native'
-import React,{ useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import TopBar from '../../components/TopBar'
 import { Ionicons } from '@expo/vector-icons';
@@ -10,11 +10,10 @@ import { useSelector, useDispatch } from 'react-redux';
 const { width, height } = Dimensions.get('window');
 
 
-export default function CommunitiesListScreen({navigation}) {
+export default function UserListScreen({navigation}) {
   
-    const defaultPP = useSelector((store) => store.userID.userProfileImage);
-    const url1 = useSelector((store) => store.url.url);
-    const [communities, setCommunities] = useState(null);
+  const url1 = useSelector((store) => store.url.url);
+  const [communities, setCommunities] = useState(null);
 
   useEffect(() => {
     let communitiesJson;
@@ -26,7 +25,7 @@ export default function CommunitiesListScreen({navigation}) {
           communitiesJson = JSON.stringify(responseJson);
           setCommunities(JSON.parse(communitiesJson));
           console.log("================================== 01");
-          
+          console.log(JSON.parse(communitiesJson)[0].name);
 
           console.log("================================== 02");
       })
@@ -36,25 +35,33 @@ export default function CommunitiesListScreen({navigation}) {
 
   }, []);
 
+
   return (
     <View style={{backgroundColor:'white', flex:1}}>
       <TopBar navigation={navigation}/>
       
       <View style={{backgroundColor:'rgba(240,242,245,1)',flex:1, alignItems:'center'}}> 
         <View style={{backgroundColor:'white', height:height*0.07,flexDirection:'row', alignItems:'center', justifyContent:'center'}}> 
-            <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'HomePage' }],}) } style={{flex:1, paddingLeft:5}}>
+            <TouchableOpacity onPress={() => /*navigation.reset({ index: 0, routes: [{ name: 'Profile' }],})*/ navigation.goBack() } style={{flex:1, paddingLeft:5}}>
               <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
             <Text style={{fontSize:17, flex:1, position:'absolute'}}>Takımlar</Text> 
         </View>
 
-        <ScrollView  style={{backgroundColor:'rgba(240,242,245,1)'}}>
-        {communities && communities.map((data, index) => { return(
-          <View key={index}>
-            <CommunityItem data={data} nav={navigation}/>
-          </View>
-        );})} 
-        </ScrollView>
+        
+          {communities && communities.map((data,index) => {
+            return(
+            <View style={{height:height}}>
+              <ScrollView style={{backgroundColor:'rgba(240,242,245,1)'}}>
+                <CommunityItem commID={data.id}/>
+              </ScrollView>
+            </View>
+            );
+          })}
+
+          
+        
+        
 
       </View>
 

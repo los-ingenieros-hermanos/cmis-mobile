@@ -1,15 +1,14 @@
 // redux/reducers/countReducer.js
 const initialState = {
-    url:"http://192.168.1.35:8070"
-    //url:"https://cmis.azurewebsites.net",
+    navigation:null
   };
    
   export default (state = initialState, action) => {
     switch (action.type) {
-      case 'SET_URL':
+      case 'CUSTOM_NAVIGATION':
         return {
           ...state,
-          url:action.payload,
+          navigation:action.payload,
         };
       default:
         return state;

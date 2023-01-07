@@ -3,12 +3,12 @@ import LoginScreenStyles from "../Style/LoginScreenStyles";
 import {Text,View,TextInput,TouchableNativeFeedback,Alert,TouchableHighlight} from "react-native";
 import React, {useState} from "react";
 import { Image } from "react-native";
-import { useSelector, useDispatch } from 'react-redux';
-import { setID, setRole} from '../redux/actions/userIDAction';
-import {Font} from 'expo';
 import { useFonts } from 'expo-font';
-import {s_updateBookmarks,s_updateEmail,s_updateEvents,s_updateID,s_updateImage,s_updateInterests,s_updateRole,s_updateFirstName,s_updateLastName} from '../redux/actions/studentDataAction';
-import {c_updateBanner,c_updateEmail,c_updateFirstName,c_updateFollowerCount,c_updateID,c_updateImage,c_updateMemberCount,c_updateRole,c_updateTags,c_updateUsername} from '../redux/actions/communityDataAction';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { setID, setRole, setProfileImage} from '../redux/actions/userIDAction';
+import {s_updateBookmarks,s_updateEmail,s_updateEvents,s_updateID,s_updateImage,s_updateInterests,s_updateRole,s_updateFirstName,s_updateLastName, s_updateBanner} from '../redux/actions/studentDataAction';
+import {c_updateInfo,c_updateBanner,c_updateEmail,c_updateFirstName,c_updateFollowerCount,c_updateID,c_updateImage,c_updateMemberCount,c_updateRole,c_updateTags,c_updateUsername} from '../redux/actions/communityDataAction';
 
 
 _onForgotPasswordButton = () => {
@@ -68,15 +68,17 @@ export default function LoginScreen({ navigation }) {
         .then((response) => response.json())
         .then((responseJson) => {
           
-          console.log("2getData_____________" + responseJson.id);
-          console.log("3getData_____________" + responseJson.user.firstName);
-          console.log("4getData_____________" + responseJson.banner);
-          console.log("5getData_____________" + responseJson.user.email);
-          console.log("6getData_____________" + responseJson.followerCount);
-          console.log("7getData_____________" + responseJson.memberCount);
-          console.log("8getData_____________" + responseJson.tags[0]);
-          console.log("10getData_____________" + responseJson.user.username);
-          console.log("11getData_____________" + responseJson.user.roles[0].name);        
+          // console.log("2getData_____________" + responseJson.id);
+          // console.log("3getData_____________" + responseJson.user.firstName);
+          // console.log("4getData_____________" + responseJson.banner);
+          // console.log("5getData_____________" + responseJson.user.email);
+          // console.log("6getData_____________" + responseJson.followerCount);
+          // console.log("7getData_____________" + responseJson.memberCount);
+          // console.log("8getData_____________" + responseJson.tags[0]);
+          // console.log("10getData_____________" + responseJson.user.username);
+          // console.log("11getData_____________" + responseJson.user.roles[0].name);    
+          console.log("12getData_____________" + responseJson.image);  
+          //console.log("13getData_____________" + responseJson.info);  
           dispatch(c_updateID(responseJson.id));
           dispatch(c_updateFirstName(responseJson.user.firstName));
           dispatch(c_updateEmail(responseJson.user.email));
@@ -84,9 +86,15 @@ export default function LoginScreen({ navigation }) {
           dispatch(c_updateUsername(responseJson.user.username));
           dispatch(c_updateFollowerCount(responseJson.followerCount));
           dispatch(c_updateMemberCount(responseJson.memberCount));
-          dispatch(c_updateBanner(responseJson.banner));
-          dispatch(c_updateImage(responseJson.image));
           dispatch(c_updateTags(responseJson.tags[0]));
+          if(responseJson.banner!=null){dispatch(c_updateBanner(responseJson.banner));}
+          if(responseJson.info!=null){dispatch(c_updateInfo(responseJson.info));}
+          if(responseJson.image!=null){
+            dispatch(c_updateImage(responseJson.image));
+            dispatch(setProfileImage(responseJson.image));
+          }
+          
+          
 
       })
       .catch((error) => {
@@ -108,15 +116,22 @@ export default function LoginScreen({ navigation }) {
         dispatch(s_updateBookmarks(responseJson.bookmarkedPosts));
         dispatch(s_updateEvents(responseJson.events));
         dispatch(s_updateInterests(responseJson.interests));
-        console.log("responseJson2 : "+responseJson.user.id);
-        console.log("responseJson3 : "+responseJson.user.firstName);
-        console.log("responseJson4 : "+responseJson.user.lastName);
-        console.log("responseJson5 : "+responseJson.user.roles[0].name);
+        dispatch(s_updateImage(responseJson.image));
+        dispatch(s_updateBanner(responseJson.banner));
+        dispatch(setProfileImage(responseJson.image));
+        
         console.log("responseJson6 : "+responseJson.image);
-        console.log("responseJson7 : "+responseJson.bookmarks);
-        console.log("responseJson8 : "+responseJson.events);
-        console.log("responseJson9 : "+responseJson.interests);
-        console.log("responseJson10 : "+responseJson.user.email);
+        // let userStr = JSON.stringify(responseJson);
+        //  console.log("responseJson1 : "+ userStr);
+        // console.log("responseJson2 : "+responseJson.user.id);
+        // console.log("responseJson3 : "+responseJson.user.firstName);
+        // console.log("responseJson4 : "+responseJson.user.lastName);
+        // console.log("responseJson5 : "+responseJson.user.roles[0].name);
+        // 
+        // console.log("responseJson7 : "+responseJson.bookmarks);
+        // console.log("responseJson8 : "+responseJson.events);
+        // console.log("responseJson9 : "+responseJson.interests);
+        // console.log("responseJson10 : "+responseJson.user.email);
       })
       .catch((error) => {
         console.error(error);
@@ -129,25 +144,26 @@ export default function LoginScreen({ navigation }) {
   /**---------------------------- LOGIN BUTTON ---------------------------*/
   /**---------------------------- LOGIN BUTTON ---------------------------*/
   _onLoginButton = () => {
-      console.log("INSIDE LOGIN BUTTON");
-      console.log(url1);
+      // console.log("INSIDE LOGIN BUTTON");
+      // console.log(url1);
       fetch(url1 +"/api/auth/signin", {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: "localcomm2@gtu.edu.tr", password: "localcomm2" }),
+        body: JSON.stringify({ email: "testcomm1@gtu.edu.tr", password: "testcomm1" }),
         })
         .then((res) => res.json())
         .then((data) => {
+
           console.log(data);
           id2 = data.id;
           role = data.roles[0];
-          console.log("ROLE IN LOGIN BUTTON : "+ role);
+          //console.log("ROLE IN LOGIN BUTTON : "+ role);
           dispatch(setID(id2));
           dispatch(setRole(data.roles[0]));
           getData();
-          alert("Giriş Başarılı");
+          //alert("Giriş Başarılı");
           navigation.navigate("Main");
         })
         .catch((err) => {

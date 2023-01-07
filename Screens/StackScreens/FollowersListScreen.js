@@ -1,16 +1,15 @@
 import { View, Text, Touchable, TouchableOpacity, ScrollView,Dimensions, StatusBar} from 'react-native'
 import React from 'react'
 import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import TopBar from '../components/TopBar'
 import { Ionicons } from '@expo/vector-icons';
-import UserSearchItem from '../components/UserSearchItem';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import FollowerItem from '../../components/FollowerItem';
 
 const statusBarHeight = StatusBar.currentHeight;
 const { width, height } = Dimensions.get('window');
 
-export default function UserListScreen({navigation}) {
+export default function FollowersListScreen({navigation}) {
     const url1 = useSelector((store) => store.url.url);
     const [users, setUsers] = useState(null);
     const userID = useSelector((store) => store.userID.userID);
@@ -24,7 +23,7 @@ export default function UserListScreen({navigation}) {
   useFocusEffect(
     React.useCallback(() => {
     let usersJson;
-    fetch(url1 +'/api/cmis/communities/'+userID+"/members", {
+    fetch(url1 +'/api/cmis/communities/'+userID+"/followers", {
     method: 'GET'
     })
     .then((response) => response.json())
@@ -46,13 +45,13 @@ export default function UserListScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Profile' }],}) } style={{flex:1, paddingLeft:5}}>
               <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
-            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Üyeler</Text> 
+            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Takipçiler</Text> 
         </View>
 
         <ScrollView  style={{backgroundColor:'rgba(240,242,245,1)'}}>
         {users && users.map((data, index) => { return(
           <View key={index}>
-            <UserSearchItem data={data}/>
+            <FollowerItem data={data}/>
           </View>
         );})} 
         </ScrollView>

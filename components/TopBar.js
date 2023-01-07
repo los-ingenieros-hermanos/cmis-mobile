@@ -26,7 +26,7 @@ export default function TopBar({navigation}) {
     return (
        
         <View style={{backgroundColor:"rgba(228,228,228,1)", height:65, flexDirection:'row',paddingBottom:1,top:10}}>
-
+            <StatusBar barStyle="dark-content" backgroundColor="white"/>
             <View style={{flex:2,backgroundColor:'white', alignItems:'stretch', flexDirection:'column', justifyContent:'center'}}> 
                 <TouchableOpacity onPress={() => navigation.openDrawer()} style={{alignSelf:'flex-start', left:width*0.015, top:6}}>
                     <Ionicons name="menu-outline" size={50} color={'black'}></Ionicons>

@@ -6,48 +6,33 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Octicons } from '@expo/vector-icons'; 
 
 import CalendarScreen from '../../Screens/TabScreens/CalendarScreen';
-import ProfilePicture from 'react-native-profile-picture';
 import SearchNavigator from './SearchNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
-import ProfileTabNavigator from './ProfileTabNavigator';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { changeTab } from '../../redux/actions/currentTabAction';
+import ProfileStackNavigator from './ProfileStackNavigator';
 
+export default function TabNavigator() {
 
-
-export default function TabNavigator({navigation}) {
   const Tab = createBottomTabNavigator();
   const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
   const [opacityValue, setOpacityValue] = useState(1);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [imagex, setImagex] = useState("");
-  //const url1 = useSelector((store) => store.url.url);
-  const image1 = useSelector((store) => store.userData.image);
-  const image2 = useSelector((store) => store.communityData.image);
-  const role = useSelector((store) => store.userID.userRole);
+  const [userPP, setUserPP] = useState(useSelector((store) => store.userID.userProfileImage));
+  const dispatch = useDispatch();
+  const name1 = useSelector((store) => store.tabName.tabName);
+  const userRole = useSelector((store) => store.userID.userRole);
+  const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
 
   useEffect(() => {
-    if(role=="ROLE_COMMUNITY"){
-      setImagex(image2);
-      console.log(">>>>>> IF ");
-    }
-    else if(role=="ROLE_STUDENT"){
-      setImagex(image1);
-      console.log(">>>>>>> ELSE IF");
-    }
-    else{
-      console.log(">>>>>>> ELSE");
-    }
+    if(userRole=="ROLE_STUDENT"){
 
+    }
+    else if(userRole=="ROLE_COMMUNITY"){
+    
+    }
+  
   }, []);
-
-  var routeName = "Home";
-
-  const dispatch = useDispatch();
- 
-  const name1 = useSelector((store) => store.tabName.tabName);
- 
 
   const handleChange = (nameOfCurrentTab) => {
     console.log("nameOfCurrentTab: " + nameOfCurrentTab);
@@ -175,7 +160,7 @@ export default function TabNavigator({navigation}) {
         </Tab.Screen>
 
         
-        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} initialParams={{ handleSearch }} options={{
+        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} initialParams={{ handleSearch}} options={{
             tabBarLabel: ({ focused }) => (
                 <View style={{ position: 'absolute',}}>
                   <Text style={{color: focused ? "rgba(105,89,149,1)" : 'gray', fontSize: 10, fontWeight: 'bold'}}>Ara</Text>
@@ -215,7 +200,7 @@ export default function TabNavigator({navigation}) {
         </Tab.Screen>
 
 
-        <Tab.Screen name={"Profile"} component={ProfileTabNavigator} options={{
+        <Tab.Screen name={"Profile"} component={ProfileStackNavigator} options={{
             tabBarLabel: ({ focused }) => (
                 <View style={{ position: 'absolute',}}>
                   <Text style={{color: focused ? "rgba(105,89,149,1)" : 'gray', fontSize: 10, fontWeight: 'bold'}}>Profil</Text>
@@ -223,7 +208,7 @@ export default function TabNavigator({navigation}) {
               ),
             tabBarIcon: ({ focused }) => (
               <View style={{ position: 'absolute'}}>
-                  <Image style={{width: 50, height: 50}} source={{uri: `${imagex}`}}/>
+                  <Image style={{width: 35, height: 35, borderRadius:1000}} source={{uri: `${userPP ? userPP : defaultPP}`}}/>
               </View>
             )
           }} listeners={({ navigation, route }) => ({

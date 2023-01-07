@@ -1,23 +1,24 @@
 import { View, Text, Touchable, TouchableOpacity,Dimensions, Image} from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
-import ProfilePicture from 'react-native-profile-picture';
-import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import TopBar from './TopBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+
+
 const { width, height } = Dimensions.get('window');
 // get screen width
 const getWidth = () => Dimensions.get('window').width;
 
 
-export default function UserSearchItem({name}) {
-    const navigation = useNavigation();
+export default function UserSearchItem({data,nav,tr}) {
 
     const [selected, setSelected] = useState(false);
     const [backcolor, setBackcolor] = useState('white');
+    const url1 = useSelector((store) => store.url.url);
+    const userID = useSelector((store) => store.userID.userID);
+    const [refreshing, setRefreshing] = useState(false);
 
     const handleClicked = () => {
         if(selected === true){
@@ -32,16 +33,31 @@ export default function UserSearchItem({name}) {
     };
 
     const handleGoToPost = () => {
-        navigation.navigate('SinglePostScreen');
+        nav.navigate('SinglePostScreen', {data,tr});
     };
 
+    const handleBookmark = async () => {
+        console.log("Bookmark clicked");
+        await fetch(url1 +'/api/cmis/students/'+userID+"/bookmarkedPosts/"+data.id, {
+                method: 'DELETE',
+                headers: {
+                'Content-Type': 'application/json',
+        },})
+        
+        tr("");
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setSelected(false);
+      }, [])
+      );
 
 
   
     return (
     <View>
             <TouchableOpacity onPress={() => handleClicked()} style={{flexDirection:'column'}}> 
-
             <View style={{backgroundColor: selected ? 'rgba(168,152,203,1)' : 'white', height:height*0.11, width:(width*0.95), flexDirection:'row', 
                 marginVertical:5, paddingLeft:10, paddingRight:10,
                 alignItems:'center',borderRadius:6, alignSelf:'flex-start',
@@ -53,18 +69,16 @@ export default function UserSearchItem({name}) {
                 <View style={{ flexDirection:'row', width:width*0.90}}>
                     
                     <View style={{}}>
-                        <Image source={require('../storage/images/post1.jpg')} style={{width:70, height:70, borderRadius:10}}/>
+                        <Image source={{uri: `${data.image}`}} style={{ width: 70, height: 70, borderRadius: 10 }}/>
                     </View>
                     
                     <View>
-                        <Text style={{paddingLeft:10, fontSize:15, fontWeight:'500', letterSpacing:0.5, color: selected ? 'white' : 'black',}}>Post Title</Text>
+                        <Text style={{paddingLeft:10, fontSize:RFValue(13, 580), fontWeight:'500', letterSpacing:0.5, color: selected ? 'white' : 'black',}}>{data.title}</Text>
                             
                             <Text numberOfLines={3}  style={{color:'rgba(51,51,51,1)', color: selected ? 'white' : 'black',
                                                             fontSize:RFValue(10, 580),fontWeight:'300',
                                                             width:width*0.75, paddingLeft:10}}> 
-                                 Kulüp açıklaması. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                 Cras in egestas erat, in aliquet metus. Praesent porta quis nunc eu elerisque. 
-                                 Sed id nulla venenatis tortor euismod imperdiet ac sed augue.
+                                 {data.text}
                             </Text>
                     </View>  
 
@@ -85,7 +99,7 @@ export default function UserSearchItem({name}) {
                     
                     
                             
-                    <TouchableOpacity onPress={() => handleFollowButton()} style={{backgroundColor:'rgba(73,72,95,1)', marginHorizontal:'3%' ,width:width*0.4,borderRadius:5, justifyContent:'center'}}>
+                    <TouchableOpacity onPress={() => handleBookmark()} style={{backgroundColor:'rgba(73,72,95,1)', marginHorizontal:'3%' ,width:width*0.4,borderRadius:5, justifyContent:'center'}}>
                         <View > 
                             <Text style={{color:'white', textAlign:'center'}}> Kaydedilenlerden Çıkar</Text>
                         </View>                    

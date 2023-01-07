@@ -6,16 +6,18 @@ import Ideas from "../../Screens/DrawerScreens/IdeasScreen";
 import Setting from "../../Screens/DrawerScreens/SettingScreen";
 import General from "../../Screens/DrawerScreens/GeneralScreen";
 import Followed from "../../Screens/DrawerScreens/FollowedScreen";
-
 import HomeScreen from "../../Screens/TabScreens/HomeScreen";
-
-import Bookmarkeds from "../../Screens/StackScreens/BookmarkedsListScreen";
-import Community from "../../Screens/StackScreens/CommunitiesListScreen";
 import BookmarkedNavigator from "./BookmarkedNavigator";
+import CommunityListNavigator from "./CommunityListNavigator";
+import { useSelector, useDispatch } from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
 export default function HomeTabNavigator() {
+  
+  const userRole = useSelector((store) => store.userID.userRole);
+  
+  
   return (
     <Drawer.Navigator>
               <Drawer.Screen name="Home" component={HomeScreen} options={{headerShown:false,
@@ -36,30 +38,30 @@ export default function HomeTabNavigator() {
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
                                                                           drawerActiveTintColor:'black',}} />
-              
+              {userRole == "ROLE_STUDENT" &&
               <Drawer.Screen name="Genel" component={General} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
-                                                                          drawerActiveTintColor:'black',}}  />
-              
+                                                                          drawerActiveTintColor:'black',}}  />}
+              {userRole == "ROLE_STUDENT" &&
               <Drawer.Screen name="Takip Ettiklerim" component={Followed} options={{headerShown:false,
                                                                                     drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                                     drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                                     drawerActiveBackgroundColor:'rgba(208,210,242,1)',
-                                                                                    drawerActiveTintColor:'black',}}  />
+                                                                                    drawerActiveTintColor:'black',}}  />}
               
-              <Drawer.Screen name="Topluluk/Takımlar" component={Community} options={{headerShown:false,
+              <Drawer.Screen name="Topluluk/Takımlar" component={CommunityListNavigator} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
                                                                           drawerActiveTintColor:'black',}} />
-              
+              {userRole == "ROLE_STUDENT" && 
               <Drawer.Screen name="Kaydedilenler" component={BookmarkedNavigator} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
-                                                                          drawerActiveTintColor:'black',}}  />
+                                                                          drawerActiveTintColor:'black',}}  />}
     </Drawer.Navigator>
   )
 }

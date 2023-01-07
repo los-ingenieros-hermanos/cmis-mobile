@@ -5,14 +5,18 @@ import CurrentUserReducer from './reducers/userIDReducer';
 import StudentDataReducer from './reducers/studentDataReducer';
 import CommunityDataReducer from './reducers/communityDataReducer';
 import urlReducer from './reducers/urlReducer';
+import NavigationReducer from './reducers/navigationReducer';
+import DesiredProfileReducer from './reducers/desiredProfileReducer';
 
 const rootReducer = combineReducers({
   count1: CountReducer,
   tabName: CurrentTabReducer,
   userID: CurrentUserReducer,
-  userData: StudentDataReducer,
+  studentData: StudentDataReducer,
   communityData: CommunityDataReducer,
   url: urlReducer,
+  customNavigation: NavigationReducer,
+  desiredProfileID : DesiredProfileReducer
 });
  
 export const store = createStore(rootReducer);

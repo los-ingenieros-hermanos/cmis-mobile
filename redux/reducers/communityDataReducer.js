@@ -4,13 +4,14 @@ const initialState = {
     firstname:"belirtilmedi",
     email:"belirtilmedi",
     id:-1,
-    image:"",
+    image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=",
     role:"belirtilmedi",
     tags:[],
     username:"belirtilmedi",
-    banner:null,
+    banner:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=",
     followerCount:-1,
     memberCount:-1,
+    info:"Buraya profiliniz için bir açıklama yazabilirsiniz.",
   };
   
 
@@ -76,7 +77,12 @@ const initialState = {
             ...state,
             banner:action.payload,
         };
-
+        
+        case 'UPDATE_INFO':
+        return {
+            ...state,
+            info:action.payload,
+        };
         
 
 

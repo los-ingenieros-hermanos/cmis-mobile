@@ -10,11 +10,11 @@ import ProfileStackNavigator from "./ProfileStackNavigator";
 
 
 import BookmarkedsListScreen from "../../Screens/StackScreens/BookmarkedsListScreen";
-import Community from "../../Screens/StackScreens/CommunitiesListScreen";
+import CommunityListScreen from "../../Screens/StackScreens/CommunitiesListScreen";
 
 const Drawer = createDrawerNavigator();
 
-export default function ProfileTabNavigator() {
+export default function ProfileTabNavigator({navigation}) {
   return (
     <Drawer.Navigator>
       <Drawer.Screen
@@ -55,7 +55,8 @@ export default function ProfileTabNavigator() {
 
       <Drawer.Screen
         name="Topluluk/Takımlar"
-        component={Community}
+        component={CommunityListScreen}
+        initialParams={{navigation}}
         options={{
           headerShown: false,
           drawerStyle: [{ backgroundColor: "rgba(84,70,115,1)" }],

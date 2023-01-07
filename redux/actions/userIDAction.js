@@ -13,5 +13,16 @@ export const setRole = (role) => {
     };
   };
 
-  
-   
+export const setProfileImage = (image) => {
+    return {
+      type: 'SET_PROFILE_IMAGE',
+      payload:image
+    };
+  };  
+
+  export const setDefaultBanner = (banner) => {
+    return {
+      type: 'SET_BANNER_IMAGE',
+      payload:banner
+    };
+  }; 

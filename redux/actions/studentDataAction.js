@@ -62,6 +62,13 @@
         };
     }
 
+    export const s_updateBanner = (banner) => {
+        return {
+            type: 'UPDATE_BANNER',
+            payload:banner
+        };
+    }
+
 
 
 

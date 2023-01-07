@@ -5,9 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from 'react-native-elements';
-import ImgToBase64 from 'react-native-image-base64';
-import * as FileSystem from 'expo-file-system';
-
+import RNImageToBase64 from 'react-native-image-base64';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,9 +19,11 @@ const ImageOptions = {
 
 export default function CreatePostScreen({navigation}) {
     const [imageUri, setImageUri] = useState(null);
+    const [image, setImage] = useState(null);
     const [postTitle, setPostTitle] = useState("");
     const [postContent, setPostContent] = useState("");
     const [postImage, setPostImage] = useState("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAIAAAC6O5sJAAAAFElEQVQYlWP0nPCIARtgwio60BIAME0ByTXOoJcAAAAASUVORK5CYII=");
+    const [base64, setBase64] = React.useState("");
     const [isEvent, setIsEvent] = useState(false);
     const url1 = useSelector((store) => store.url.url);
     const id = useSelector((store) => store.userID.userID);
@@ -41,57 +41,33 @@ export default function CreatePostScreen({navigation}) {
     const [inputHour, setInputHour] = useState(currentHour);
     const [inputMinute, setInputMinute] = useState(currentMinute);
 
-    const [uri, setUri] = useState("");
-
-    async function getBase64String(uri) {
-      const file = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 }); 
-      return file;
-    }
-
+    
     const createPost = () => {
-       
-      // if it is event
-
-      if(isEvent == true){
-        fetch(url1 +"/api/cmis/communities/" + id + "/posts", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({date:{day: currentDay, month: currentMonth, year: currentYear, hour: currentHour, minute: currentMinute},
-                                image: imageUri,title: postTitle,text: postContent, visibility: 'public', 
-                                event:[{date: {year: inputYear, month: inputMonth,day: inputDay,hour: inputHour,minute: inputMinute,},},],}),})
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-      }
-
-      // if it is post
-      if(isEvent == false){
-        fetch(url1 +"/api/cmis/communities/" + id + "/posts", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title: postTitle, text: postContent, image: imageUri, visibility: "public", date:{day: currentDay, month: currentMonth, year: currentYear, hour: currentHour, minute: currentMinute}}),
-          })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-
-         
-
-      }
-      navigation.goBack();
+      console.log("PPPPPPPPPPPPP  1 ");
+      console.log(currentDate);
+      console.log(currentDay);
+      console.log(currentMonth);
+      console.log(currentYear);
+      console.log(currentHour);
+      console.log(currentMinute);
+      console.log("IMAGE : " + base64);
+      console.log("PPPPPPPPPPPPP  2 ");
       
+
+      // fetch(url1 +"/api/cmis/communities/" + id + "/posts", {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ title: postTitle, text: postContent, image: base64string, visibility: "public", date:{day: 7, month: 1, year: 2023}}),
+    //   })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
     };
 
     const handleCheckBox = () => {
@@ -105,9 +81,18 @@ export default function CreatePostScreen({navigation}) {
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-      });     
-        const base64String = await getBase64String(result.assets[0].uri);
-        setImageUri("data:image/png;base64,"+base64String);
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        const b64 = await convertToBase64(result.assets[0].uri);
+        console.log(b64);
+        setBase64(b64);
+
+
+      }
     };
 
     return (
@@ -165,7 +150,7 @@ export default function CreatePostScreen({navigation}) {
           <View style={{flexDirection:'row', marginTop:10, justifyContent:'center'}}> 
             <TextInput value={inputHour} onChangeText={text => setInputHour(text)} placeholder='Saat' style={{borderWidth:0.2, width:'20%', textAlign:'center', borderRadius:5, marginHorizontal:width*0.05}}>
             </TextInput>
-            <Text style={{fontSize:20}}>:</Text>
+
             <TextInput value={inputMinute} onChangeText={text => setInputMinute(text)} placeholder='Dakika' style={{borderWidth:0.2, width:'20%', textAlign:'center', borderRadius:5, marginHorizontal:width*0.05}}>
             </TextInput>
           </View>
@@ -179,7 +164,7 @@ export default function CreatePostScreen({navigation}) {
           </View>
         </TouchableOpacity>
         
-      {imageUri && <Image source={{ uri:imageUri}} style={{ width: width, height: 300}} />}
+      {image && <Image source={{ uri: image }} style={{ width: width, height: 300}} />}
 
         <TouchableOpacity onPress={createPost} style={{borderWidth:2,borderColor:'rgba(84,70,115,1)',height:height*0.05, backgroundColor:'white', justifyContent:'center', borderRadius:5, marginVertical:10}}>
          <View style={{width:width*0.4, alignItems:'center'}}> 

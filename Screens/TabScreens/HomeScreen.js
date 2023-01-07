@@ -9,16 +9,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function HomeScreen({navigation}) {
    
-  const name1 = useSelector((store) => store.tabName.tabName);
-  const IDTest = useSelector((store) => store.userID.userID);
-
   return (
     
       <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="dark-content" backgroundColor="white"/>
           <TopBar navigation={navigation}/>
           <ScrollView style={styles.scrollView}>  
-            <Post />
+            <Post id="-1"/>
           </ScrollView>
           
       </SafeAreaView>

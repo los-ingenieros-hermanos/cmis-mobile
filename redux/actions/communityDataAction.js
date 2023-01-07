@@ -70,6 +70,12 @@ export const c_updateMemberCount = (memberCount) => {
     };
 }
 
+export const c_updateInfo = (info) => {
+    return {
+        type: 'UPDATE_INFO',
+        payload:info
+    };
+}
 
 
 

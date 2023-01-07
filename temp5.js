@@ -1,4 +1,4 @@
-import {Dimensions, View, Text, TouchableOpacity,Modal, TextInput,Button } from 'react-native'
+import {Dimensions, View, Text, TouchableOpacity,Modal, TextInput } from 'react-native'
 import React, {useState} from 'react'
 import {StatusBar} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -38,35 +38,63 @@ export default function SettingScreen({navigation}) {
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5, borderBottomWidth:1, borderBottomColor:'rgba(84,70,115,1)'}}>
             <TouchableOpacity onPress={() => setModalVisible(true)} style={{flexDirection:'row'}}>
             <MaterialIcons name="lock" size={27} color="rgba(84,70,115,1)" />
-              <Text style={{left:10,color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Şifre Değiştir</Text>
+              <Text style={{color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Şifre Değiştir</Text>
             </TouchableOpacity>
           </View>
           
+          <View>
+          <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={{marginTop: 22}}>
+          <View>
+            <TextInput
+              placeholder="Enter some text"
+              onChangeText={text => setInputValue(text)}
+              onSubmitEditing={() => {
+                // Do something with the input value here
+                console.log(inputValue);
+              }}
+            />
+            <Button
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+              title="Close"
+            />
+          </View>
+        </View>
+      </Modal>
+          </View>
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5, borderBottomWidth:1, borderBottomColor:'rgba(84,70,115,1)'}}>
             <TouchableOpacity style={{flexDirection:'row'}}>
             <Ionicons name="person-circle" size={27} color="rgba(84,70,115,1)"/>
-              <Text style={{left:10,color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Profil Fotoğrafını Değiştir</Text>
+              <Text style={{color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Profil Fotoğrafını Değiştir</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5, borderBottomWidth:1, borderBottomColor:'rgba(84,70,115,1)'}}>
             <TouchableOpacity style={{flexDirection:'row'}}>
             <MaterialIcons name="image" size={27} color="rgba(84,70,115,1)" />
-              <Text style={{left:10,color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Kapak Fotoğrafını Değiştir</Text>
+              <Text style={{color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Kapak Fotoğrafını Değiştir</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5, borderBottomWidth:1, borderBottomColor:'rgba(84,70,115,1)'}}>
             <TouchableOpacity style={{flexDirection:'row'}}>
             <MaterialIcons name="info" size={27} color="rgba(84,70,115,1)" />
-              <Text style={{left:10,color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Profil Açıklamasını Değiştir</Text>
+              <Text style={{color:'rgba(84,70,115,1)', fontSize: RFValue(13,580)}}>Profil Açıklamasını Değiştir</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5}}>
             <TouchableOpacity style={{flexDirection:'row'}}>
             <MaterialIcons name="logout" size={27} color='rgba(187,58,58,1)' />
-              <Text style={{left:10,color:'rgba(187,58,58,1)', fontSize: RFValue(13,580)}}>Çıkış Yap</Text>
+              <Text style={{color:'rgba(187,58,58,1)', fontSize: RFValue(13,580)}}>Çıkış Yap</Text>
             </TouchableOpacity>
           </View>
       </View>
