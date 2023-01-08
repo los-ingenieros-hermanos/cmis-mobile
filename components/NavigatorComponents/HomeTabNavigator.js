@@ -14,7 +14,12 @@ import { useSelector, useDispatch } from 'react-redux';
 const Drawer = createDrawerNavigator();
 
 export default function HomeTabNavigator() {
-  
+  const [refresh, setRefresh] = React.useState(false);
+
+  const refreshPage = async () => {
+    setRefresh(!refresh);
+  };
+
   const userRole = useSelector((store) => store.userID.userRole);
   
   
@@ -33,7 +38,7 @@ export default function HomeTabNavigator() {
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',
                                                                           drawerActiveTintColor:'black',}} />
               
-              <Drawer.Screen name="Ayarlar" component={Setting} options={{headerShown:false,
+              <Drawer.Screen name="Ayarlar" component={Setting} initialParams={{refreshPage}} options={{headerShown:false,
                                                                           drawerStyle:[{backgroundColor:'rgba(84,70,115,1)'}],
                                                                           drawerInactiveTintColor:'rgba(208,210,242,1)',
                                                                           drawerActiveBackgroundColor:'rgba(208,210,242,1)',

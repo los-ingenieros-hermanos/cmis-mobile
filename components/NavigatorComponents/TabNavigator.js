@@ -4,7 +4,7 @@ import { Animated, Dimensions, Text, View, BackHandler, Alert, Keyboard, Image }
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Octicons } from '@expo/vector-icons'; 
-
+import { useFocusEffect } from '@react-navigation/native';
 import CalendarScreen from '../../Screens/TabScreens/CalendarScreen';
 import SearchNavigator from './SearchNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
@@ -18,18 +18,21 @@ export default function TabNavigator() {
   const tabOffsetValue = useRef(new Animated.Value(getWidth()*0.025)).current;
   const [opacityValue, setOpacityValue] = useState(1);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [userPP, setUserPP] = useState(useSelector((store) => store.userID.userProfileImage));
+  const [userPP, setUserPP] = useState("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=");
   const dispatch = useDispatch();
   const name1 = useSelector((store) => store.tabName.tabName);
   const userRole = useSelector((store) => store.userID.userRole);
-  const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
+
+  const commPP = useSelector((store) => store.communityData.image);
+  const studentPP = useSelector((store) => store.studentData.image);
+
 
   useEffect(() => {
     if(userRole=="ROLE_STUDENT"){
-
+      setUserPP(studentPP);
     }
     else if(userRole=="ROLE_COMMUNITY"){
-    
+      setUserPP(commPP);
     }
   
   }, []);
@@ -208,7 +211,7 @@ export default function TabNavigator() {
               ),
             tabBarIcon: ({ focused }) => (
               <View style={{ position: 'absolute'}}>
-                  <Image style={{width: 35, height: 35, borderRadius:1000}} source={{uri: `${userPP ? userPP : defaultPP}`}}/>
+                  <Image style={{width: 35, height: 35, borderRadius:1000}} source={{uri: userRole === 'ROLE_STUDENT' ? studentPP : commPP}}/>
               </View>
             )
           }} listeners={({ navigation, route }) => ({

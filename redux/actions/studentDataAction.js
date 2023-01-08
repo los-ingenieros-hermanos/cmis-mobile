@@ -1,4 +1,18 @@
 // redux/actions/countAction.js
+    export const s_updateInfo = (info) => {
+        return {
+            type: 'UPDATE_INSTAGRAM',
+            payload:info
+        };
+    };  
+
+    export const s_updateInstagram = (insta) => {
+        return {
+            type: 'UPDATE_INSTAGRAM',
+            payload:insta
+        };
+    };    
+
     export const s_updateFirstName = (firstname) => {
         return {
             type: 'UPDATE_FIRSTNAME',

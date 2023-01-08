@@ -12,12 +12,18 @@ const initialState = {
     followerCount:-1,
     memberCount:-1,
     info:"Buraya profiliniz için bir açıklama yazabilirsiniz.",
+    instagram:""
   };
   
 
 
   export default (state = initialState, action) => {
     switch (action.type) {
+      case 'UPDATE_INSTAGRAM':
+        return {
+          ...state,
+          instagram:action.payload,
+        };
       case 'UPDATE_FIRSTNAME':
         return {
           ...state,

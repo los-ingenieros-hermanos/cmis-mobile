@@ -37,6 +37,9 @@ const Post = (props) => {
             .then((responseJson) => {
               let userStr = JSON.stringify(responseJson);
               setUserObj(JSON.parse(userStr));
+              console.log("================================== 32");
+              console.log(responseJson);
+              console.log("================================== 33");
           })
           .catch((error) => {
             console.error(error);
@@ -197,7 +200,7 @@ const Post = (props) => {
                     
                     <View style={{height:15, flexDirection:'row'}}>
                         <View style={{backgroundColor:'rgba(208,210,242,1)', height:15, borderRadius:10, alignItems:'center',justifyContent:'center'}}> 
-                            <Text style={{color:'black', fontSize:10}}> {handleTag(data.community.tags[0].tag)} </Text>
+                            {data.community.tags[0] && <Text style={{color:'black', fontSize:10}}> {handleTag(data.community.tags[0].tag)} </Text>}
                         </View>
                         <Text style={{color:'gray', fontSize:12}}> {data.date.day}-{data.date.month}-{data.date.year}</Text>
                     </View>

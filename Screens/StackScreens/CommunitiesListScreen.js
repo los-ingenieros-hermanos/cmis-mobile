@@ -25,10 +25,6 @@ export default function CommunitiesListScreen({navigation}) {
         .then((responseJson) => {
           communitiesJson = JSON.stringify(responseJson);
           setCommunities(JSON.parse(communitiesJson));
-          console.log("================================== 01");
-          
-
-          console.log("================================== 02");
       })
       .catch((error) => {
         console.error(error);

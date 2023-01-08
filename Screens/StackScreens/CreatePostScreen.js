@@ -50,7 +50,6 @@ export default function CreatePostScreen({navigation}) {
 
     const createPost = () => {
        
-      // if it is event
 
       if(isEvent == true){
         fetch(url1 +"/api/cmis/communities/" + id + "/posts", {

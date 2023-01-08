@@ -7,6 +7,7 @@ import Post from '../../components/Post';
 import { useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect } from '@react-navigation/native'
 import {setDesiredProfileID} from '../../redux/actions/desiredProfileAction';
+import { c_updateImage, c_updateBanner, c_updateInstagram, c_updateInfo } from '../../redux/actions/communityDataAction';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,9 +21,12 @@ export default function ProfileScreen({navigation}) {
   const pp_image = useSelector((store) => store.communityData.image);
   const banner_image = useSelector((store) => store.communityData.banner);
   const profileInfo = useSelector((store) => store.communityData.info);
+  const instaLink = useSelector((store) => store.communityData.instagram);
   const [followed, setFollowed] = React.useState(false);
   const [joined, setJoined] = React.useState(false);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = React.useState(0);
+  const [profileObj, setProfileObj] = React.useState({});
+  const url1 = useSelector((store) => store.url.url);
 
   const dispatch = useDispatch();
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
@@ -46,15 +50,41 @@ export default function ProfileScreen({navigation}) {
 
   useFocusEffect(
     React.useCallback(() => {
-      setRefreshing(true);
-      setRefreshing(false);
+      console.log("ppppppppppppppppppppppppppppppppppppppppp");
+      setRefreshing(refreshing + 1);
+        
+      fetch(url1+'/api/cmis/communities/'+IDTest, {
+          method: 'GET'
+          })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            dispatch(c_updateImage(responseJson.image));
+            dispatch(c_updateBanner(responseJson.banner));
+            dispatch(c_updateInstagram(responseJson.instagram));
+            dispatch(c_updateInfo(responseJson.info));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      
+      
+      
   }, [])
   );
+
+  const handleSocialMedia = () => {
+    if(instaLink === null || instaLink === undefined || instaLink === ""){
+      alert("Bu topluluk için sosyal medya hesabı bulunmamaktadır.");
+    }
+    else{
+      Linking.openURL(instaLink)
+    }
+  };
 
   return (
       <View style={{flex:1}}>
               <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)'}}> 
-              
+              <Text>{refreshing}</Text>
               
               <View style={{width:'100%', height:height*0.61}}> 
                 
@@ -84,7 +114,7 @@ export default function ProfileScreen({navigation}) {
                       </View>
 
                       
-                      <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/erseleren/')} style={{marginTop:5, left:-10}}>    
+                      <TouchableOpacity onPress={handleSocialMedia} style={{marginTop:5, left:-10}}>    
                           <AntDesign name="instagram" size={45} color="rgba(229,59,100,1)" />
                       </TouchableOpacity>
                   </View>

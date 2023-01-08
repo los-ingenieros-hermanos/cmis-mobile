@@ -1,4 +1,11 @@
 // redux/actions/countAction.js
+export const c_updateInstagram = (insta) => {
+    return {
+        type: 'UPDATE_INSTAGRAM',
+        payload:insta
+    };
+};
+
 export const c_updateFirstName = (firstname) => {
     return {
         type: 'UPDATE_FIRSTNAME',
