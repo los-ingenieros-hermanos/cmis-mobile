@@ -41,7 +41,7 @@ export default function CommunitiesListScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'HomePage' }],}) } style={{flex:1, paddingLeft:5}}>
               <Ionicons name="arrow-back-outline" size={45} color="black"/>
             </TouchableOpacity>
-            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Takımlar</Text> 
+            <Text style={{fontSize:17, flex:1, position:'absolute'}}>Topluluklar/Takımlar</Text> 
         </View>
 
         <ScrollView  style={{backgroundColor:'rgba(240,242,245,1)'}}>

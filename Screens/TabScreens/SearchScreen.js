@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfilePicture from 'react-native-profile-picture';
 import { useNavigation } from '@react-navigation/native';
-
+import {useFocusEffect } from '@react-navigation/native'
 import {setDesiredProfileID} from '../../redux/actions/desiredProfileAction';
 
 const {width, height} = Dimensions.get('window');
@@ -21,6 +21,7 @@ export default function SearchScreen({route}) {
   const ownID = useSelector((store) => store.userID.userID);
   const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
+  const [refreshing, setRefreshing] = React.useState(0);
 
   const handleButtonPress = (id) => {
     
@@ -31,7 +32,6 @@ export default function SearchScreen({route}) {
     else{
       navigation.navigate("SearchedProfile");
     }
-    
     
     //n
     
@@ -70,6 +70,11 @@ export default function SearchScreen({route}) {
         });
   }, [search]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setRefreshing(refreshing + 1);
+  }, [])
+  );
   
   return (
     

@@ -5,13 +5,15 @@ import { AntDesign,MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { RFValue } from "react-native-responsive-fontsize";
 import Post from '../../components/Post';
 import { useSelector, useDispatch} from 'react-redux';
-import { useRoute} from '@react-navigation/native';
+import {useFocusEffect } from '@react-navigation/native'
+
 
 const { width, height } = Dimensions.get('window');
 
 import {setDesiredProfileID} from '../../redux/actions/desiredProfileAction';
 
 export default function CommunityProfileView({navigation}) {
+  
   const userID = useSelector((store) => store.userID.userID);
   const url1 = useSelector((store) => store.url.url);
   const userRole = useSelector((store) => store.userID.userRole);
@@ -20,7 +22,7 @@ export default function CommunityProfileView({navigation}) {
   const [profileObj, setProfileObj] = React.useState("");
   const desiredProfileID = useSelector((store) => store.desiredProfileID.id);
   const dispatch = useDispatch();
-
+  const [refreshing, setRefreshing] = React.useState(0);
   const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
 
@@ -31,6 +33,8 @@ export default function CommunityProfileView({navigation}) {
       method: 'DELETE'
       })
       setFollowed(false);
+
+      setRefreshing(refreshing+1);
   };
 
   const follow = async () => {
@@ -48,6 +52,8 @@ export default function CommunityProfileView({navigation}) {
       .catch((err) => {
         console.log(err.message);
       });
+
+      setRefreshing(refreshing+1);
   };
 
   const handleFollow = async () => {
@@ -109,7 +115,7 @@ export default function CommunityProfileView({navigation}) {
         'Başvurunuz Alınmıştır !',
         'Topluluğa başvurunuz alınmıştır. Topluluk yöneticisi tarafından onaylandığında topluluğa katılacaksınız.',
         [
-          { text: 'Tamam' },
+          { text: 'Tamam', onPress: () => join() },
           
         ],
         { cancelable: false },
@@ -117,8 +123,14 @@ export default function CommunityProfileView({navigation}) {
     }
   };
 
-  React.useEffect(() => {
-    let temp;
+  const handleBackArrow = () => {
+        dispatch(setDesiredProfileID("-1"));
+        navigation.goBack();  
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let temp;
     let temp2;
     
     fetch(url1+'/api/cmis/communities/'+desiredProfileID, {
@@ -177,16 +189,10 @@ export default function CommunityProfileView({navigation}) {
     }
     else{
     }
-    
+  }, [refreshing])
+  );
 
-
-  } , []);
- 
-  const handleBackArrow = () => {
-        dispatch(setDesiredProfileID("-1"));
-        navigation.goBack();  
-  };
-
+  
   return (
       //if profileObj is not null then render the page
 

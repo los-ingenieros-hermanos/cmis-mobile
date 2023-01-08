@@ -15,8 +15,8 @@ const { width, height } = Dimensions.get('window');
 export default function ProfileScreen({navigation}) {
   
   const IDTest = useSelector((store) => store.userID.userID);
-  const followers = useSelector((store) => store.communityData.followerCount);
-  const members = useSelector((store) => store.communityData.memberCount);
+  const [followers, setFollowers] = React.useState(useSelector((store) => store.communityData.followerCount));
+  const [members, setMembers] = React.useState(useSelector((store) => store.communityData.memberCount));
   const communityName = useSelector((store) => store.communityData.firstname);
   const pp_image = useSelector((store) => store.communityData.image);
   const banner_image = useSelector((store) => store.communityData.banner);
@@ -62,6 +62,7 @@ export default function ProfileScreen({navigation}) {
             dispatch(c_updateBanner(responseJson.banner));
             dispatch(c_updateInstagram(responseJson.instagram));
             dispatch(c_updateInfo(responseJson.info));
+            setMembers(responseJson.memberCount);
         })
         .catch((error) => {
           console.error(error);

@@ -9,7 +9,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const getWidth = () => Dimensions.get('window').width;
 const getHeight = () => Dimensions.get('window').height;
 
-export default function UserApplicationItem({data}) {
+export default function UserApplicationItem({data,testRefresh}) {
     
     const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
     const [selected, setSelected] = useState(false);
@@ -24,11 +24,6 @@ export default function UserApplicationItem({data}) {
             setSelected(false);
       }, [])
       );
-
-    const testRefresh = async (message) => {
-        setRefreshing(true);
-        setRefreshing(false);
-      }
 
     const handleClicked = () => {
         if(selected === true){setSelected(false);}
@@ -58,6 +53,7 @@ export default function UserApplicationItem({data}) {
             .catch((err) => {
               console.log(err.message);
             });
+            testRefresh();
     };
 
     const handleDecline = async () => {
@@ -79,6 +75,7 @@ export default function UserApplicationItem({data}) {
             .catch((err) => {
               console.log(err.message);
             });
+            testRefresh();
     };
 
     return (

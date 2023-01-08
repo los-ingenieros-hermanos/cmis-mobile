@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('window');
 const getWidth = () => Dimensions.get('window').width;
 
 
-export default function UserSearchItem({data}) {
+export default function UserSearchItem({data,testrefresh}) {
     const [selected, setSelected] = useState(false);
     const navigation = useNavigation();
     const url1 = useSelector((store) => store.url.url);
@@ -50,6 +50,8 @@ export default function UserSearchItem({data}) {
                 headers: {
                 'Content-Type': 'application/json',
         },})
+
+        testrefresh();
     };
   
     return (

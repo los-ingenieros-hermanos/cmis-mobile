@@ -23,7 +23,6 @@ export default function CommunityItem({data,nav}) {
     const userRole = useSelector((store) => store.userID.userRole);
     const userID = useSelector((store) => store.userID.userID);
     const url1 = useSelector((store) => store.url.url);
-    const [dataID, setDataID] = useState(data.id);
 
     const dispatch = useDispatch();
     const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
@@ -134,15 +133,11 @@ export default function CommunityItem({data,nav}) {
                 .then((responseJson) => {})
                 .catch((err) => {console.log(err.message);});
             
-            setJoined("true");
         }
     };
 
     const handleGoToProfileButton = () => {
         dispatch(setDesiredProfileID(data.id));
-        console.log("(((((((((((((((((((((((((((((((  1");
-        console.log("desired profile id : " + data.id);
-        console.log("(((((((((((((((((((((((((((((((  2");
         nav.navigate('HomePage', {
         screen: 'Topluluk/Takımlar',
             params: {

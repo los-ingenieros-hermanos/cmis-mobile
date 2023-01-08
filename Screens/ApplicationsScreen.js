@@ -13,11 +13,10 @@ export default function UserListScreen({navigation}) {
   const url1 = useSelector((store) => store.url.url);
   const [users, setUsers] = useState(null);
   const userID = useSelector((store) => store.userID.userID);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(0);
 
   const testRefresh = async (message) => {
-    setRefreshing(true);
-    setRefreshing(false);
+    setRefreshing(refreshing + 1);
   }
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function UserListScreen({navigation}) {
    
   };
 
-    useFocusEffect(
+  useFocusEffect(
         React.useCallback(() => {
           let usersJson;
           fetch(url1 +'/api/cmis/communities/'+userID+"/memberApplications", {
@@ -68,7 +67,7 @@ export default function UserListScreen({navigation}) {
         <ScrollView style={{backgroundColor:'rgba(240,242,245,1)'}}>
           {users && users.map((data, index) => { return(
             <View key={index}>
-              <UserApplicationItem data={data}/>
+              <UserApplicationItem data={data} testRefresh={testRefresh}/>
             </View>
           );})} 
         </ScrollView>

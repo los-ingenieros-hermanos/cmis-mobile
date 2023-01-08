@@ -4,12 +4,14 @@ import {StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, Toucha
 import React, { Component, useState, useEffect } from 'react';
 import { Image } from 'react-native'
 import { useFonts } from 'expo-font';
+import { useSelector, useDispatch } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
 
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
 };
+
 
 
 export default function RegisterScreen({ navigation }){
@@ -23,7 +25,7 @@ export default function RegisterScreen({ navigation }){
     const [placeholder1Text, setPlaceholder1Text] = useState('Adı');
     const [placeholder2Text, setPlaceholder2Text] = useState('Soyadı');
     const [disableView, setDisableView] = useState({flexDirection:'row'});
-    
+    const url1 = useSelector((store) => store.url.url);
     //user variable states
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -84,7 +86,7 @@ export default function RegisterScreen({ navigation }){
       else{
 
           if(role=="student"){
-            const res = await fetch('https://cmis.azurewebsites.net/api/auth/signup', {
+            const res = await fetch(url1+"/api/auth/signup", {
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({"firstName": firstName,
@@ -106,7 +108,7 @@ export default function RegisterScreen({ navigation }){
           } 
           else if(role=="community"){
             setRole("community");
-            const res = await fetch('https://cmis.azurewebsites.net/api/auth/signup', {
+            const res = await fetch(url1+"/api/auth/signup", {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -128,56 +130,6 @@ export default function RegisterScreen({ navigation }){
             
           }
       }
-
-      // try {
-      //   let res = await fetch('http://localhost:8070/api/auth/signup', {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-      //       "firstName": "Elma",
-      //       "lastName" : "Tekne",
-      //       "email": "asdjhfklasd@gtu.edu.tr",
-      //       "password": "elmatekne1234",
-      //       "role": ["student"],
-      //     }),
-      //   });
-      //   res = await res.json();
-      //   console.log(res)
-      //   Alert.alert('onPress', res.json.str);
-      // } catch (e) {
-      //   console.error(e);
-      // }
-      
-      // const res = await fetch('http://192.168.1.35:8070/api/auth/signup', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({ "firstName": "Elma", "lastName" : "Tekne", "email": "asdffgh@gtu.edu.tr", "password": "elmatekne1234", "role": ["student"]}),
-      //   });
-      //   if (res.ok) {
-      //     const data = await res.json();
-      //     //setIsLoggedIn(true);
-      //     //setUserData(data);
-      //     return data;
-      //   }
-
-      // axios.post('http://192.168.1.35:8070/api/auth/signup', {
-      //   "firstName": "Ersel",
-      //   "lastName" : "Celal",
-      //   "email": "dsafasdf@gtu.edu.tr",
-      //   "password": "elmatekne1234",
-      //   "role": ["student"]
-      // })
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
     }  
 
   
