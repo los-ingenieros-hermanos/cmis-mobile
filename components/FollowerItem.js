@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { setDesiredProfileID } from '../redux/actions/desiredProfileAction';
 
 const { width, height } = Dimensions.get('window');
 const getWidth = () => Dimensions.get('window').width;
@@ -16,7 +16,8 @@ export default function FollowerItem({data}) {
     const userID = useSelector((store) => store.userID.userID);
     const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
     
-    
+    const dispatch = useDispatch();
+
     useFocusEffect(
         React.useCallback(() => {
             setSelected(false);
@@ -39,6 +40,7 @@ export default function FollowerItem({data}) {
 
     const handleGoToProfile = async () => {
         console.log("Profile Git clicked");
+        dispatch(setDesiredProfileID(data.id));
         navigation.navigate("UserProfileView");
     };
 

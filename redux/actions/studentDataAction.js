@@ -1,7 +1,7 @@
 // redux/actions/countAction.js
     export const s_updateInfo = (info) => {
         return {
-            type: 'UPDATE_INSTAGRAM',
+            type: 'UPDATE_INFO',
             payload:info
         };
     };  

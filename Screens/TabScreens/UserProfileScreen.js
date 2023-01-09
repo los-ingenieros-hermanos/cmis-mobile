@@ -8,6 +8,7 @@ import { Dimensions } from 'react-native';
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {useFocusEffect } from '@react-navigation/native'
+import ProjectIdeas from '../../components/ProjectIdeas';
 
 import {s_updateBanner,s_updateInstagram,s_updateInfo,s_updateImage} from '../../redux/actions/studentDataAction';
 
@@ -19,28 +20,36 @@ export default function UserProfileScreen({navigation}) {
   const last = useSelector((store) => store.studentData.lastname);
 
   const IDTest =  useSelector((store) => store.studentData.id);
-  const pp_image = useSelector((store) => store.studentData.image);
-  const banner_image = useSelector((store) => store.studentData.banner);
-  const profileInfo = useSelector((store) => store.studentData.info);
-  const instaLink = useSelector((store) => store.studentData.instagram);
   const [refreshing, setRefreshing] = React.useState(0);
   const url1 = useSelector((store) => store.url.url);
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
   
+  const [profileInfo, setProfileInfo] = React.useState(useSelector((store) => store.studentData.info));
+  const [pp_image, setPP_image] = React.useState(useSelector((store) => store.studentData.image));
+  const [instaLink, setInstalink] = React.useState(useSelector((store) => store.studentData.instagram));
+  const [banner_image, setBanner] = React.useState(useSelector((store) => store.studentData.banner));
+
   const dispatch = useDispatch();
 
-  const handleSocialMedia = () => {
+  const handleSocialMedia = async () => {
+    console.log("LINK : " + instaLink);
+    
     if(instaLink === null || instaLink === undefined || instaLink === ""){
       alert("Bu topluluk için sosyal medya hesabı bulunmamaktadır.");
     }
     else{
-      Linking.openURL(instaLink)
+      const supported = await Linking.canOpenURL(instaLink);
+        if (supported) {
+          Linking.openURL(instaLink)
+        } else {
+          // URL can't be opened
+        }
+      
     }
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log("ppppppppppppppppppppppppppppppppppppppppp");
       setRefreshing(refreshing + 1);
         
       fetch(url1+'/api/cmis/students/'+IDTest, {
@@ -48,10 +57,14 @@ export default function UserProfileScreen({navigation}) {
           })
           .then((response) => response.json())
           .then((responseJson) => {
-            dispatch(s_updateImage(responseJson.image));
-            dispatch(s_updateInstagram(responseJson.instagram));
-            dispatch(s_updateInfo(responseJson.info));
-            dispatch(s_updateBanner(responseJson.banner));
+              dispatch(s_updateImage(responseJson.image));
+              dispatch(s_updateInstagram(responseJson.instagram));
+              dispatch(s_updateInfo(responseJson.info));
+              dispatch(s_updateBanner(responseJson.banner));
+              setProfileInfo(responseJson.info);
+              setPP_image(responseJson.image);
+              setInstalink(responseJson.instagram);
+              setBanner(responseJson.banner);
         })
         .catch((error) => {
           console.error(error);
@@ -61,6 +74,10 @@ export default function UserProfileScreen({navigation}) {
       
   }, [])
   );
+
+  const handleCreateProjectIdea = async () => {
+    navigation.navigate("CreateIdea");
+  };
 
   return (
       <View style={{flex:1}}>
@@ -91,7 +108,7 @@ export default function UserProfileScreen({navigation}) {
                   </View>
 
                     <View style={{width:width, alignItems:'center', marginBottom:5}}> 
-                      <TouchableOpacity style={{backgroundColor:'rgba(84,70,115,1)',width:width*0.5 ,height:height*0.04, justifyContent:'center', alignItems:'center', borderRadius:5}}>
+                      <TouchableOpacity onPress={handleCreateProjectIdea} style={{backgroundColor:'rgba(84,70,115,1)',width:width*0.5 ,height:height*0.04, justifyContent:'center', alignItems:'center', borderRadius:5}}>
                           
                             <Text style={{color:'white'}}> Askıda Proje Oluştur</Text>
                           
@@ -109,6 +126,7 @@ export default function UserProfileScreen({navigation}) {
               
               </View>
               
+              <ProjectIdeas id={IDTest} />
               
               </ScrollView>
         </View>

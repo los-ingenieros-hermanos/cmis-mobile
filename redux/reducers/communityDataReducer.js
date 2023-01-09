@@ -90,12 +90,6 @@ const initialState = {
             info:action.payload,
         };
         
-
-
-
-
-        
-
       default:
         return state;
     }

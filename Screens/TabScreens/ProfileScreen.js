@@ -18,15 +18,15 @@ export default function ProfileScreen({navigation}) {
   const [followers, setFollowers] = React.useState(useSelector((store) => store.communityData.followerCount));
   const [members, setMembers] = React.useState(useSelector((store) => store.communityData.memberCount));
   const communityName = useSelector((store) => store.communityData.firstname);
-  const pp_image = useSelector((store) => store.communityData.image);
-  const banner_image = useSelector((store) => store.communityData.banner);
-  const profileInfo = useSelector((store) => store.communityData.info);
-  const instaLink = useSelector((store) => store.communityData.instagram);
   const [followed, setFollowed] = React.useState(false);
   const [joined, setJoined] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(0);
-  const [profileObj, setProfileObj] = React.useState({});
   const url1 = useSelector((store) => store.url.url);
+
+  const [profileInfo, setProfileInfo] = React.useState(useSelector((store) => store.communityData.info));
+  const [pp_image, setPP_image] = React.useState(useSelector((store) => store.communityData.image));
+  const [instaLink, setInstalink] = React.useState(useSelector((store) => store.communityData.instagram));
+  const [banner_image, setBanner] = React.useState(useSelector((store) => store.communityData.banner));
 
   const dispatch = useDispatch();
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
@@ -49,8 +49,7 @@ export default function ProfileScreen({navigation}) {
   };
 
   useFocusEffect(
-    React.useCallback(() => {
-      console.log("ppppppppppppppppppppppppppppppppppppppppp");
+    React.useCallback(() => {     
       setRefreshing(refreshing + 1);
         
       fetch(url1+'/api/cmis/communities/'+IDTest, {
@@ -63,22 +62,29 @@ export default function ProfileScreen({navigation}) {
             dispatch(c_updateInstagram(responseJson.instagram));
             dispatch(c_updateInfo(responseJson.info));
             setMembers(responseJson.memberCount);
+            setProfileInfo(responseJson.info);
+            setPP_image(responseJson.image);
+            setInstalink(responseJson.instagram);
+            setBanner(responseJson.banner);
         })
         .catch((error) => {
           console.error(error);
         });
-      
-      
-      
+
   }, [])
   );
 
-  const handleSocialMedia = () => {
+  const handleSocialMedia = async () => {
     if(instaLink === null || instaLink === undefined || instaLink === ""){
       alert("Bu topluluk için sosyal medya hesabı bulunmamaktadır.");
     }
     else{
-      Linking.openURL(instaLink)
+      
+        if (instaLink.substring(0, 9) === "https://www.") {
+            if(instaLink.substring(instaLink.length - 4) === ".com"){
+              Linking.openURL(instaLink)
+            }
+        }      
     }
   };
 

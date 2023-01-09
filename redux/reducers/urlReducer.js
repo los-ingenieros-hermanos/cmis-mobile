@@ -1,7 +1,7 @@
 // redux/reducers/countReducer.js
 const initialState = {
-    //url:"http://192.168.1.35:8070"
-    url:"https://cmis.azurewebsites.net",
+    url:"http://192.168.1.35:8070"
+    //url:"https://cmis.azurewebsites.net",
   };
    
   export default (state = initialState, action) => {

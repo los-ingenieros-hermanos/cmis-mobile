@@ -25,7 +25,7 @@ export default function CommunityProfileView({navigation}) {
   const [refreshing, setRefreshing] = React.useState(0);
   const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
-
+  const [instaLink, setInstalink] = React.useState("");
 
   const unfollow = async () => {
     console.log('Option 1 selected')
@@ -138,6 +138,7 @@ export default function CommunityProfileView({navigation}) {
       })
       .then((response) => response.json())
       .then((responseJson) => {
+        setInstalink(responseJson.instagram);
         temp = JSON.stringify(responseJson);
         temp2 = JSON.parse(temp);
         setProfileObj(temp2);
@@ -192,6 +193,14 @@ export default function CommunityProfileView({navigation}) {
   }, [refreshing])
   );
 
+  const handleSocialMedia = async () => {
+    if(instaLink === null || instaLink === undefined || instaLink === ""){
+      alert("Bu topluluk için sosyal medya hesabı bulunmamaktadır.");
+    }
+    else{
+      Linking.openURL(instaLink)
+    }
+  }
   
   return (
       //if profileObj is not null then render the page
@@ -226,7 +235,7 @@ export default function CommunityProfileView({navigation}) {
                           </View>
 
                           
-                          <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/erseleren/')} style={{marginTop:5, left:-10}}>    
+                          <TouchableOpacity onPress={handleSocialMedia} style={{marginTop:5, left:-10}}>    
                               <AntDesign name="instagram" size={45} color="rgba(229,59,100,1)" />
                           </TouchableOpacity>
                       </View>

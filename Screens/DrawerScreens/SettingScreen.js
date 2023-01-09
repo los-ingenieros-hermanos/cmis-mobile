@@ -144,9 +144,6 @@ export default function SettingScreen({navigation}) {
         body: JSON.stringify({image:finaluri, banner:bannerStu}),})
         .then((res) => res.json())
         .then((data) => {
-          console.log("|||||||||||||||||||||||||||||||||           3");
-          console.log(data);
-          console.log("|||||||||||||||||||||||||||||||||           4");
           Alert.alert("Başarılı", "Profil fotoğrafı değiştirildi");
           setRefresh(!refresh);
           navigation.goBack();
@@ -170,7 +167,6 @@ export default function SettingScreen({navigation}) {
           console.log(data);
           Alert.alert("Başarılı", "Profil fotoğrafı değiştirildi");
           setRefresh(!refresh);
-
           navigation.goBack();
         })
         .catch((err) => {
@@ -243,20 +239,15 @@ export default function SettingScreen({navigation}) {
 
   const handleChangeInfo = async () => {
     let endpoint = "";
+    console.log("INFO : "+ info);
     if(userRole=="ROLE_STUDENT"){
       endpoint = "/api/cmis/students/"+ownID;
-    }
-    else if(userRole=="ROLE_COMMUNITY"){
-      endpoint = "/api/cmis/communities/"+ownID;
-    }
-    
-    
       await fetch(url1 + endpoint, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({info:info}),})
+        body: JSON.stringify({info:info, image:ppStu, banner:bannerStu}),})
         .then((res) => res.json())
         .then((data) => {
         
@@ -270,6 +261,33 @@ export default function SettingScreen({navigation}) {
           setRefresh(!refresh);
           navigation.goBack();
         });
+    }
+    else if(userRole=="ROLE_COMMUNITY"){
+      endpoint = "/api/cmis/communities/"+ownID;
+
+      await fetch(url1 + endpoint, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({info:info, image:ppComm, banner:bannerComm}),})
+        .then((res) => res.json())
+        .then((data) => {
+        
+          Alert.alert("Başarılı", "Açıklama değiştirildi");
+          setRefresh(!refresh);
+          navigation.goBack();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          Alert.alert("Hata", "Açıklama değiştirilemedi");
+          setRefresh(!refresh);
+          navigation.goBack();
+        });
+    }
+    
+    
+      
     
   };
   
@@ -286,22 +304,13 @@ export default function SettingScreen({navigation}) {
     let endpoint = "";
     if(userRole=="ROLE_STUDENT"){
       endpoint = "/api/cmis/students/"+ownID;
-    }
-    else if(userRole=="ROLE_COMMUNITY"){
-      endpoint = "/api/cmis/communities/"+ownID;
-    }
-    
-    if(socialLink == ''){
-      Alert.alert("Hata", "Link boş bırakılamaz!");
-      setRefresh(!refresh);
-    }
-    else{
+      
       await fetch(url1 + endpoint, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({instagram:socialLink}),})
+        body: JSON.stringify({instagram:socialLink, banner:bannerStu, image:ppStu}),})
         .then((res) => res.json())
         .then((data) => {
         
@@ -316,6 +325,36 @@ export default function SettingScreen({navigation}) {
           navigation.goBack();
         });
     }
+    else if(userRole=="ROLE_COMMUNITY"){
+      endpoint = "/api/cmis/communities/"+ownID;
+      await fetch(url1 + endpoint, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({instagram:socialLink,banner:bannerComm, image:ppComm}),})
+        .then((res) => res.json())
+        .then((data) => {
+        
+          Alert.alert("Başarılı", "Bağlantı değiştirildi");
+          setRefresh(!refresh);
+          navigation.goBack();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          Alert.alert("Hata", "Bağlantı değiştirilemedi");
+          setRefresh(!refresh);
+          navigation.goBack();
+        });
+    }
+    
+    if(socialLink == ''){
+      Alert.alert("Hata", "Link boş bırakılamaz!");
+      setRefresh(!refresh);
+    }
+    else{
+      
+    }
   };
  
      
@@ -325,7 +364,6 @@ export default function SettingScreen({navigation}) {
     <View>
       
       <View style={{backgroundColor:'white', height:StatusBar.currentHeight}}> 
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
       </View>
       
       {refresh && <View> 

@@ -9,15 +9,20 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function App({navigation}) {
   const Stack = createNativeStackNavigator();
+  if (!__DEV__) {
+    console.warn = () => {};
+  }
+
   
   return (
     <Provider store={store}>
      <NavigationContainer>
        <Stack.Navigator initialRouteName='Login' screenOptions={{headerShown: false}}>
-         <Stack.Screen name="Login" component={LoginScreen} />
+         <Stack.Screen name="Login" component={LoginScreen}/>
          <Stack.Screen name="Register" /*options={{title: 'Register'}}*/ component={RegisterScreen} />
          <Stack.Screen name="Main" component={TabNavigator} initialParams={{navigation}}/>
          <Stack.Screen name="Test" component={TestScreen} />

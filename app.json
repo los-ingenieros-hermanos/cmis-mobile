@@ -1,6 +1,5 @@
 {
   "expo": {
-    "plugins": "react-native-image-picker",
     "name": "my-app",
     "slug": "my-app",
     "version": "1.0.0",
@@ -25,11 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.erseleren.myapp2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "088fd8ac-b5b9-4382-9f76-3d7ea821d0c7"
+      }
     }
-    
   }
 }

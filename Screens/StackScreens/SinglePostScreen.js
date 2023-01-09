@@ -152,7 +152,7 @@ const SinglePostScreen = (props) => {
                     
                     <View style={{height:15, flexDirection:'row'}}>
                         <View style={{backgroundColor:'rgba(208,210,242,1)', height:15, borderRadius:10, alignItems:'center',justifyContent:'center'}}> 
-                            <Text style={{color:'black', fontSize:10}}> {handleTag(postData.community.tags[0].tag)} </Text>
+                            <Text style={{color:'black', fontSize:10}}> {handleTag(postData.community.tags[0])} </Text>
                         </View>
                         <Text style={{color:'gray', fontSize:12}}> {postData.date.day}-{postData.date.month}-{postData.date.year}</Text>
                     </View>

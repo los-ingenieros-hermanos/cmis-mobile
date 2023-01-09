@@ -7,8 +7,10 @@ import UserProfileScreen from "../../Screens/TabScreens/UserProfileScreen";
 import UserListScreen from "../../Screens/UserListScreen";
 import ApplicationsScreen from "../../Screens/ApplicationsScreen";
 import CreatePostScreen from "../../Screens/StackScreens/CreatePostScreen";
+import CreateProjectIdea from "../../Screens/StackScreens/CreateProjectIdeas";
 import UserProfileView from "../../Screens/StackScreens/UserProfileView";
 import FollowersListScreen from "../../Screens/StackScreens/FollowersListScreen";
+
 
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,13 +41,14 @@ export default function ProfileStackNavigator() {
   }, []);
 
   return (
-    <Stack.Navigator initialRouteName="Profile" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Profile" component={condition ? UserProfileScreen : ProfileScreen} />
+    <Stack.Navigator initialRouteName="Profile2" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Profile2" component={condition ? UserProfileScreen : ProfileScreen} />
       <Stack.Screen name="UserList" component={UserListScreen} />
       <Stack.Screen name="Applications" component={ApplicationsScreen} />
       <Stack.Screen name="Followers" component={FollowersListScreen} />
       <Stack.Screen name="CreatePost" component={CreatePostScreen} />
       <Stack.Screen name="UserProfileView" component={UserProfileView} />
+      <Stack.Screen name="CreateIdea" component={CreateProjectIdea} />
     </Stack.Navigator>
   );
 }

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { setDesiredProfileID } from '../redux/actions/desiredProfileAction';
 
 // get screen width
 const getWidth = () => Dimensions.get('window').width;
@@ -16,8 +17,7 @@ export default function UserApplicationItem({data,testRefresh}) {
     const navigation = useNavigation();
     const url1 = useSelector((store) => store.url.url);
     const userID = useSelector((store) => store.userID.userID);
-    const [refreshing, setRefreshing] = useState(false);
-
+    const dispatch = useDispatch();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -32,6 +32,8 @@ export default function UserApplicationItem({data,testRefresh}) {
     
     const handleGoToProfile = async () => {
         console.log("Profile Git clicked");
+        console.log("DATA.ID : "+ data.id);
+        dispatch(setDesiredProfileID(data.student.id));
         navigation.navigate("UserProfileView");
     };
 

@@ -44,64 +44,22 @@ export default function TabNavigator() {
   };
  
 
-  const handleSearch = () => {
-    console.log("Button pressed");
-    handleBackButtonClick();
-  };
+ 
+
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //   };
+  //   BackHandler.removeEventListener(
+  //     'hardwareBackPress',
+  //     handleBackButtonClick,
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
+
+
   
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-    };
-    BackHandler.removeEventListener(
-      'hardwareBackPress',
-      handleBackButtonClick,
-    );
-
-    return () => backHandler.remove();
-  }, []);
-
-
-  const handleBackButtonClick = () => {
-      console.log("routeName1: " + name1);
-      if (name1=="Home") {
-        Alert.alert(
-          'Exit App',
-          'Exiting the application?', [{
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          }, {
-            text: 'OK',
-            onPress: () => BackHandler.exitApp()
-          }, ], {
-          cancelable: false
-        }
-        )
-        return true;
-      } else {
-        Animated.spring(tabOffsetValue, { toValue: getWidth()*0.025, useNativeDriver: true }).start();
-        routeName = "Home";
-      }
-  };
-
-
-  // const handleBackButton = () => {
-  //   if (this.props.navigation.isFocused()) {
-  //     this.props.navigation.goBack();
-  //     return true;
-  //   }
-  //   if (this.props.navigation.state.routeName === 'Search' ||
-  //       this.props.navigation.state.routeName === 'Calendar' ||
-  //       this.props.navigation.state.routeName === 'Profile') {
-  //         Animated.spring(tabOffsetValue, { toValue: getWidth()*0.025, useNativeDriver: true }).start(() => {
-  //           this.props.navigation.navigate('Home');
-  //         });
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -163,7 +121,7 @@ export default function TabNavigator() {
         </Tab.Screen>
 
         
-        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} initialParams={{ handleSearch}} options={{
+        <Tab.Screen name={"SearchNavigator"} component={SearchNavigator} options={{
             tabBarLabel: ({ focused }) => (
                 <View style={{ position: 'absolute',}}>
                   <Text style={{color: focused ? "rgba(105,89,149,1)" : 'gray', fontSize: 10, fontWeight: 'bold'}}>Ara</Text>
@@ -213,7 +171,7 @@ export default function TabNavigator() {
               <View style={{ position: 'absolute'}}>
                   <Image style={{width: 35, height: 35, borderRadius:1000}} source={{uri: userRole === 'ROLE_STUDENT' ? studentPP : commPP}}/>
               </View>
-            )
+            ),
           }} listeners={({ navigation, route }) => ({
             tabPress: e => {Animated.spring(tabOffsetValue, { toValue: getWidth()*0.77, useNativeDriver: true}).start();
             routeName = route.name;
@@ -225,21 +183,7 @@ export default function TabNavigator() {
       </Tab.Navigator>
       
 
-      <Animated.View style={{
-        width: getWidth()*0.2,
-        height: 4,
-        backgroundColor: "rgba(105,89,149,1)",
-        position: 'absolute',
-        bottom: getWidth()*0.14,
-        // Horizontal Padding = 20...
-        borderRadius: 30,
-        opacity: opacityValue,
-        transform: [
-          { translateX: tabOffsetValue }
-        ]
-      }}>
-
-      </Animated.View>
+      
     
     </NavigationContainer>
 

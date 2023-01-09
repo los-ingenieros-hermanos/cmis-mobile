@@ -19,7 +19,7 @@ export default function UserSearchItem({data,nav,tr}) {
     const url1 = useSelector((store) => store.url.url);
     const userID = useSelector((store) => store.userID.userID);
     const [refreshing, setRefreshing] = useState(false);
-
+    const dummyImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88OjpfwAI+QOoF8YQhgAAAABJRU5ErkJggg==";
     const handleClicked = () => {
         if(selected === true){
             setSelected(false);
@@ -69,7 +69,7 @@ export default function UserSearchItem({data,nav,tr}) {
                 <View style={{ flexDirection:'row', width:width*0.90}}>
                     
                     <View style={{}}>
-                        <Image source={{uri: `${data.image}`}} style={{ width: 70, height: 70, borderRadius: 10 }}/>
+                        <Image source={{uri: `${data.image ? data.image : dummyImage}`}} style={{ width: 70, height: 70, borderRadius: 10 }}/>
                     </View>
                     
                     <View>

@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation,useFocusEffect } from '@react-navigation/native'
 import { set } from "react-native-reanimated";
+import PostItem from "./PostItem";
 
 // get dimensions of the screen
 const { width, height } = Dimensions.get("window");
@@ -22,7 +23,8 @@ const Post = (props) => {
   const userRole = useSelector((store) => store.userID.userRole);
   const [bookmarked, setBookmarked] = useState(false);
   const [liked, setLiked] = useState(false);
-
+  const dummyImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88OjpfwAI+QOoF8YQhgAAAABJRU5ErkJggg==";
+  const [join, setJoin] = useState(false);
   useFocusEffect(
   React.useCallback(() => {
     console.log("==================================111");
@@ -37,9 +39,6 @@ const Post = (props) => {
             .then((responseJson) => {
               let userStr = JSON.stringify(responseJson);
               setUserObj(JSON.parse(userStr));
-              console.log("================================== 32");
-              console.log(responseJson);
-              console.log("================================== 33");
           })
           .catch((error) => {
             console.error(error);
@@ -62,6 +61,22 @@ const Post = (props) => {
 
   }, [])
   );
+
+  function handleMonth(month){
+    if(month=="1"){return "Ocak";}
+    else if(month=="2"){return "Şubat";}
+    else if(month=="3"){return "Mart";}
+    else if(month=="4"){return "Nisan";}
+    else if(month=="5"){return "Mayıs";}
+    else if(month=="6"){return "Haziran";}
+    else if(month=="7"){return "Temmuz";}
+    else if(month=="8"){return "Ağustos";}
+    else if(month=="9"){return "Eylül";}
+    else if(month=="10"){return "Ekim";}
+    else if(month=="11"){return "Kasım";}
+    else if(month=="12"){return "Aralık";}
+  }
+
 
   function handleTag(tag){
     // TAG_ART, TAG_BIOLOGY, TAG_DRONE, TAG_CHEMISTRY, TAG_COMPUTER, TAG_ENGINEERING, TAG_ENTERTAINMENT, TAG_FOOD, TAG_GAMING, TAG_LITERATURE, TAG_MATH, TAG_MUSIC, TAG_PHILOSOPHY
@@ -126,6 +141,7 @@ const Post = (props) => {
 
   }
   
+  
  
   return (
     <View style={{ paddingBottom:65}}>
@@ -134,165 +150,14 @@ const Post = (props) => {
         const [join, setJoin] = useState(data.isJoined); */}
         
         {userObj && userObj.map((data, index) => {
+          return(
+            <View key={index}>
+              <PostItem id={data.id}/>
+            </View>
+            
+          );
           
-         
 
-          const handleBookmark = async (id) => {
-            if(bookmarked==false){
-            
-            await fetch(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts", {
-              method: 'POST',
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ id: id }),
-              })
-              .then((res) => res.json())
-              .then((responseJson) => {
-                setBookmarked(true);
-              })
-              .catch((err) => {
-                console.log(err.message);
-              });
-            }
-            else{
-                await fetch(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts/"+id, {
-                  method: 'DELETE',
-                  headers: {
-                  'Content-Type': 'application/json',
-                  },})
-
-                setBookmarked(false); 
-            }
-          };
-
-
-
-          const handleLike = async (id) => {
-        
-              if(liked==true){setLiked(false);}
-              else{setLiked(true);}
-              
-              await fetch(url1 +"/api/cmis/students/"+ownID+"/posts/"+id+"/like", {
-                method: 'POST',
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ }),
-                })
-                .then((res) => res.json())
-                .then((responseJson) => {
-                })
-                .catch((err) => {
-                  console.log(err.message);
-                });
-            };  
-
-        return (
-          <View key={index} style={{paddingBottom: 0,borderBottomColor: "gray",borderBottomWidth: 0.1,backgroundColor: "white",marginBottom: 10,}}>
-              <View style={{flexDirection: "row",alignItems: "center",justifyContent: "space-between",padding: 7,paddingLeft: 12,}}>
-                
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image source={{uri: `${data.community.image ? data.community.image : defaultPP}` }} style={{ width: 40, height: 40, borderRadius: 100 }}/>
-                  
-                  <View style={{ paddingLeft: 5}}>
-                    <Text style={{fontSize: 16,fontWeight: "bold"}}>{data.community.name}</Text>
-                    
-                    <View style={{height:15, flexDirection:'row'}}>
-                        <View style={{backgroundColor:'rgba(208,210,242,1)', height:15, borderRadius:10, alignItems:'center',justifyContent:'center'}}> 
-                            {data.community.tags[0] && <Text style={{color:'black', fontSize:10}}> {handleTag(data.community.tags[0].tag)} </Text>}
-                        </View>
-                        <Text style={{color:'gray', fontSize:12}}> {data.date.day}-{data.date.month}-{data.date.year}</Text>
-                    </View>
-                  </View>
-
-                </View>
-
-                
-              </View>
-
-            <View style={{position: "relative",justifyContent: "center",alignItems: "center",}}>
-              <Image style={{width: "100%", height: 300}} source={{uri: `${data.image}`,}}/>
-            </View>
-
-            <View style={{ paddingHorizontal: 10 }}>
-              <Text style={{ fontWeight: "700", fontSize: 20, paddingVertical: 0 }}> {data.title} </Text>
-            </View>
-
-            <View style={{paddingHorizontal: 15,flex: 1,justifyContent: "center",}}>
-              
-              <Text style={{fontWeight: "700",fontSize: 14,paddingVertical: 2,}}> {data.text} </Text>
-              
-              
-              {data.event[0] && 
-                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                  <View style={{paddingBottom: 5,top:3,flexWrap: "wrap",backgroundColor: "rgba(84,70,115,1)",flexDirection:'row',alignItems:'center',
-                          borderRadius:20,padding:5,paddingLeft:10,display: "flex",justifyContent:'center',}}>
-                    {<AntDesign name="calendar" size={24} color="white" marginRight={10}/>}
-                    <Text style={{color: "white", textAlign: "center"}}>
-                      {data.event[0].date.day}.{data.event[0].date.month}.{data.event[0].date.year} - {data.event[0].date.hour}:{data.event[0].date.minute}
-                    </Text>
-                    
-                  </View>
-                  <View style={{ alignItems:'center', flexDirection:'row', display: "flex"}}>
-                    
-                    <TouchableOpacity onPress={() => setJoin(!join)} style={{flexDirection:'row'}}>
-                    <Text style={{fontWeight:'500'}}><AntDesign name={"plus"} size={24} color="black"/></Text>
-                      
-                      <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16}}>
-                      Katıl
-                      </Text>
-                    </TouchableOpacity>
-
-                    </View>
-                </View>
-              }
-
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={{marginTop:5,flex: 1,height: 1.8,backgroundColor: "rgba(127,127,127,0.5)",}}/>
-              </View>
-              
-              
-
-              <View style={{flexDirection: "row",justifyContent: "flex-start",alignItems: "baseline",}}>
-                <View style={{ flexDirection: "row", flex: 1 }}>
-                  <Text style={{marginRight: 15,fontWeight: "bold",letterSpacing: 1,paddingTop: 5}}>
-                    {data.likeNum} beğeni
-                  </Text>
-                  
-                  {data.event[0]&& 
-                  <Text style={{marginRight: 10,fontWeight: "bold",letterSpacing: 1,paddingTop: 5,}}>
-                    {data.event[0].attendantsNum} katılım
-                  </Text>
-                  }
-                </View>
-                
-                <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-                  
-                  {userRole =="ROLE_STUDENT" && 
-                  <TouchableOpacity onPress={() => handleLike(data.id)}  >
-                    <AntDesign
-                      name={liked ? "like1" : "like2"}
-                      style={{paddingRight: 10,fontSize: 22,color: liked ? "rgba(84,70,115,1)" : "black",paddingTop: 5,}}/>
-                  </TouchableOpacity>
-                  }
-                  
-                  {userRole =="ROLE_STUDENT" && 
-                  <TouchableOpacity onPress={() => handleBookmark(data.id)} >
-                    <MaterialCommunityIcons
-                      name={bookmarked ? "bookmark-remove" :"bookmark-plus-outline" }
-                      style={{ fontSize: 25, paddingRight: 5, paddingTop: 3 }}
-                    />
-                  </TouchableOpacity>
-                  }
-
-                </View>
-              </View>
-            </View>
-
-            
-          </View>
-        );
         })}
       
       
