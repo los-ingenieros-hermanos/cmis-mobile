@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
-
 import SearchScreen from '../../Screens/TabScreens/SearchScreen';
 import SearchedProfile from '../../Screens/StackScreens/CommunityProfileView';
+
+const Stack = createStackNavigator();
 
 export default function SearchNavigator({navigation}) {
 

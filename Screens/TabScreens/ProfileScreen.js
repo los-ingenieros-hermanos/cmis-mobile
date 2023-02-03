@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image,TouchableOpacity, Dimensions,Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AntDesign } from '@expo/vector-icons';
+import  AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFValue } from "react-native-responsive-fontsize";
 import Post from '../../components/Post';
 import { useSelector, useDispatch} from 'react-redux';
@@ -22,7 +22,6 @@ export default function ProfileScreen({navigation}) {
   const [joined, setJoined] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(0);
   const url1 = useSelector((store) => store.url.url);
-
   const [profileInfo, setProfileInfo] = React.useState(useSelector((store) => store.communityData.info));
   const [pp_image, setPP_image] = React.useState(useSelector((store) => store.communityData.image));
   const [instaLink, setInstalink] = React.useState(useSelector((store) => store.communityData.instagram));
@@ -32,9 +31,6 @@ export default function ProfileScreen({navigation}) {
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
 
   React.useEffect(() => {
-    console.log(">>>>>>>>>>>>============ 1");
-    console.log("IDTest1: " + IDTest);
-    console.log(">>>>>>>>>>>>============ 2");
     dispatch(setDesiredProfileID(IDTest));
   } ,[]);
 
@@ -91,7 +87,7 @@ export default function ProfileScreen({navigation}) {
   return (
       <View style={{flex:1}}>
               <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)'}}> 
-              <Text>{refreshing}</Text>
+              <Text style={{height:0}}>{refreshing}</Text>
               
               <View style={{width:'100%', height:height*0.61}}> 
                 
@@ -144,7 +140,7 @@ export default function ProfileScreen({navigation}) {
                   </View>
 
                     <View style={{backgroundColor:'white',top:5,shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5, height:height*0.15, borderRadius:10, width:'96%', alignSelf:'center'}}>
-                      <Text numberOfLines={3}  style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:RFValue(13, 580),fontWeight:'300' ,lineHeight:height*0.027, height:height*0.1, width:'85%'}}> {profileInfo}</Text>
+                      <Text numberOfLines={3}  style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:RFValue(13, 580),fontWeight:'300' ,lineHeight:height*0.027, height:height*0.1, width:'85%'}}>{profileInfo ? profileInfo : "Buraya profilinizle ilgili açıklama yazabilirsiniz..."}</Text>
                     </View>
               
               </View>

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import ProfileScreen from "../../Screens/TabScreens/ProfileScreen";
 import UserProfileScreen from "../../Screens/TabScreens/UserProfileScreen";
@@ -16,23 +15,16 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function ProfileStackNavigator() {
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
   
   const userRole = useSelector((store) => store.userID.userRole);
   const [condition, setCondition] = React.useState(false);
 
   handleScreen = () => {
-    console.log("USERROLE : "+userRole);
-
     if(userRole == "ROLE_STUDENT"){
       setCondition(true);
-      console.log("Student");
     }else if(userRole == "ROLE_COMMUNITY"){
       setCondition(false);
-      console.log("Community");
-    }
-    else{
-      console.log("Else");
     }
   };
 

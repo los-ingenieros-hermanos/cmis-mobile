@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, StyleSheet } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionic from "react-native-vector-icons/Ionicons";
-import Entypo from "react-native-vector-icons/Entypo";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect } from "react";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import { set } from "react-native-reanimated";
-
-// get dimensions of the screen
-const { width, height } = Dimensions.get("window");
+import { useFocusEffect } from '@react-navigation/native'
 
 const ProjectIdeas = (props) => {
   
@@ -25,10 +17,9 @@ const ProjectIdeas = (props) => {
 
   useFocusEffect(
   React.useCallback(() => {
-    console.log("==================================111");
-    console.log("props.id: "+props.id);
-    console.log("==================================111");
-    
+
+    console.log("||||||||||||||||||||||||||||||||||||||||||||  3 "+props.id+ "  "+"||||||||||||||||||||||||||||||||||||||||||||  4");
+
     if(props.id =="-1"){
       fetch(url1 +'/api/cmis/projectidea', {
           method: 'GET'
@@ -125,15 +116,9 @@ const ProjectIdeas = (props) => {
   
  
   return (
-    <View style={{ paddingBottom:65}}>
-        {/* const [like, setLike] = useState(data.isLiked);
-        const [bookmark, setBookmark] = useState(data.isBookmarked);
-        const [join, setJoin] = useState(data.isJoined); */}
-        
+    <View style={{ paddingBottom:65}}>       
         {userObj && userObj.map((data, index) => {
           
-         
-
           const handleBookmark = async (id) => {
             if(bookmarked==false){
             
@@ -193,14 +178,10 @@ const ProjectIdeas = (props) => {
                   <Image source={{uri: `${data.student.image ? data.student.image : defaultPP}` }} style={{ width: 40, height: 40, borderRadius: 100 }}/>
                   
                   <View style={{ paddingLeft: 5}}>
-                    <Text style={{fontSize: 16,fontWeight: "bold"}}>{data.student.firstName} {data.student.lastName}</Text>
-                    
-                    
+                    <Text style={{fontSize: 16,fontWeight: "bold",color:'black'}}>{data.student.firstName} {data.student.lastName}</Text>
                   </View>
 
-                </View>
-
-                
+                </View>    
               </View>
 
             <View style={{position: "relative",justifyContent: "center",alignItems: "center",}}>
@@ -208,12 +189,12 @@ const ProjectIdeas = (props) => {
             </View>
 
             <View style={{ paddingHorizontal: 10 }}>
-              <Text style={{ fontWeight: "700", fontSize: 20, paddingVertical: 0 }}> {data.title} </Text>
+              <Text style={{ fontWeight: "700", fontSize: 20, paddingVertical: 0,color:'black'}}> {data.title} </Text>
             </View>
 
             <View style={{paddingHorizontal: 15,flex: 1,justifyContent: "center",}}>
               
-              <Text style={{fontWeight: "700",fontSize: 14,paddingVertical: 2,}}> {data.text} </Text>
+              <Text style={{fontWeight: "700",fontSize: 14,paddingVertical: 2,color:'black'}}> {data.text} </Text>
               
               
               
@@ -226,7 +207,7 @@ const ProjectIdeas = (props) => {
 
               <View style={{flexDirection: "row",justifyContent: "flex-start",alignItems: "baseline",}}>
                 <View style={{ flexDirection: "row", flex: 1 }}>
-                  <Text style={{marginRight: 15,fontWeight: "bold",letterSpacing: 1,paddingTop: 3}}>
+                  <Text style={{marginRight: 15,fontWeight: "bold",letterSpacing: 1,paddingTop: 3,color:'black'}}>
                     {data.likeNum} beğeni
                   </Text>
                   
@@ -247,7 +228,7 @@ const ProjectIdeas = (props) => {
                   <TouchableOpacity onPress={() => handleBookmark(data.id)} >
                     <MaterialCommunityIcons
                       name={bookmarked ? "bookmark-remove" :"bookmark-plus-outline" }
-                      style={{ fontSize: 25, paddingRight: 5, paddingTop: 3 }}
+                      style={{ fontSize: 25, paddingRight: 5, paddingTop: 3, color: bookmarked ? "rgba(84,70,115,1)" : "black" }}
                     />
                   </TouchableOpacity>
                   }
@@ -265,26 +246,5 @@ const ProjectIdeas = (props) => {
     </View>
   );
 };
-
-
-const styles = StyleSheet.create({
-  postContainer: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  text: {
-    fontSize: 16,
-    marginVertical: 8,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    marginVertical: 8,
-  },
-});
 
 export default ProjectIdeas;

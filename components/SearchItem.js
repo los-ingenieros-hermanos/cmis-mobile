@@ -1,14 +1,11 @@
 import { View, Text, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
 import ProfilePicture from 'react-native-profile-picture';
 import { Dimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 // get screen width
 const getWidth = () => Dimensions.get('window').width;
-
-
 
 export default function SearchItem({ handleButtonPress }) {
   
@@ -22,7 +19,7 @@ export default function SearchItem({ handleButtonPress }) {
 
       <View style={{ flexDirection:'row', width:'95%', alignItems:'center'}}>
       <ProfilePicture isPicture={true} requirePicture={require('../storage/images/pp_image.png')} shape='circle' width={35} height={35}/>
-      <Text style={{paddingLeft:10, fontSize:15}}>GTÜ Topluluk Takımı</Text>
+      <Text style={{color:'black',paddingLeft:10, fontSize:15}}>GTÜ Topluluk Takımı</Text>
       </View>
       <View style={{}}>
       <Ionicons name="close" size={24} color="black" style={{}}/>

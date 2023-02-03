@@ -1,25 +1,22 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Linking } from 'react-native';
-import TopBar from '../../components/TopBar';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RFValue } from "react-native-responsive-fontsize";
-import { AntDesign} from '@expo/vector-icons';
+import  AntDesign from 'react-native-vector-icons/AntDesign';
 import { Dimensions } from 'react-native';
-import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {useFocusEffect } from '@react-navigation/native'
 import ProjectIdeas from '../../components/ProjectIdeas';
-
 import {s_updateBanner,s_updateInstagram,s_updateInfo,s_updateImage} from '../../redux/actions/studentDataAction';
+import { fetch_get } from '../../fetch';
 
-const { width, height } = Dimensions.get('window');
 
 export default function UserProfileScreen({navigation}) {
-  
+  const { width, height } = Dimensions.get('window');
   const first = useSelector((store) => store.studentData.firstname);
   const last = useSelector((store) => store.studentData.lastname);
 
-  const IDTest =  useSelector((store) => store.studentData.id);
+  const StudentID =  useSelector((store) => store.studentData.id);
   const [refreshing, setRefreshing] = React.useState(0);
   const url1 = useSelector((store) => store.url.url);
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
@@ -48,31 +45,24 @@ export default function UserProfileScreen({navigation}) {
     }
   };
 
+  const getStudentData = async () => {
+    const response = await fetch_get(url1+'/api/cmis/students/'+StudentID);
+    dispatch(s_updateImage(response.image));
+    dispatch(s_updateInstagram(response.instagram));
+    dispatch(s_updateInfo(response.info));
+    dispatch(s_updateBanner(response.banner));
+    setProfileInfo(response.info);
+    setPP_image(response.image);
+    setInstalink(response.instagram);
+    setBanner(response.banner);
+  }
+
+
   useFocusEffect(
     React.useCallback(() => {
       setRefreshing(refreshing + 1);
-        
-      fetch(url1+'/api/cmis/students/'+IDTest, {
-          method: 'GET'
-          })
-          .then((response) => response.json())
-          .then((responseJson) => {
-              dispatch(s_updateImage(responseJson.image));
-              dispatch(s_updateInstagram(responseJson.instagram));
-              dispatch(s_updateInfo(responseJson.info));
-              dispatch(s_updateBanner(responseJson.banner));
-              setProfileInfo(responseJson.info);
-              setPP_image(responseJson.image);
-              setInstalink(responseJson.instagram);
-              setBanner(responseJson.banner);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      
-      
-      
-  }, [])
+      getStudentData();            
+    }, [])
   );
 
   const handleCreateProjectIdea = async () => {
@@ -93,7 +83,7 @@ export default function UserProfileScreen({navigation}) {
                         <Image style={{borderWidth:7 ,borderColor:'rgba(240,242,245,1)',resizeMode:'cover', width:height*0.15, height:height*0.15,borderRadius:1000}} source={{uri: `${pp_image}`}} />
                       </View>
 
-                      <View style={{left:width*0.02,top:10}}>
+                      <View style={{left:width*0.02,top:0}}>
                         <Text style={{top:5,textAlign:'center',width:width*0.55,fontSize: RFValue(16, 580),color:'rgba(43,31,71,1)', fontWeight:'600'}}> 
                             {first + " "+ last}
                         </Text>
@@ -121,29 +111,15 @@ export default function UserProfileScreen({navigation}) {
                                                         fontSize:RFValue(13, 580),
                                                         fontWeight:'300',
                                                         lineHeight:height*0.027,
-                                                        height:height*0.1, width:'85%'}}>{profileInfo}</Text>
+                                                        height:height*0.1, width:'85%'}}>{profileInfo ? profileInfo : "Buraya profilinizle ilgili açıklama yazabilirsiniz..."}</Text>
                     </View>
               
               </View>
               
-              <ProjectIdeas id={IDTest} />
+              <ProjectIdeas id={StudentID} />
               
               </ScrollView>
         </View>
      
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(217,217,217,1)",
-  },
-  scrollView: {
-    backgroundColor: "rgba(217,217,217,1)",
-  },
-  text: {
-    fontSize: 42,
-  },
-});

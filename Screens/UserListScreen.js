@@ -1,11 +1,10 @@
 import { View, Text, Touchable, TouchableOpacity, ScrollView,Dimensions, StatusBar} from 'react-native'
 import React from 'react'
-import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import TopBar from '../components/TopBar'
-import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native'
+import  Ionicons from 'react-native-vector-icons/Ionicons';
 import UserSearchItem from '../components/UserSearchItem';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 
 const statusBarHeight = StatusBar.currentHeight;
 const { width, height } = Dimensions.get('window');

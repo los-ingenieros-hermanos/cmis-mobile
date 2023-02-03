@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, StyleSheet } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
+import { View, Text, Image, TouchableOpacity,StyleSheet } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionic from "react-native-vector-icons/Ionicons";
-import Entypo from "react-native-vector-icons/Entypo";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import { set } from "react-native-reanimated";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native'
+import {fetch_get,fetch_delete,fetch_post} from '../fetch';
 
-// get dimensions of the screen
-const { width, height } = Dimensions.get("window");
 
-const PostItem = (postid) => {
+const PostItem = ({postid}) => {
   
   const ownID = useSelector((store) => store.userID.userID);
   const url1 = useSelector((store) => store.url.url);
@@ -25,43 +19,26 @@ const PostItem = (postid) => {
   const dummyImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88OjpfwAI+QOoF8YQhgAAAABJRU5ErkJggg==";
   const [join, setJoin] = useState(false);
   
-  
+  const fetchData = async () => {
+    const responseJson = await fetch_get(url1 +'/api/cmis/posts/'+postid);
+    setPostObj(responseJson);
+  }
+
+  const fetchData2 = async () => {  
+    const responseJson = await fetch_get(url1 +'/api/cmis/posts/'+postid+"/isLikedByStudent/"+ownID);
+    setLiked(responseJson);
+
+    const responseJson2 = await fetch_get(url1 +'/api/cmis/posts/'+postid+"/isBookmarkedByStudent/"+ownID);
+    setBookmarked(responseJson2);
+  }
+
   useFocusEffect(
-  React.useCallback(() => {
-    
-    console.log("==================================111");
-    
-    console.log("==================================111");
-    console.log(postid);
-    console.log("==================================111");
-    
-    fetch(url1+'/api/cmis/posts/'+postid.id, {
-        method: 'GET'
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            let userStr = JSON.stringify(responseJson);
-            setPostObj(JSON.parse(userStr)); 
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    React.useCallback(() => {
+      fetchData();
       if(userRole=="ROLE_STUDENT"){
-        fetch(url1+'/api/cmis/posts/'+postid.id+"isLikedByStudent/"+ownID, {
-            method: 'GET'
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setLiked(responseJson); 
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        fetchData2();
       }
-      
-
-  }, [])
+    }, [])
   );
 
   function handleMonth(month){
@@ -79,135 +56,61 @@ const PostItem = (postid) => {
     else if(month=="12"){return "Aralık";}
   }
 
-
   function handleTag(tag){
-    // TAG_ART, TAG_BIOLOGY, TAG_DRONE, TAG_CHEMISTRY, TAG_COMPUTER, TAG_ENGINEERING, TAG_ENTERTAINMENT, TAG_FOOD, TAG_GAMING, TAG_LITERATURE, TAG_MATH, TAG_MUSIC, TAG_PHILOSOPHY
-    // TAG_PHYSICS, TAG_ROBOT, TAG_SCIENCE, TAG_SOCIAL, TAG_SPORT, TAG_TEAM
-    if(tag=="TAG_ART"){
-      return "Art";
-    }
-    else if(tag=="TAG_BIOLOGY"){
-      return "Biology";
-    }
-    else if(tag=="TAG_DRONE"){
-      return "Drone";
-    }
-    else if(tag=="TAG_CHEMISTRY"){
-      return "Chemistry";
-    }
-    else if(tag=="TAG_COMPUTER"){
-      return "Computer";
-    }
-    else if(tag=="TAG_ENGINEERING"){
-      return "Engineering";
-    }
-    else if(tag=="TAG_ENTERTAINMENT"){
-      return "Entertainment";
-    }
-    else if(tag=="TAG_FOOD"){
-      return "Food";
-    }
-    else if(tag=="TAG_GAMING"){
-      return "Gaming";
-    }
-    else if(tag=="TAG_LITERATURE"){
-      return "Literature";
-    }
-    else if(tag=="TAG_MATH"){
-      return "Math";
-    }
-    else if(tag=="TAG_MUSIC"){
-      return "Music";
-    }
-    else if(tag=="TAG_PHILOSOPHY"){
-      return "Philosophy";
-    }
-    else if(tag=="TAG_PHYSICS"){
-      return "Physics";
-    }
-    else if(tag=="TAG_ROBOT"){
-      return "Robot";
-    }
-    else if(tag=="TAG_SCIENCE"){
-      return "Science";
-    }
-    else if(tag=="TAG_SOCIAL"){
-      return "Social";
-    }
-    else if(tag=="TAG_SPORT"){
-      return "Sport";
-    }
-    else if(tag=="TAG_TEAM"){
-      return "Team";
-    }
-
+    if(tag=="TAG_ART"){return "Art";}
+    else if(tag=="TAG_BIOLOGY"){return "Biology";}
+    else if(tag=="TAG_DRONE"){return "Drone";}
+    else if(tag=="TAG_CHEMISTRY"){return "Chemistry";}
+    else if(tag=="TAG_COMPUTER"){return "Computer";}
+    else if(tag=="TAG_ENGINEERING"){return "Engineering";}
+    else if(tag=="TAG_ENTERTAINMENT"){return "Entertainment";}
+    else if(tag=="TAG_FOOD"){return "Food";}
+    else if(tag=="TAG_GAMING"){return "Gaming";}
+    else if(tag=="TAG_LITERATURE"){return "Literature";}
+    else if(tag=="TAG_MATH"){return "Math";}
+    else if(tag=="TAG_MUSIC"){return "Music";}
+    else if(tag=="TAG_PHILOSOPHY"){return "Philosophy";}
+    else if(tag=="TAG_PHYSICS"){return "Physics";}
+    else if(tag=="TAG_ROBOT"){return "Robot";}
+    else if(tag=="TAG_SCIENCE"){return "Science";}
+    else if(tag=="TAG_SOCIAL"){return "Social";}
+    else if(tag=="TAG_SPORT"){return "Sport";}
+    else if(tag=="TAG_TEAM"){return "Team";}
   }
   
   const handleBookmark = async (id) => {
     if(bookmarked==false){
-    
-    await fetch(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-      })
-      .then((res) => res.json())
-      .then((responseJson) => {
-        setBookmarked(true);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+      const bodyData = { id:id};
+      const body = JSON.stringify(bodyData);
+      await fetch_post(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts",body);
     }
     else{
-        await fetch(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts/"+postid.id, {
-          method: 'DELETE',
-          headers: {
-          'Content-Type': 'application/json',
-          },})
-
-        setBookmarked(false); 
+      await fetch_delete(url1 +"/api/cmis/students/"+ownID+"/bookmarkedPosts/"+postid);
     }
+    setBookmarked(!bookmarked);
   };
 
-  const handleJoin = async (id) => {
+  const handleJoin = async () => {
     setJoin(!join);
   }
 
-  const handleLike = async (id) => {
-
-      await fetch(url1 +"/api/cmis/students/"+ownID+"/posts/"+postid.id+"/like", {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ }),
-        })
-        .then((res) => res.json())
-        .then((responseJson) => {
-            setPostObj(responseJson);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+  const handleLike = async () => {
+    setLiked(!liked);
+    const responseJson = await fetch_post(url1 +"/api/cmis/students/"+ownID+"/posts/"+postid+"/like",null);  
+    setPostObj(responseJson);
   }; 
  
   return (
     <View style={{ paddingBottom:0}}>
-        {/* const [like, setLike] = useState(data.isLiked);
-        const [bookmark, setBookmark] = useState(data.isBookmarked);
-        const [join, setJoin] = useState(data.isJoined); */}
         {postObj && 
-        <View style={{paddingBottom: 3,borderBottomColor: "rgba(208,210,242,0.2)",borderBottomWidth: 0,backgroundColor: "white",marginBottom: 15,}}>
+        <View style={{paddingBottom: 3,borderBottomColor: "rgba(208,210,242,0.2)",borderBottomWidth: 0,backgroundColor: "white",marginBottom:0,}}>
               <View style={{flexDirection: "row",alignItems: "center",justifyContent: "space-between",padding: 7,paddingLeft: 12,}}>
                 
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Image source={{uri: `${postObj.community.image ? postObj.community.image : defaultPP}` }} style={{ width: 40, height: 40, borderRadius: 100 }}/>
                   
                   <View style={{ paddingLeft: 5}}>
-                    <Text style={{fontSize: 16,fontWeight: "bold"}}>{postObj.community.name}</Text>
+                    <Text style={{fontSize: 16,fontWeight: "bold",color:'black'}}>{postObj.community.name}</Text>
                     
                     <View style={{height:15, flexDirection:'row'}}>
                         <View style={{backgroundColor:'rgba(208,210,242,1)', height:15, borderRadius:10, alignItems:'center',justifyContent:'center'}}> 
@@ -229,12 +132,12 @@ const PostItem = (postid) => {
             }
 
             <View style={{ paddingHorizontal: 10 }}>
-              <Text style={{ fontWeight: "700", fontSize: 20, paddingVertical: 0 }}> {postObj.title}</Text>
+              <Text style={{ fontWeight: "700", fontSize: 20, paddingVertical: 0, color:'black' }}> {postObj.title}</Text>
             </View>
 
             <View style={{paddingHorizontal: 15,flex: 1,justifyContent: "center",}}>
               
-              <Text style={{fontWeight: "700",fontSize: 14,paddingVertical: 2,}}>{postObj.text}</Text>
+              <Text style={{color:'black',fontWeight: "700",fontSize: 14,paddingVertical: 2,}}>{postObj.text}</Text>
               
               
               {postObj.event[0] && 
@@ -254,13 +157,13 @@ const PostItem = (postid) => {
                       {join && 
                       <TouchableOpacity onPress={() => setJoin(!join)} style={{flexDirection:'row'}}>
                       <Text style={{fontWeight:'500'}}><AntDesign name={"plus"} size={24} color="black"/></Text>
-                        <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16}}>Katıl</Text>
+                        <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16, color:'black'}}>Katıl</Text>
                       </TouchableOpacity>
                       }
                       {!join && 
                       <TouchableOpacity onPress={() => setJoin(!join)} style={{flexDirection:'row'}}>
                       <Text style={{fontWeight:'500'}}><AntDesign name={"check"} size={24} color="black"/></Text>
-                        <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16}}>Katıldın</Text>
+                        <Text style={{ fontWeight:'500', letterSpacing:1, fontSize:16,color:'black'}}>Katıldın</Text>
                       </TouchableOpacity>
                       }
                     </View>
@@ -277,12 +180,12 @@ const PostItem = (postid) => {
 
               <View style={{flexDirection: "row",justifyContent: "flex-start",alignItems: "baseline",}}>
                 <View style={{ flexDirection: "row", flex: 1 }}>
-                  <Text style={{marginRight: 15,fontWeight: "bold",letterSpacing: 1,paddingTop: 3}}>
+                  <Text style={{color:'black',marginRight: 15,fontWeight: "bold",letterSpacing: 1,paddingTop: 3}}>
                     {postObj.likeNum} beğeni
                   </Text>
                   
                   {postObj.event[0]&& 
-                  <Text style={{marginRight: 10,fontWeight: "bold",letterSpacing: 1,paddingTop: 3,}}>
+                  <Text style={{color:'black',marginRight: 10,fontWeight: "bold",letterSpacing: 1,paddingTop: 3,}}>
                     {postObj.event[0].attendantsNum} katılım
                   </Text>
                   }
@@ -293,8 +196,8 @@ const PostItem = (postid) => {
                   {userRole =="ROLE_STUDENT" && 
                   <TouchableOpacity onPress={() => handleLike(postObj.id)}  >
                     <AntDesign
-                      name={liked ? "like2" : "like1"}
-                      style={{paddingRight: 10,fontSize: 22,color: liked ? "rgba(84,70,115,1)" : "black",paddingTop: 5,}}/>
+                      name={liked ? "like1" : "like2"}
+                      style={{paddingRight: 10,fontSize: 22,color: liked ? "black" : "rgba(84,70,115,1)",paddingTop: 5,}}/>
                   </TouchableOpacity>
                   }
                   
@@ -302,7 +205,7 @@ const PostItem = (postid) => {
                   <TouchableOpacity onPress={() => handleBookmark(postObj.id)} >
                     <MaterialCommunityIcons
                       name={bookmarked ? "bookmark-remove" :"bookmark-plus-outline" }
-                      style={{ fontSize: 25, paddingRight: 5, paddingTop: 3 }}
+                      style={{ fontSize: 25, paddingRight: 5, paddingTop: 3, color:'rgba(84,70,115,1)'}}
                     />
                   </TouchableOpacity>
                   }

@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, StyleSheet } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionic from "react-native-vector-icons/Ionicons";
-import Entypo from "react-native-vector-icons/Entypo";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import { set } from "react-native-reanimated";
-
-// get dimensions of the screen
-const { width, height } = Dimensions.get("window");
 
 const PostFollowing = (idArray) => {
   
@@ -23,11 +13,8 @@ const PostFollowing = (idArray) => {
   const [bookmarked, setBookmarked] = useState(false);
   const [liked, setLiked] = useState(false);
 
-  useEffect(() => {
-    console.log("HEERE");
-    for (let i = 0; i < idArray.length; i++) {
-        console.log(idArray[i]);
-    }
+    useEffect(() => {
+    
 
     }, []);
    

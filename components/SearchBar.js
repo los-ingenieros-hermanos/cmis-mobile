@@ -1,7 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { AntDesign } from '@expo/vector-icons'; 
-import { EvilIcons } from '@expo/vector-icons';
+import AntDesign from "react-native-vector-icons/AntDesign";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -35,9 +35,9 @@ export default function SearchBar(props) {
         </View>
     
         <View style={{ paddingHorizontal:10, flexDirection:'row', justifyContent:'space-between'}}> 
-          <Text style={{fontWeight:'bold'}}> Arama Geçmişi</Text>
+          <Text style={{color:'black',fontWeight:'bold'}}> Arama Geçmişi</Text>
           <TouchableOpacity>
-            <Text style={{fontWeight:'bold'}}> Temizle </Text>
+            <Text style={{color:'black',fontWeight:'bold'}}> Temizle </Text>
           </TouchableOpacity>
           
         </View>

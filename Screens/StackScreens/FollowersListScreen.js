@@ -1,9 +1,9 @@
 import { View, Text, Touchable, TouchableOpacity, ScrollView,Dimensions, StatusBar} from 'react-native'
 import React from 'react'
-import { useNavigation,useFocusEffect } from '@react-navigation/native'
-import { Ionicons } from '@expo/vector-icons';
+import {useFocusEffect } from '@react-navigation/native'
+import  Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import FollowerItem from '../../components/FollowerItem';
 
 const statusBarHeight = StatusBar.currentHeight;
