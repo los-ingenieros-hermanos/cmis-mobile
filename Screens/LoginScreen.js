@@ -9,7 +9,7 @@ import {c_updateInstagram,c_updateInfo,c_updateBanner,c_updateEmail,c_updateFirs
 import {fetch_get, fetch_post} from '../fetch';
 
 _onForgotPasswordButton = () => {
-  alert("Bu fonksiyon şuan çalışmamaktadır.");
+  alert("Bu fonksiyon şuan çalışmamaktadır. ");
 };
 
 export default function LoginScreen({ navigation }) {
