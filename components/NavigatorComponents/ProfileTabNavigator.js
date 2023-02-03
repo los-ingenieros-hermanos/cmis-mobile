@@ -3,12 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Ideas from "../../Screens/DrawerScreens/IdeasScreen";
 import Setting from "../../Screens/DrawerScreens/SettingScreen";
-import General from "../../Screens/DrawerScreens/GeneralScreen";
-import Followed from "../../Screens/DrawerScreens/FollowedScreen";
-import Bookmarked from "../../Screens/DrawerScreens/BookmarkedsScreen";
 import ProfileStackNavigator from "./ProfileStackNavigator";
-
-
 import BookmarkedsListScreen from "../../Screens/StackScreens/BookmarkedsListScreen";
 import CommunityListScreen from "../../Screens/StackScreens/CommunitiesListScreen";
 

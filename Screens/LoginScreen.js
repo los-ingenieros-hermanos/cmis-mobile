@@ -1,24 +1,19 @@
-import { StatusBar } from "expo-status-bar";
 import LoginScreenStyles from "../Style/LoginScreenStyles";
 import {Text,View,TextInput,TouchableNativeFeedback,Alert,TouchableHighlight} from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from "react";
 import { Image } from "react-native";
-import { useFonts } from 'expo-font';
-import {useEffect, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setID, setRole, setProfileImage} from '../redux/actions/userIDAction';
 import {s_updateInstagram,s_updateBookmarks,s_updateEmail,s_updateEvents,s_updateID,s_updateImage,s_updateInterests,s_updateRole,s_updateFirstName,s_updateLastName, s_updateBanner, s_updateInfo} from '../redux/actions/studentDataAction';
 import {c_updateInstagram,c_updateInfo,c_updateBanner,c_updateEmail,c_updateFirstName,c_updateFollowerCount,c_updateID,c_updateImage,c_updateMemberCount,c_updateRole,c_updateTags,c_updateUsername} from '../redux/actions/communityDataAction';
-
+import {fetch_get, fetch_post} from '../fetch';
 
 _onForgotPasswordButton = () => {
-  alert("You pressed forgot my password button");
+  alert("Bu fonksiyon şuan çalışmamaktadır.");
 };
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
-  const ID1 = useSelector((store) => store.userID.userID);
   const url1 = useSelector((store) => store.url.url);
 
   const [studentSelection, setstudentSelection] = useState("rgba(84,70,115,1)");
@@ -29,46 +24,10 @@ export default function LoginScreen({ navigation }) {
   const [CommunityTextColor, setCommunityTextColor] = useState(LoginScreenStyles.setColorGray);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [id, setId] = useState("");
-  const [email1, setEmail1] = useState("");
-  const [password1, setPassword1] = useState("");
   var id2;
   var role = "ROLE_STUDENT";
   
-  const [fontsLoaded] = useFonts({
-    'Aldrich-Regular': require('../assets/fonts/Aldrich-Regular.ttf'),
-  });
-  
-  const storeData = async (email,password) => {
-    try {
-      await AsyncStorage.setItem('@storage_Email', email)
-      await AsyncStorage.setItem('@storage_Password', password)
-    } catch (e) {
-      // saving error
-    }
-  }
-
-  const getData1 = async () => {
-    try {
-      const email1 = await AsyncStorage.getItem('@storage_Email')
-      const password1 = await AsyncStorage.getItem('@storage_Password')
-      if(email1 !== null && password1 !== null) {
-        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    1");
-        setEmail1(email1);
-        setPassword1(password1);
-        console.log(email1);
-        console.log(password1);
-        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    2");
-      }
-    } catch(e) {
-      // error reading value
-    }
-  }
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
+ 
   const _onStudentButton = () => {
     setStudentIcon(require("../assets/icons/student_selected.png"));
     setCommunityIcon(require("../assets/icons/community_notselected.png"));
@@ -87,15 +46,10 @@ export default function LoginScreen({ navigation }) {
     setStudentTextColor(LoginScreenStyles.setColorGray);
   };
 
-  function getData(){
+  async function getData(){
 
     if(role=="ROLE_COMMUNITY"){
-      fetch(url1+'/api/cmis/communities/'+id2, {
-        method: 'GET'
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-        
+          const responseJson = await fetch_get(url1+'/api/cmis/communities/'+id2);
           dispatch(c_updateID(responseJson.id));
           dispatch(c_updateFirstName(responseJson.user.firstName));
           dispatch(c_updateEmail(responseJson.user.email));
@@ -106,23 +60,14 @@ export default function LoginScreen({ navigation }) {
           dispatch(c_updateTags(responseJson.tags[0]));
           if(responseJson.banner!=null){dispatch(c_updateBanner(responseJson.banner));}
           if(responseJson.info!=null){dispatch(c_updateInfo(responseJson.info));}
+          if(responseJson.instagram != null){dispatch(c_updateInstagram(responseJson.instagram));}        
           if(responseJson.image!=null){
             dispatch(c_updateImage(responseJson.image));
             dispatch(setProfileImage(responseJson.image));
           }
-          if(responseJson.instagram != null){dispatch(c_updateInstagram(responseJson.instagram));}        
-
-      })
-      .catch((error) => {
-        console.error(error);
-      });
     }
     else if(role=="ROLE_STUDENT"){
-      fetch(url1 +'/api/cmis/students/'+id2, {
-      method: 'GET'
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
+          const responseJson = await fetch_get(url1+'/api/cmis/students/'+id2);
           dispatch(s_updateID(responseJson.user.id));
           dispatch(s_updateFirstName(responseJson.user.firstName));
           dispatch(s_updateLastName(responseJson.user.lastName));
@@ -131,69 +76,36 @@ export default function LoginScreen({ navigation }) {
           dispatch(s_updateBookmarks(responseJson.bookmarkedPosts));
           dispatch(s_updateEvents(responseJson.events));
           dispatch(s_updateInterests(responseJson.interests));
-
-        
           if(responseJson.banner!=null){dispatch(s_updateBanner(responseJson.banner));}
           if(responseJson.info!=null){dispatch(s_updateInfo(responseJson.info));}
+          if(responseJson.instagram != null){dispatch(s_updateInstagram(responseJson.instagram));}
           if(responseJson.image!=null){
             dispatch(s_updateImage(responseJson.image));
             dispatch(setProfileImage(responseJson.image));
           }
-          if(responseJson.instagram != null){dispatch(s_updateInstagram(responseJson.instagram));}
-
-      })
-      .catch((error) => {
-        console.error(error);
-      });
     }
   }
 
- 
 
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
   _onLoginButton = async () => {
-      // console.log("INSIDE LOGIN BUTTON");
-      // console.log(url1);
+      const bodyData = { email: "test1@gtu.edu.tr", password: "test123"};
+      const body = JSON.stringify(bodyData);
+      const response = await fetch_post(url1+"/api/auth/signin",body);
+      id2 = response.id;
+      role = response.roles[0];
+      dispatch(setID(id2));
+      dispatch(setRole(response.roles[0]));
+      getData();
+      navigation.navigate("Main");
 
-      fetch(url1 +"/api/auth/signin", {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: "erseltest1@gtu.edu.tr", password: "test123" }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-          storeData(email,password);
-          console.log(data);
-          id2 = data.id;
-          role = data.roles[0];
-          //console.log("ROLE IN LOGIN BUTTON : "+ role);
-          dispatch(setID(id2));
-          dispatch(setRole(data.roles[0]));
-          getData();
-          //alert("Giriş Başarılı");
-          navigation.navigate("Main");
-        })
-        .catch((err) => {
-          console.log(err.message);
-          alert("Giriş Yapılamadı");
-        });
-        console.log("FLAG 1");
   };
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
-  /**---------------------------- LOGIN BUTTON ---------------------------*/
-  
 
   return (
     <>
-    <StatusBar barStyle="light-content" style="light" />
+    
     <View style={LoginScreenStyles.container}>
       <View style={LoginScreenStyles.upperRectangle}>
-        <Text style={{color: 'white',fontWeight: '600',fontSize: 33,letterSpacing: 7.5,marginTop: '20%',alignSelf: 'center',fontFamily:"Aldrich-Regular"}}> cmis </Text>
+        <Text style={{color: 'white',fontWeight: '600',fontSize: 33,letterSpacing: 7.5,marginTop: '20%',alignSelf: 'center'}}> cmis </Text>
       </View>
 
       <View style={LoginScreenStyles.StudentAndComm}>

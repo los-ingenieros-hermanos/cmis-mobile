@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image,TouchableOpacity, Dimensions, Alert, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AntDesign,MaterialIcons, Ionicons } from '@expo/vector-icons';
+import  Ionicons from 'react-native-vector-icons/Ionicons';
+import  MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import  AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFValue } from "react-native-responsive-fontsize";
 import Post from '../../components/Post';
 import { useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect } from '@react-navigation/native'
+import { fetch_get, fetch_delete, fetch_post, fetch_put } from '../../fetch';
 
 
 const { width, height } = Dimensions.get('window');
@@ -28,32 +31,18 @@ export default function CommunityProfileView({navigation}) {
   const [instaLink, setInstalink] = React.useState("");
 
   const unfollow = async () => {
-    console.log('Option 1 selected')
-    fetch(url1 +'/api/cmis/students/'+userID+"/followingCommunities/"+ profileObj.id, {
-      method: 'DELETE'
-      })
-      setFollowed(false);
-
-      setRefreshing(refreshing+1);
+    await fetch_delete(url1 +'/api/cmis/students/'+userID+"/followingCommunities/"+ profileObj.id);
+    setFollowed(false);
+    setRefreshing(refreshing+1);
   };
 
   const follow = async () => {
-    fetch(url1 +'/api/cmis/students/'+userID+"/followingCommunities", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id:profileObj.id}),
-      })
-      .then((res) => res.json())
-      .then((responseJson) => {
-        setFollowed(true);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-
-      setRefreshing(refreshing+1);
+    body = {
+      id: profileObj.id
+    }
+    await fetch_post(url1 +'/api/cmis/students/'+userID+"/followingCommunities", JSON.stringify(body));
+    setFollowed(true);
+    setRefreshing(refreshing+1);
   };
 
   const handleFollow = async () => {
@@ -82,20 +71,9 @@ export default function CommunityProfileView({navigation}) {
   };
 
   const join = async () => {
-    fetch(url1 +'/api/cmis/communities/'+profileObj.id+"/apply/"+userID , {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ }),
-      })
-      .then((res) => res.json())
-      .then((responseJson) => {
-        
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    await fetch_post(url1 +'/api/cmis/communities/'+profileObj.id+"/apply/"+userID, JSON.stringify({}));
+    setJoined(!joined);
+    setRefreshing(refreshing+1);
   };
 
   const handleJoin = () => {
@@ -128,67 +106,29 @@ export default function CommunityProfileView({navigation}) {
         navigation.goBack();  
   };
 
+  const getProfile = async () => {
+    const response = await fetch_get(url1+'/api/cmis/communities/'+desiredProfileID);
+    setInstalink(response.instagram);
+    temp = JSON.stringify(response);
+    temp2 = JSON.parse(temp);
+    setProfileObj(temp2);
+  };
+
+  const getIsMemberAndFollower = async () => {
+    const response = await fetch_get(url1+'/api/cmis/students/'+userID+"/isMemberOf/"+desiredProfileID);
+    setJoined(response);
+
+    const response2 = await fetch_get(url1+'/api/cmis/students/'+userID+"/isFollowerOf/"+desiredProfileID);
+    setFollowed(response2);
+
+  }
+
   useFocusEffect(
     React.useCallback(() => {
-      let temp;
-    let temp2;
-    
-    fetch(url1+'/api/cmis/communities/'+desiredProfileID, {
-      method: 'GET'
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setInstalink(responseJson.instagram);
-        temp = JSON.stringify(responseJson);
-        temp2 = JSON.parse(temp);
-        setProfileObj(temp2);
-
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      getProfile();
 
     if(userRole==="ROLE_STUDENT"){
-        
-      fetch(url1+'/api/cmis/students/'+userID+"/isMemberOf/"+desiredProfileID, {
-          method: 'GET'
-          })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            if(responseJson === true){
-              setJoined(true);
-            }
-            if(responseJson === false){
-              setJoined(false);
-            }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-        fetch(url1+'/api/cmis/students/'+userID+"/isFollowerOf/"+desiredProfileID, {
-          method: 'GET'
-          })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            if(responseJson === true){
-              setFollowed(true);
-            }
-            if(responseJson === false){
-              setFollowed(false);
-            }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-        
-
-    }
-    else if(userRole==="ROLE_COMMUNITY"){
-
-    }
-    else{
+        getIsMemberAndFollower();
     }
   }, [refreshing])
   );
@@ -203,17 +143,14 @@ export default function CommunityProfileView({navigation}) {
   }
   
   return (
-      //if profileObj is not null then render the page
-
-
       profileObj && 
       ( 
-            <View style={{flex:1, top:15}}>
+            <View style={{flex:1}}>
                   <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)'}}> 
-                  <View style={{top:5, backgroundColor:'white'}}>
-                  <TouchableOpacity onPress={handleBackArrow}>
-                  <Ionicons name="arrow-back-outline" size={45} color="black"/>
-                  </TouchableOpacity>
+                  <View style={{backgroundColor:'white'}}>
+                    <TouchableOpacity onPress={handleBackArrow}>
+                      <Ionicons name="arrow-back-outline" size={45} color="black"/>
+                    </TouchableOpacity>
                   </View>
                   
                   <View style={{width:'100%', height:height*0.61}}> 
@@ -298,7 +235,7 @@ export default function CommunityProfileView({navigation}) {
                       
                   
                         <View style={{backgroundColor:'white',top:5,shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5, height:height*0.15, borderRadius:10, width:'96%', alignSelf:'center'}}>
-                          <Text numberOfLines={3}  style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:RFValue(13, 580),fontWeight:'300' ,lineHeight:height*0.027, height:height*0.1, width:'85%'}}> Kulüp açıklaması. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in egestas erat, in aliquet metus. Praesent porta quis nunc eu elerisque. Sed id nulla venenatis tortor euismod imperdiet ac sed augue.</Text>
+                          <Text numberOfLines={3}  style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:RFValue(13, 580),fontWeight:'300' ,lineHeight:height*0.027, height:height*0.1, width:'85%'}}>{profileObj.info ? profileObj : "***Kulüp Açıklaması Bulunmamaktadır***"}</Text>
                         </View>
                   
                   </View>

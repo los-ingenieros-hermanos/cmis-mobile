@@ -1,23 +1,16 @@
-import {Dimensions, View, Text, TouchableOpacity,Modal, TextInput,Button } from 'react-native'
+import {Dimensions, View, Text, TouchableOpacity,Modal, TextInput,ScrollView,Alert } from 'react-native'
 import React, {useState} from 'react'
-import {StatusBar} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { MaterialIcons } from '@expo/vector-icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import * as FileSystem from 'expo-file-system';
-import * as ImagePicker from 'expo-image-picker';
-
-
-import { Alert } from 'react-native';
+import {RFValue} from "react-native-responsive-fontsize";
+import { useSelector} from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
+import  Ionicons from 'react-native-vector-icons/Ionicons';
+import  MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
 export default function SettingScreen({navigation}) {
   const url1 = useSelector((store) => store.url.url);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [inputValue, setInputValue] = useState('');
   const [selectedPW, setSelectedPW] = useState(false);
   const [selectedPP, setSelectedPP] = useState(false);
   const [selectedBanner, setSelectedBanner] = useState(false);
@@ -37,24 +30,6 @@ export default function SettingScreen({navigation}) {
   const bannerStu = useSelector((store) => store.studentData.banner);
   const ppComm  = useSelector((store) => store.communityData.image);
   const ppStu = useSelector((store) => store.studentData.image);
-
-  async function getBase64String(uri) {
-    const file = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 }); 
-    return file;
-  }
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });     
-      const base64String = await getBase64String(result.assets[0].uri);
-      finaluri = "data:image/png;base64,"+base64String;
-      setImageUri("data:image/png;base64,"+base64String);
-  };
 
 
   const handleClicked = async () => {
@@ -126,14 +101,13 @@ export default function SettingScreen({navigation}) {
   };
 
   const handleChangeProfilePicture = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });     
-      const base64String = await getBase64String(result.assets[0].uri);
-      let finaluri = "data:image/png;base64,"+base64String;
+      await ImagePicker.openPicker({
+        cropping: true,
+        includeBase64 : true,
+      }).then(image => {
+        finaluri = "data:image/png;base64,"+image.data;
+      });
+      
 
     if(userRole=="ROLE_STUDENT"){
       await fetch(url1 +"/api/cmis/students/"+ownID, {
@@ -164,7 +138,6 @@ export default function SettingScreen({navigation}) {
         body: JSON.stringify({image:finaluri, banner:bannerComm}),})
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           Alert.alert("Başarılı", "Profil fotoğrafı değiştirildi");
           setRefresh(!refresh);
           navigation.goBack();
@@ -180,14 +153,12 @@ export default function SettingScreen({navigation}) {
   };
 
   const handleChangeBanner = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });     
-      const base64String = await getBase64String(result.assets[0].uri);
-      let finaluri = "data:image/png;base64,"+base64String;
+    await ImagePicker.openPicker({
+      cropping: true,
+      includeBase64 : true,
+    }).then(image => {
+      finaluri = "data:image/png;base64,"+image.data;
+    });
     
     if(userRole=="ROLE_STUDENT"){
       await fetch(url1 +"/api/cmis/students/"+ownID, {
@@ -361,21 +332,19 @@ export default function SettingScreen({navigation}) {
 
   
   return (
-    <View>
-      
-      <View style={{backgroundColor:'white', height:StatusBar.currentHeight}}> 
-      </View>
+    <ScrollView style={{flex:1}}>
+    
       
       {refresh && <View> 
-      <Text> </Text>
+      <Text style={{color:'white'}}></Text>
       </View>}
 
       <View style={{backgroundColor:'white', height:height*0.06, alignItems:'center', flexDirection:'row'}}>
             
-            <View style={{width:width*0.10, position:'absolute'}}>
-                <TouchableOpacity onPress={handleBackButton} style={{marginLeft:10}}>
+            <View style={{position:'absolute'}}>
+                <TouchableHighlight underlayColor={'white'} onPress={handleBackButton} style={{marginLeft:10}}>
                     <Ionicons name="arrow-back-outline" size={45} color="rgba(84,70,115,1)" />
-                </TouchableOpacity>
+                </TouchableHighlight>
             </View>
             <View style={{width:width, alignItems:'center'}}>
                 <Text style={{color:'rgba(84,70,115,1)',fontSize: RFValue(15, 580) }}> Ayarlar </Text>
@@ -392,9 +361,9 @@ export default function SettingScreen({navigation}) {
           
           {selectedPW && 
               <View style={{width:width*0.95, alignSelf:'center', backgroundColor:"rgba(240,241,251,1)", alignItems:'center'}}>
-                <TextInput onChangeText={text => setOldPW(text)} placeholder="Eski Şifre" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
-                <TextInput onChangeText={text => setNewPW1(text)} placeholder="Yeni Şifre" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10,marginBottom:5}}/>
-                <TextInput onChangeText={text => setNewPW2(text)} placeholder="Yeni Şifre Tekrar" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10,marginBottom:5}}/>
+                <TextInput placeholderTextColor={'gray'}  onChangeText={text => setOldPW(text)} placeholder="Eski Şifre" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
+                <TextInput placeholderTextColor={'gray'}  onChangeText={text => setNewPW1(text)} placeholder="Yeni Şifre" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10,marginBottom:5}}/>
+                <TextInput placeholderTextColor={'gray'}  onChangeText={text => setNewPW2(text)} placeholder="Yeni Şifre Tekrar" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10,marginBottom:5}}/>
                 <TouchableOpacity onPress={handleChangePassword} style={{borderRadius:10, backgroundColor:'rgba(208,219,242,1)', alignSelf:'center', height:30, justifyContent:'center', width:width*0.3, marginBottom:10}}>
                   <Text style={{textAlign:'center', color:'rgba(162,131,231,1)'}}>Şifreyi Değiştir</Text>
                 </TouchableOpacity>
@@ -442,7 +411,7 @@ export default function SettingScreen({navigation}) {
 
           {selectedInfo && 
               <View style={{width:width*0.95, alignSelf:'center', backgroundColor:"rgba(240,241,251,1)", alignItems:'center'}}>
-                <TextInput onChangeText={text => setInfo(text)} placeholder="Profil Açıklamasını Girin" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
+                <TextInput placeholderTextColor={'gray'} onChangeText={text => setInfo(text)} placeholder="Profil Açıklamasını Girin" style={{color:'black',width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
                 <TouchableOpacity onPress={handleChangeInfo} style={{borderRadius:10, backgroundColor:'rgba(208,219,242,1)', alignSelf:'center', height:30, justifyContent:'center', width:width*0.3, marginBottom:10}}>
                   <Text style={{textAlign:'center', color:'rgba(162,131,231,1)'}}>Açıklamayı Değiştir</Text>
                 </TouchableOpacity>
@@ -458,7 +427,7 @@ export default function SettingScreen({navigation}) {
 
           {selectedSocialMedia && 
               <View style={{width:width*0.95, alignSelf:'center', backgroundColor:"rgba(240,241,251,1)", alignItems:'center'}}>
-                <TextInput onChangeText={text => setSocialLink(text)} placeholder="Sosyal Medya Linkinizi Girin" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
+                <TextInput placeholderTextColor={'gray'} onChangeText={text => setSocialLink(text)} placeholder="Sosyal Medya Linkinizi Girin" style={{width:'90%',paddingLeft:10,borderWidth:0.2, borderColor:'black', borderRadius:10, marginBottom:5, marginTop:10}}/>
                 <TouchableOpacity onPress={updateLink} style={{borderRadius:10, backgroundColor:'rgba(208,219,242,1)', alignSelf:'center', height:30, justifyContent:'center', width:width*0.3, marginBottom:10}}>
                   <Text style={{textAlign:'center', color:'rgba(162,131,231,1)'}}>Linki Güncelle</Text>
                 </TouchableOpacity>
@@ -466,7 +435,7 @@ export default function SettingScreen({navigation}) {
           }
 
           <View style={{width:width*0.95,height:height*0.05, backgroundColor:'white', justifyContent:'center', marginLeft:width*0.025, marginVertical:5}}>
-            <TouchableOpacity onPress={{handleLogout}} style={{flexDirection:'row'}}>
+            <TouchableOpacity onPress={handleLogout} style={{flexDirection:'row'}}>
             <MaterialIcons name="logout" size={27} color='rgba(187,58,58,1)' />
               <Text style={{left:10,color:'rgba(187,58,58,1)', fontSize: RFValue(13,580)}}>Çıkış Yap</Text>
             </TouchableOpacity>
@@ -474,6 +443,7 @@ export default function SettingScreen({navigation}) {
       </View>
 
       
-    </View>
+    
+    </ScrollView>
   )
 }

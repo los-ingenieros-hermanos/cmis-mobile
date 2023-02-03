@@ -1,22 +1,15 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity,StatusBar } from 'react-native';
-import TopBar from '../../components/TopBar';
 import { ScrollView } from 'react-native-gesture-handler';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { Feather } from '@expo/vector-icons';
+import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from 'react-native';
-import { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { useSelector} from 'react-redux';
 import {useFocusEffect } from '@react-navigation/native'
-import { AntDesign} from '@expo/vector-icons';
-import { setDesiredProfileID } from '../../redux/actions/desiredProfileAction';
-
-const statusBarHeight = StatusBar.currentHeight;
-const { width, height } = Dimensions.get('window');
+import  Ionicons from 'react-native-vector-icons/Ionicons';
+import  AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function UserProfileView({navigation}) {
-  
+  const { width, height } = Dimensions.get('window');
   const userID = useSelector((store) => store.userID.userID);
   const url1 = useSelector((store) => store.url.url);
   const userRole = useSelector((store) => store.userID.userRole);
@@ -28,12 +21,8 @@ export default function UserProfileView({navigation}) {
   const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
   const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
 
-  const [profileInfo, setProfileInfo] = React.useState("");
-  const [pp_image, setPP_image] = React.useState(null);
-  const [banner_image, setBanner] = React.useState(null);
 
-  const [first, setFirst] = React.useState("");
-  const [last, setLast] = React.useState("");
+  const [banner_image, setBanner] = React.useState(null);
 
   useFocusEffect(
     React.useCallback(() => {

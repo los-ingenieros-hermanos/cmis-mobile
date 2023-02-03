@@ -1,105 +1,110 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, Image,PixelRatio, TouchableOpacity } from 'react-native';
-import TopBar from '../../components/TopBar';
+import { View, Text, TextInput, Dimensions,TouchableOpacity,Image} from 'react-native'
+import React, { useState } from 'react'
+import {RFValue } from "react-native-responsive-fontsize";
+import  Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
 
-import { ScrollView } from 'react-native-gesture-handler';
-import { Entypo } from '@expo/vector-icons';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { Feather } from '@expo/vector-icons';
-import Post from '../../components/Post';
 
-import { Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 
-export default function ProfileScreen({navigation}) {
-  return (
-      <View style={{flex:1}}>
-              <TopBar navigation={navigation}/>
-              <ScrollView style={{ backgroundColor:'rgba(240,242,245,1)', marginBottom:62}}> 
-              
-          
-              <View style={{width:'100%', height:'10%'}}> 
-                <Image style={{resizeMode:'cover', width:width, height:200, overflow:'hidden'}} source={require('../../storage/images/geekday.png')} />
-              </View>
-              
+export default function CreateProjectIdeas({navigation}) {
+    const [imageUri, setImageUri] = useState(null);
+    const [postTitle, setPostTitle] = useState("");
+    const [postContent, setPostContent] = useState("");
+    const url1 = useSelector((store) => store.url.url);
+    const id = useSelector((store) => store.userID.userID);
 
-              <View style={{flex:1}}> 
-                  
-                  <View style={{backgroundColor:'rgba(240,242,245,1)', flexDirection:'row', justifyContent:'space-between'}}> 
-                    <View style={{top:'-15%', left:25, flexDirection:'column'}}>
-                      <Image style={{borderWidth:7 ,borderColor:'rgba(240,242,245,1)',resizeMode:'cover', width:125, height:125,borderRadius:1000}} source={require('../../storage/images/pp_image.png')} />
-                      <Text style={{textAlign:'center',maxWidth:200,fontSize: RFValue(17, 580),color:'rgba(43,31,71,1)', fontWeight:'600'}}> GTÜ Bilgisayar Topluluğu</Text>
-                    </View>
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
 
-                    <View style={{position:'absolute',top:'-2%',marginTop:5, alignItems:'center', paddingLeft:60, left:'50%'}}>
-                          <Text style={{ fontSize: RFValue(20, 580), fontWeight:'bold', color:'rgba(84,70,115,1)'}}> 125 </Text>  
-                          <Text style={{ fontSize: RFValue(13, 580), fontWeight:'400',color:'rgba(84,70,115,1)' }}> Takipçi </Text>
-                    </View>
+    const createPost = () => {
+       
 
-                    <View style={{position:'absolute',top:'-2%',marginTop:5, alignItems:'center', left:'45%'}}>
-                          <Text style={{ fontSize: RFValue(20, 580), fontWeight:'bold', color:'rgba(84,70,115,1)'}}> 125 </Text>  
-                          <Text style={{ fontSize: RFValue(13, 580), fontWeight:'400',color:'rgba(84,70,115,1)' }}> Üye </Text>
-                    </View>
+        fetch(url1 +"/api/cmis/students/" + id + "/projectidea", {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({date:{day: currentDay, month: currentMonth, year: currentYear, hour: currentHour, minute: currentMinute},
+                                image: imageUri,title: postTitle,text: postContent, visibility: 'public', 
+                                }),})
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+       
+      navigation.goBack();
+      
+    };
 
-                    
-                    <TouchableOpacity style={{marginRight:10,marginTop:5}}> 
-                        <Entypo name="mail-with-circle" size={50} color="rgba(84,70,115,1)" />
-                    </TouchableOpacity>
-                  </View>
-              
-              
+    const pickImage = async () => {
+      ImagePicker.openPicker({
+       cropping: true,
+       includeBase64 : true,
+     }).then(image => {
+       setImageUri("data:image/png;base64,"+image.data);
+     });
+   };
 
-                <View style={{top:'-10%',backgroundColor:'rgba(240,242,245,1)', height:30, flexDirection:'row', justifyContent:'space-evenly', marginHorizontal:5, flex:1}}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Applications")} style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'30%'}}>
-                      <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Başvurular</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity onPress={() => navigation.navigate("UserList")} style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'20%'}}>
-                      <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Üyeler</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'30%'}}>
-                      <Text style={{color:'white',fontSize: RFValue(13, 580)}}>Etkinlikler</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity style={{justifyContent:'center', alignItems:'center',marginHorizontal:5,backgroundColor:'rgba(84,70,115,1)', borderRadius:5, width:'10%'}}>
-                    <Feather name="edit" size={RFValue(13, 580)} color="white" />
-                    </TouchableOpacity>
-
-                </View>
-              </View>
-              
-
-              <View style={{top:'-2%',shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5,marginBottom:10 ,backgroundColor:'white', height:'8%', borderRadius:10, width:'100%',marginTop:'2%'}}>
-                <Text style={{marginHorizontal:'5%',marginTop:'1%',color:'rgba(51,51,51,1)', fontSize:16,fontWeight:'300' ,lineHeight:20, height:'65%', width:'85%'}}> Kulüp açıklaması. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in egestas erat, in aliquet metus. Praesent porta quis nunc eu elerisque. Sed id nulla venenatis tortor euismod imperdiet ac sed augue.</Text>
-                <View style={{height:'25%', flexDirection:'row', top:5, alignItems:'center'}}> 
-                    <Text style={{marginLeft:'4%', color:'rgba(51,51,51,1)'}}> Etiketler: </Text>
-                    <View style={{backgroundColor:'rgba(217,217,217,1)', height:'40%', width:'15%', borderRadius:10, marginRight:5}}></View>
-                    <View style={{backgroundColor:'rgba(217,217,217,1)', height:'40%', width:'15%', borderRadius:10, marginRight:5}}></View>
-                </View>
-              </View>
-                  
-                    <View style={{top:'-2%', flex:1}}> 
-                      <Post />
-                    </View>
-                
-              </ScrollView>
+    return (
+    <View>
+        <View style={{backgroundColor:'white', height:30}}>
+         
         </View>
-     
-  );
+
+        <View style={{backgroundColor:'rgba(84,70,115,1)', height:50, alignItems:'center', flexDirection:'row'}}>
+            
+            <View style={{width:width*0.10, position:'absolute'}}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{marginLeft:10}}>
+                    <Ionicons name="arrow-back-outline" size={45} color="white" />
+                </TouchableOpacity>
+            </View>
+            <View style={{width:width, alignItems:'center'}}>
+                <Text style={{color:'white',fontSize: RFValue(15, 580) }}> Gönderi Oluştur </Text>
+            </View>
+        </View>
+        
+        <View style={{backgroundColor:'white', height:height*0.08, alignItems:'center', justifyContent:'center'}}>    
+            <TextInput value={postTitle} onChangeText={text => setPostTitle(text)} placeholder='Gönderi Başlığını Girin' style={{borderTopWidth:0,borderLeftWidth:0,fontSize: RFValue(13,580), 
+                                                            borderRightWidth:0,borderWidth:2,borderColor:'rgba(84,70,115,1)', 
+                                                            height:30, width:width*0.90}}></TextInput>
+        </View>
+
+        <View style={{backgroundColor:'white', height:height*0.08, alignItems:'center', justifyContent:'center'}}> 
+            <TextInput value={postContent} onChangeText={text => setPostContent(text)} multiline numberOfLines={null} placeholder='Gönderi Açıklamasını Girin' style={{borderTopWidth:0,borderLeftWidth:0, 
+                                                             borderRightWidth:0,borderWidth:2,
+                                                             borderColor:'rgba(84,70,115,1)', 
+                                                             width:width*0.90, fontSize: RFValue(13,580), backgroundColor:'white'}}>
+            </TextInput>
+        </View>
+        
+
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={pickImage} style={{borderWidth:2,borderColor:'rgba(84,70,115,1)',height:height*0.04, backgroundColor:'white', justifyContent:'center', borderRadius:5, marginVertical:10}}>
+         <View style={{width:width*0.3, alignItems:'center'}}> 
+              <Text style={{fontSize: RFValue(13,580), color:'rgba(84,70,115,1)'}}> Görüntü Ekle</Text>
+          </View>
+        </TouchableOpacity>
+        
+      {imageUri && <Image source={{ uri:imageUri}} style={{ width: width, height: 300}} />}
+
+        <TouchableOpacity onPress={createPost} style={{borderWidth:2,borderColor:'rgba(84,70,115,1)',height:height*0.05, backgroundColor:'white', justifyContent:'center', borderRadius:5, marginVertical:10}}>
+         <View style={{width:width*0.4, alignItems:'center'}}> 
+              <Text style={{fontSize: RFValue(13,580), color:'rgba(84,70,115,1)'}}> Gönderiyi Oluştur </Text>
+          </View>
+        </TouchableOpacity> 
+        </View>
+
+           
+    </View>
+  )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(217,217,217,1)",
-  },
-  scrollView: {
-    backgroundColor: "rgba(217,217,217,1)",
-  },
-  text: {
-    fontSize: 42,
-  },
-});

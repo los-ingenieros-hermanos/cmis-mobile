@@ -1,18 +1,12 @@
-import { View, Text, Touchable, TouchableOpacity,Dimensions, Image} from 'react-native'
+import { View, Text, TouchableOpacity,Dimensions, Image} from 'react-native'
 import React, { useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native';
-import ProfilePicture from 'react-native-profile-picture';
-import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector, useDispatch } from 'react-redux';
-
 import {setDesiredProfileID} from '../redux/actions/desiredProfileAction';
 
 const { width, height } = Dimensions.get('window');
-// get screen width
-const getWidth = () => Dimensions.get('window').width;
 
 
 export default function CommunityItem({data,nav}) {
@@ -26,7 +20,6 @@ export default function CommunityItem({data,nav}) {
 
     const dispatch = useDispatch();
     const defaultPP = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAFElEQVQYlWNkuLiJAQkwMaACUvkAdxgBjXva0XwAAAAASUVORK5CYII=";
-    const defaultBanner = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAAFElEQVQYlWPcPuMvAwZgwhQagqIA/fUCYMd5vI0AAAAASUVORK5CYII=";
 
     useEffect(() => {
         if(userRole=="ROLE_STUDENT" && userID>1){
@@ -138,18 +131,12 @@ export default function CommunityItem({data,nav}) {
 
     const handleGoToProfileButton = () => {
         dispatch(setDesiredProfileID(data.id));
-        nav.navigate('HomePage', {
-        screen: 'Topluluk/Takımlar',
-            params: {
-            screen: 'CommunityProfileView',
-        },
-        });
+        nav.navigate('CommunityProfileView');
     };
 
 
   
     return (
-        // if data.id is not equal to userID, then render the following
 
         data.id != userID ? (
         <View>         

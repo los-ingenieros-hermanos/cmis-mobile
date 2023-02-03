@@ -1,17 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import RegisterScreenStyles from '../Style/RegisterScreenStyles';
-import {StyleSheet, Text, Button, View, Dimensions, Pressable, TextInput, TouchableNativeFeedback, Alert, ImageBackground, TouchableHighlight, ScrollView} from 'react-native';
-import React, { Component, useState, useEffect } from 'react';
+import {Text,View, Dimensions,TextInput, TouchableNativeFeedback,TouchableHighlight, ScrollView} from 'react-native';
+import React, { useState } from 'react';
 import { Image } from 'react-native'
-import { useFonts } from 'expo-font';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
 
 _onForgotPasswordButton = () => {
   alert("You pressed forgot my password button");
 };
-
 
 
 export default function RegisterScreen({ navigation }){
@@ -34,13 +31,6 @@ export default function RegisterScreen({ navigation }){
     const [password2, setPassword2] = useState('');
     const [role,setRole] = useState('student');
 
-    const [fontsLoaded] = useFonts({
-      'Aldrich-Regular': require('../assets/fonts/Aldrich-Regular.ttf'),
-    });
-   
-    if (!fontsLoaded) {
-      return null;
-    };
 
     _onStudentButton= () => {
       setStudentIcon(require("../assets/icons/student_selected.png"));

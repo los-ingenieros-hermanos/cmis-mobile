@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import Post from '../../components/Post';
 import TopBar from '../../components/TopBar';
-import { useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
 
 
 export default function HomeScreen({navigation}) {
