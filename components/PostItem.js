@@ -92,6 +92,8 @@ const PostItem = ({postid}) => {
 
   const handleJoin = async () => {
     setJoin(!join);
+
+   
   }
 
   const handleLike = async () => {

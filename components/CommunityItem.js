@@ -23,42 +23,24 @@ export default function CommunityItem({data,nav}) {
 
     useEffect(() => {
         if(userRole=="ROLE_STUDENT" && userID>1){
-            console.log(url1 +'/api/cmis/students/'+userID+"/isMemberOf/"+data.id);
-            
             fetch(url1 +'/api/cmis/students/'+userID+"/isMemberOf/"+data.id,{
                 method: 'GET'
                 })
                   .then((response) => response.json())
                   .then((responseJson) => {
                     result = JSON.stringify(responseJson);
-                    //setCommunities(JSON.parse(communitiesJson));
-                    console.log("================================== 06");
-                    console.log("result : " + result);
                     setJoined(result);
-                    console.log("================================== 07");
                 })
-                .catch((error) => {
-                  console.error(error);
-                });
 
             fetch(url1 +'/api/cmis/students/'+userID+"/isFollowerOf/"+data.id,{
-                    method: 'GET'
-                    })
-                      .then((response) => response.json())
-                      .then((responseJson) => {
-                        result = JSON.stringify(responseJson);
-                        //setCommunities(JSON.parse(communitiesJson));
-                        console.log("================================== 08");
-                        console.log("result : " + result);
-                        setFollowed(result);
-                        console.log("================================== 09");
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                    });   
+                method: 'GET'
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    result = JSON.stringify(responseJson);
+                    setFollowed(result);
+                })
         }
-
-
 
     }, []);
 

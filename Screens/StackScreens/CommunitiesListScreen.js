@@ -5,6 +5,7 @@ import  Ionicons from 'react-native-vector-icons/Ionicons';
 import CommunityItem from '../../components/CommunityItem';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {fetch_get} from '../../fetch';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,20 +15,13 @@ export default function CommunitiesListScreen({navigation}) {
     const url1 = useSelector((store) => store.url.url);
     const [communities, setCommunities] = useState(null);
 
-  useEffect(() => {
-    let communitiesJson;
-    fetch(url1 +'/api/cmis/communities', {
-      method: 'GET'
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          communitiesJson = JSON.stringify(responseJson);
-          setCommunities(JSON.parse(communitiesJson));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const getCommunities = async () => {
+    const responseJson = await fetch_get(url1 +'/api/cmis/communities');
+    setCommunities(responseJson);
+  }
 
+  useEffect(() => {
+    getCommunities();
   }, []);
 
   return (
