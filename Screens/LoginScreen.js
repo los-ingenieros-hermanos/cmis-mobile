@@ -88,7 +88,7 @@ export default function LoginScreen({ navigation }) {
 
 
   _onLoginButton = async () => {
-      const bodyData = { email: "test1@gtu.edu.tr", password: "test123"};
+      const bodyData = { email: email, password: password};
       const body = JSON.stringify(bodyData);
       const response = await fetch_post(url1+"/api/auth/signin",body);
       id2 = response.id;
